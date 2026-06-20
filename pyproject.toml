@@ -1,0 +1,9 @@
+[tool.poetry]
+name = "readynest-insight-engine"
+version = "0.1.0"
+description = "Enterprise Data Analytics Dashboard"
+authors = ["ReadyNest Team"]
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

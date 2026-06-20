@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: readynest-app
+  namespace: default
+  labels:
+    app: readynest-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: readynest-app
+  template:
+    metadata:
+      labels:
+        app: readynest-app
+    spec:
+      containers:
+      - name: readynest-app
+        image: your-registry/readynest-app:latest
+        ports:
+        - containerPort: 8501
+        env:
+        - name: ENVIRONMENT
+          value: "production"
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "500m"
+          limits:
+            memory: "1Gi"
+            cpu: "1000m"
+        livenessProbe:
+          httpGet:
+            path: /_stcore/health
+            port: 8501
+          initialDelaySeconds: 30
+          periodSeconds: 10

@@ -1,0 +1,35 @@
+# ============================================================
+# ReadyNest Data Analytics Dashboard — Dependencies
+# ============================================================
+
+# Core data processing
+pandas>=2.0.0
+numpy>=1.24.0
+
+# Excel support
+openpyxl>=3.1.0
+xlrd>=2.0.1
+
+# Database connectivity
+sqlalchemy>=2.0.0
+psycopg2-binary>=2.9.0     # PostgreSQL driver
+pymysql>=1.1.0              # MySQL driver
+cryptography>=41.0.0        # Required by pymysql for SSL
+
+# Streamlit UI
+streamlit>=1.35.0
+
+# Visualization (charts in Streamlit)
+plotly>=5.20.0
+
+# Environment variable management
+python-dotenv>=1.0.0
+
+# Utilities
+python-dateutil>=2.8.2
+tabulate>=0.9.0             # CLI table formatting
+rich>=13.0.0                # Pretty console output
+
+# Added by Assistant
+pydantic>=2.0.0
+

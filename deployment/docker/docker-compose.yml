@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  app:
+    build: 
+      context: ../../
+      dockerfile: deployment/docker/Dockerfile
+    container_name: readynest_app
+    ports:
+      - "8501:8501"
+    environment:
+      - ENVIRONMENT=production
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+      - DB_NAME=readynest_db
+    depends_on:
+      - db
+    volumes:
+      - ../../src:/app/src
+    networks:
+      - readynest_network
+
+  db:
+    image: postgres:15-alpine
+    container_name: readynest_db
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=readynest_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - readynest_network
+
+volumes:
+  postgres_data:
+
+networks:
+  readynest_network:
+    driver: bridge
