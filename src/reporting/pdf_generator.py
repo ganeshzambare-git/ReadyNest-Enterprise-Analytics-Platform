@@ -10,14 +10,20 @@ import time
 import numpy as np
 import pandas as pd
 from datetime import datetime
-from fpdf import FPDF
+from fpdf import FPDF  # type: ignore
+
+# Ensure Kaleido can find the local Chrome installation if it exists
+chrome_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", ".chrome", "chrome-win64"))
+if os.path.exists(chrome_dir) and chrome_dir not in os.environ.get("PATH", ""):
+    os.environ["PATH"] = chrome_dir + os.pathsep + os.environ.get("PATH", "")
+
 import plotly.express as px
 
 try:
     from src.visualization.chart_factory import VisualizationEngine
     from src.reporting.insight_generator import InsightEngine
     from src.machine_learning.revenue_forecasting import ForecastingEngine
-    import scipy.stats as stats
+    import scipy.stats as stats  # type: ignore
 except ImportError:
     pass
 
@@ -65,19 +71,24 @@ class EnterpriseReportGenerator:
 
     def _text(self, text: str, bold=False):
         self.pdf.set_font("helvetica", "B" if bold else "", 10)
-        self.pdf.multi_cell(0, 5, str(text), new_x="LMARGIN", new_y="NEXT")
+        self.pdf.multi_cell(0, 5, text, new_x="LMARGIN", new_y="NEXT")
         self.pdf.ln(3)
         self.pdf.set_font("helvetica", "", 10)
 
     def _kpi(self, title: str, value: str):
         self.pdf.set_font("helvetica", "B", 11)
-        self.pdf.cell(60, 6, str(title) + ":", border=0)
+        self.pdf.cell(60, 6, title + ":", border=0)
         self.pdf.set_font("helvetica", "", 11)
-        self.pdf.cell(0, 6, str(value), border=0, new_x="LMARGIN", new_y="NEXT")
+        self.pdf.cell(0, 6, value, border=0, new_x="LMARGIN", new_y="NEXT")
 
     def _inject_plotly(self, fig, width=190):
+        import tempfile
         try:
-            img_path = f"_tmp_chart_{int(time.time()*1000)}.png"
+            # Create a proper temporary file in the OS temp directory
+            tmp_file = tempfile.NamedTemporaryFile(prefix="_tmp_chart_", suffix=".png", delete=False)
+            img_path = tmp_file.name
+            tmp_file.close() # Close it so Kaleido can safely write to it on Windows
+            
             fig.write_image(img_path, engine="kaleido", scale=2)
             self.pdf.image(img_path, w=width)
             self.pdf.ln(5)
@@ -150,6 +161,7 @@ class EnterpriseReportGenerator:
         self._title("1", "Executive Summary")
         self._text("This section consolidates mathematically computed health scores and top performance metrics derived directly from the loaded dataset.")
         
+        rev_total = 0
         if rev_col:
             rev_total = self.df[rev_col].sum()
             self._kpi("Actual Total Revenue", f"${rev_total:,.2f}")
@@ -261,10 +273,11 @@ class EnterpriseReportGenerator:
             self._inject_plotly(fig)
             
             self._text("Top Strongest Correlations:", bold=True)
-            c = corr.unstack().sort_values(ascending=False).drop_duplicates()
-            strong = c[(c < 1) & (abs(c) > 0.4)].head(5)
+            c = corr.unstack().sort_values(ascending=False).drop_duplicates()  # type: ignore
+            strong = c[(c < 1) & (abs(c) > 0.4)].head(5)  # type: ignore
             for idx, val in strong.items():
-                self._text(f"- {idx[0]} vs {idx[1]}: {val:.2f}")
+                if isinstance(idx, tuple) and len(idx) >= 2:
+                    self._text(f"- {idx[0]} vs {idx[1]}: {val:.2f}")
         else:
             self._text("Insufficient numerical columns for correlation analysis.")
 
@@ -285,8 +298,8 @@ class EnterpriseReportGenerator:
         self._title("9", "Product Performance Analysis")
         if self.mapping["product"] and rev_col:
             self._text("Top 10 Products by Computed Revenue Contribution:")
-            top_prods = self.df.groupby(self.mapping["product"])[rev_col].sum().sort_values(ascending=False).head(10)
-            prod_data = [[p[:40], f"${v:,.2f}"] for p, v in top_prods.items()]
+            top_prods = self.df.groupby(self.mapping["product"])[rev_col].sum().sort_values(ascending=False).head(10)  # type: ignore
+            prod_data = [[str(p)[:40], f"${v:,.2f}"] for p, v in top_prods.items()]
             self._draw_table(prod_data, col_widths=(60, 30), headers=["Product Name", "Total Revenue"])
         else:
             self._text("Could not detect Product field.")
