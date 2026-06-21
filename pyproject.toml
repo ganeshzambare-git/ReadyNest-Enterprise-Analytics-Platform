@@ -10,3 +10,6 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.vercel]
 entrypoint = "src/app/main.py"
+
+[tool.pyright]
+extraPaths = ["."]
