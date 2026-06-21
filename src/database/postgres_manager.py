@@ -13,7 +13,7 @@ from pathlib import Path
 import pandas as pd
 
 # Ensure we can import from the parent directory
-sys.path.append(str(Path(__file__).resolve().parents[1]))
+sys.path.append(str(Path(__file__).resolve().parents[2]))
 
 from src.database.connection import SQLConnector
 from src.reporting.excel_generator import DataExporter

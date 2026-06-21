@@ -147,7 +147,7 @@ with tab2:
             
         if apply_btn:
             with st.spinner("Applying..."):
-                new_df, msg = imputer.apply_strategy(df, col_to_impute, strategy)
+                new_df, msg = imputer.apply_strategy(df, col_to_impute, strategy)  # type: ignore
                 st.session_state["cleaning_log"].record("impute", msg, df, new_df)
                 update_df(new_df)
                 st.success(msg)
@@ -177,7 +177,7 @@ with tab3:
             
         if rm_btn:
             with st.spinner("Removing..."):
-                new_df, res_report = dedup.remove(df, keep=keep_val)
+                new_df, res_report = dedup.remove(df, keep=keep_val)  # type: ignore
                 msg = f"Removed {res_report.rows_removed} duplicate rows."
                 st.session_state["cleaning_log"].record("deduplicate", msg, df, new_df)
                 update_df(new_df)
@@ -206,14 +206,14 @@ with tab4:
     with c2:
         st.write("Text Standardization")
         with st.form("std_form"):
-            txt_cols = st.multiselect("Select Text Columns", df.select_dtypes(include=["object"]).columns)
+            txt_cols = st.multiselect("Select Text Columns", df.select_dtypes(include=["object"]).columns)  # type: ignore
             case_opt = st.selectbox("Case", ["lower", "upper", "title", "strip"])
             strip_spc = st.checkbox("Strip Special Characters", value=False)
             std_btn = st.form_submit_button("▶ Standardize Text")
             
         if std_btn and txt_cols:
             with st.spinner("Standardizing..."):
-                new_df, std_rep = standardizer.normalize_text(df, txt_cols, case=case_opt, strip_special=strip_spc)
+                new_df, std_rep = standardizer.normalize_text(df, txt_cols, case=case_opt, strip_special=strip_spc)  # type: ignore
                 msg = f"Standardized {len(txt_cols)} text columns."
                 st.session_state["cleaning_log"].record("standardize", msg, df, new_df)
                 update_df(new_df)
@@ -223,7 +223,7 @@ with tab4:
 # ── Tab 5: Outliers ───────────────────────────────────────────────────────────
 with tab5:
     st.subheader("📡 Outlier Detection")
-    num_cols = df.select_dtypes(include=["number"]).columns.tolist()
+    num_cols = df.select_dtypes(include=["number"]).columns.tolist()  # type: ignore
     num_cols = [c for c in num_cols if not c.endswith("_outlier")]
     
     if not num_cols:
@@ -250,7 +250,7 @@ with tab5:
                         new_df, out_rep = outlier_detector.detect_zscore(df, threshold=thresh)
                     msg = f"Flagged {out_rep.total_outliers} outliers."
                 else:
-                    new_df, out_rep = outlier_detector.cap_outliers(df, method=method, factor=factor, threshold=thresh)
+                    new_df, out_rep = outlier_detector.cap_outliers(df, method=method, factor=factor, threshold=thresh)  # type: ignore
                     msg = f"Capped {out_rep.total_outliers} outliers."
                     
                 st.session_state["cleaning_log"].record("detect_outliers", msg, df, new_df)
