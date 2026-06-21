@@ -19,12 +19,10 @@ import plotly.graph_objects as go
 import streamlit as st
 
 from src.config.config import APP_ICON, APP_TITLE, MAX_PREVIEW_ROWS, SAMPLE_DATA_DIR
-from data_loading import (
-    DataExporter,
-    DataLoader,
-    MetadataGenerator,
-    SQLConnector,
-)
+from src.reporting.excel_generator import DataExporter
+from src.ingestion.csv_loader import DataLoader
+from src.ingestion.metadata_extractor import MetadataGenerator
+from src.database.connection import SQLConnector
 
 # ── Shared helpers ────────────────────────────────────────────────────────────
 

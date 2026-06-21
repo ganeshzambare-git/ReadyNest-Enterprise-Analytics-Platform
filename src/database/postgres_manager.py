@@ -15,8 +15,8 @@ import pandas as pd
 # Ensure we can import from the parent directory
 sys.path.append(str(Path(__file__).resolve().parents[1]))
 
-from data_loading.connector import SQLConnector
-from data_loading.exporter import DataExporter
+from src.database.connection import SQLConnector
+from src.reporting.excel_generator import DataExporter
 from dotenv import load_dotenv
 
 logger = logging.getLogger("sql_migration")
