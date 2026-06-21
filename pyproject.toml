@@ -7,3 +7,6 @@ authors = ["ReadyNest Team"]
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.vercel]
+entrypoint = "src/app/main.py"
