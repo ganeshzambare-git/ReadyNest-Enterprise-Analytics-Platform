@@ -14,6 +14,16 @@ from pathlib import Path
 # Define database path
 DB_PATH = Path("automation/users.db")
 
+def _hash_password(password: str, salt: str) -> str:
+    """Hashes a password using PBKDF2 HMAC with SHA-256."""
+    key = hashlib.pbkdf2_hmac(
+        'sha256', 
+        password.encode('utf-8'), 
+        salt.encode('utf-8'), 
+        100000
+    )
+    return key.hex()
+
 def init_db():
     """Initializes the SQLite database and creates the users table if it doesn't exist."""
     os.makedirs(DB_PATH.parent, exist_ok=True)
@@ -29,18 +39,19 @@ def init_db():
             role TEXT DEFAULT 'Viewer'
         )
     ''')
+    
+    # Auto-seed default admin user if it doesn't exist
+    cursor.execute('SELECT COUNT(*) FROM users WHERE email = ?', ('admin@readynest.com',))
+    if cursor.fetchone()[0] == 0:
+        salt = secrets.token_hex(16)
+        password_hash = _hash_password('admin', salt)
+        cursor.execute(
+            "INSERT INTO users (name, email, password_hash, salt, role) VALUES (?, ?, ?, ?, ?)",
+            ('Admin User', 'admin@readynest.com', password_hash, salt, 'Admin')
+        )
+        
     conn.commit()
     conn.close()
-
-def _hash_password(password: str, salt: str) -> str:
-    """Hashes a password using PBKDF2 HMAC with SHA-256."""
-    key = hashlib.pbkdf2_hmac(
-        'sha256', 
-        password.encode('utf-8'), 
-        salt.encode('utf-8'), 
-        100000
-    )
-    return key.hex()
 
 def register_user(name: str, email: str, password: str, role: str = 'Admin') -> tuple[bool, str]:
     """Registers a new user. Returns (Success_Boolean, Message)."""
