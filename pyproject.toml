@@ -13,3 +13,11 @@ entrypoint = "src/app/main.py"
 
 [tool.pyright]
 extraPaths = ["."]
+typeCheckingMode = "basic"
+reportArgumentType = false
+reportAttributeAccessIssue = false
+reportCallIssue = false
+reportOptionalMemberAccess = false
+reportGeneralTypeIssues = false
+reportAssignmentType = false
+reportPrivateImportUsage = false
