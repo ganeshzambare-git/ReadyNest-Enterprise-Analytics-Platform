@@ -33,7 +33,7 @@ rich>=13.0.0                # Pretty console output
 # Added by Assistant
 pydantic>=2.0.0
 statsmodels>=0.14.0
-fpdf>=1.7.2
+fpdf2>=2.7.0
 scikit-learn>=1.2.0
 xgboost>=2.0.0
 matplotlib>=3.7.0
