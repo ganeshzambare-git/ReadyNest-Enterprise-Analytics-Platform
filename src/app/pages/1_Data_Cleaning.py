@@ -11,15 +11,13 @@ import plotly.graph_objects as go
 import streamlit as st
 
 from src.config.config import APP_ICON, APP_TITLE
-from data_cleaning import (
-    DataCleaner,
-    DataStandardizer,
-    DataTypeConverter,
-    DuplicateHandler,
-    MissingValueHandler,
-    OutlierDetector,
-    QualityScorer,
-)
+from src.preprocessing.data_cleaner import DataCleaner
+from src.preprocessing.standardization import DataStandardizer
+from src.preprocessing.datatype_converter import DataTypeConverter
+from src.preprocessing.duplicate_handler import DuplicateHandler
+from src.preprocessing.missing_value_handler import MissingValueHandler
+from src.preprocessing.outlier_detector import OutlierDetector
+from src.preprocessing.quality_scorer import QualityScorer
 
 # ── Setup & State ─────────────────────────────────────────────────────────────
 
