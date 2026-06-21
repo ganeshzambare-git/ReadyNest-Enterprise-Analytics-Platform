@@ -1,15 +1,6 @@
 import sys
 import os
 
-# Ensure Kaleido/Plotly can find the local Chrome installation globally
-chrome_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", ".chrome", "chrome-win64"))
-chrome_exe = os.path.join(chrome_dir, "chrome.exe")
-if os.path.exists(chrome_dir):
-    if chrome_dir not in os.environ.get("PATH", ""):
-        os.environ["PATH"] = chrome_dir + os.pathsep + os.environ.get("PATH", "")
-    os.environ["CHROME_EXECUTABLE"] = chrome_exe
-    os.environ["CHROME_PATH"] = chrome_exe
-
 # Add the project root to sys.path so 'src' can be imported globally
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '../..'))
 if project_root not in sys.path:

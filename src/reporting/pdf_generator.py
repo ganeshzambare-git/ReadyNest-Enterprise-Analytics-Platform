@@ -12,11 +12,6 @@ import pandas as pd
 from datetime import datetime
 from fpdf import FPDF  # type: ignore
 
-# Ensure Kaleido can find the local Chrome installation if it exists
-chrome_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", ".chrome", "chrome-win64"))
-if os.path.exists(chrome_dir) and chrome_dir not in os.environ.get("PATH", ""):
-    os.environ["PATH"] = chrome_dir + os.pathsep + os.environ.get("PATH", "")
-
 import plotly.express as px
 
 try:
