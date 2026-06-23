@@ -1,0 +1,66 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Orbitron:wght@400;500;700;900&display=swap');
+
+:root {
+  --bg-primary: #070B19;
+  --bg-card: rgba(7, 11, 25, 0.6); /* Semi-transparent dark tint */
+  --cyan-accent: #00EEFF;
+  --green-accent: #00FF9D;
+  --text-primary: #FFFFFF;
+  --text-secondary: #94A3B8;
+  --text-tertiary: #64748B;
+  
+  --glow-cyan: 0 0 15px rgba(0, 238, 255, 0.4);
+  --glow-green: 0 0 15px rgba(0, 255, 157, 0.4);
+  --border-glass: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: 'Inter', sans-serif;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6, .font-orbitron {
+  font-family: 'Orbitron', sans-serif;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.3s ease;
+}
+
+button {
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+  border: none;
+  outline: none;
+}
+
+/* Utilities */
+.text-cyan { color: var(--cyan-accent); }
+.text-green { color: var(--green-accent); }
+.bg-cyan { background-color: var(--cyan-accent); }
+.bg-green { background-color: var(--green-accent); }
+
+.glow-cyan-text { text-shadow: var(--glow-cyan); }
+.glow-green-text { text-shadow: var(--glow-green); }
+
+.glow-cyan-box { box-shadow: var(--glow-cyan); }
+.glow-green-box { box-shadow: var(--glow-green); }
+
+.glass-panel {
+  background: var(--bg-card);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: var(--border-glass);
+}
