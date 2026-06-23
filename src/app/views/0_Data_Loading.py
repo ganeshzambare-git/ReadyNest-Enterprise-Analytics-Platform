@@ -232,7 +232,7 @@ with load_col:
             with st.spinner("Connecting…"):
                 try:
                     conn = SQLConnector(
-                        db_type=db_type, host=db_host, port=int(db_port),
+                        db_type=db_type, host=db_host, port=db_port,
                         database=db_name, user=db_user, password=db_pass
                     )
                     result = conn.test_connection()
@@ -254,7 +254,7 @@ with load_col:
             with st.spinner("Executing…"):
                 try:
                     conn = SQLConnector(
-                        db_type=db_type, host=db_host, port=int(db_port),
+                        db_type=db_type, host=db_host, port=db_port,
                         database=db_name, user=db_user, password=db_pass
                     )
                     res = loader.load_from_sql(conn, query)
@@ -467,7 +467,7 @@ with tab4:
     if test_btn or run_btn:
         try:
             sql_conn = SQLConnector(
-                db_type=c_type, host=c_host, port=int(c_port),
+                db_type=c_type, host=c_host, port=c_port,
                 database=c_name, user=c_user, password=c_pass,
             )
             if test_btn:
@@ -558,7 +558,7 @@ with tab5:
             with st.spinner("Writing to database…"):
                 try:
                     sql_exp = SQLConnector(
-                        db_type=e_type, host=e_host, port=int(e_port),
+                        db_type=e_type, host=e_host, port=e_port,
                         database=e_name, user=e_user, password=e_pass,
                     )
                     exporter.to_sql(df, sql_exp, e_table, if_exists=e_mode)

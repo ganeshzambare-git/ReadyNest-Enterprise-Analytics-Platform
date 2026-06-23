@@ -69,7 +69,7 @@ df_filtered = raw_df.copy()
 
 with filter_cols[0]:
     if mapping["category"]:
-        cats = ["All"] + list(raw_df[mapping["category"]].dropna().unique())
+        cats = ["All"] + raw_df[mapping["category"]].dropna().drop_duplicates().tolist()
         sel_cat = st.selectbox("Category", cats)
         if sel_cat != "All":
             df_filtered = df_filtered[df_filtered[mapping["category"]] == sel_cat]
@@ -79,7 +79,7 @@ with filter_cols[0]:
 with filter_cols[1]:
     if mapping["region"] or mapping["state"]:
         reg_col = mapping["region"] or mapping["state"]
-        regs = ["All"] + list(raw_df[reg_col].dropna().unique())
+        regs = ["All"] + raw_df[reg_col].dropna().drop_duplicates().tolist()
         sel_reg = st.selectbox("Region", regs)
         if sel_reg != "All":
             df_filtered = df_filtered[df_filtered[reg_col] == sel_reg]

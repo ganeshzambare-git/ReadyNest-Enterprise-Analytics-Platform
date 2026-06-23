@@ -21,34 +21,34 @@ if "logged_in" not in st.session_state:
 if not st.session_state.logged_in:
     # Unauthenticated Router
     pg = st.navigation([
-        st.Page("pages/auth_page.py", title="Login / Sign Up", icon="🔐", default=True)
+        st.Page("views/auth_page.py", title="Login / Sign Up", icon="🔐", default=True)
     ])
 else:
     # Authenticated Router with Structured Navigation
     pg = st.navigation({
         "Executive Dashboard": [
-            st.Page("pages/00_Executive_Home.py", title="Executive Home", icon="🏠", default=True),
+            st.Page("views/00_Executive_Home.py", title="Executive Home", icon="🏠", default=True),
         ],
         "Data Pipeline & Engineering": [
-            st.Page("pages/0_Data_Loading.py", title="Data Loading", icon="📦"),
-            st.Page("pages/1_Data_Cleaning.py", title="Data Cleaning", icon="🧹"),
+            st.Page("views/0_Data_Loading.py", title="Data Loading", icon="📦"),
+            st.Page("views/1_Data_Cleaning.py", title="Data Cleaning", icon="🧹"),
         ],
         "Statistical Analytics": [
-            st.Page("pages/2_Descriptive_Statistics.py", title="Descriptive Statistics", icon="📈"),
-            st.Page("pages/3_Univariate_Analysis.py", title="Univariate Analysis", icon="🔬"),
-            st.Page("pages/4_Bivariate_Analysis.py", title="Bivariate Analysis", icon="🔗"),
-            st.Page("pages/5_Data_Visualization.py", title="Data Visualization", icon="📊"),
+            st.Page("views/2_Descriptive_Statistics.py", title="Descriptive Statistics", icon="📈"),
+            st.Page("views/3_Univariate_Analysis.py", title="Univariate Analysis", icon="🔬"),
+            st.Page("views/4_Bivariate_Analysis.py", title="Bivariate Analysis", icon="🔗"),
+            st.Page("views/5_Data_Visualization.py", title="Data Visualization", icon="📊"),
         ],
         "Machine Learning & AI": [
-            st.Page("pages/6_Insight_Extraction.py", title="Insight Extraction", icon="💡"),
-            st.Page("pages/07_Predictive_Modeling.py", title="Predictive Modeling (ML)", icon="🤖"),
-            st.Page("pages/11_Experimentation.py", title="A/B Testing", icon="🧪"),
+            st.Page("views/6_Insight_Extraction.py", title="Insight Extraction", icon="💡"),
+            st.Page("views/07_Predictive_Modeling.py", title="Predictive Modeling (ML)", icon="🤖"),
+            st.Page("views/11_Experimentation.py", title="A/B Testing", icon="🧪"),
         ],
         "Enterprise Features": [
-            st.Page("pages/08_Advanced_Visuals.py", title="Advanced Visuals", icon="🌌"),
-            st.Page("pages/09_Geographic_Intelligence.py", title="Geographic Intelligence", icon="🗺️"),
-            st.Page("pages/10_Automated_Reporting.py", title="Automated Reporting", icon="⏱️"),
-            st.Page("pages/12_Data_Governance.py", title="Data Governance (RLS)", icon="🛡️"),
+            st.Page("views/08_Advanced_Visuals.py", title="Advanced Visuals", icon="🌌"),
+            st.Page("views/09_Geographic_Intelligence.py", title="Geographic Intelligence", icon="🗺️"),
+            st.Page("views/10_Automated_Reporting.py", title="Automated Reporting", icon="⏱️"),
+            st.Page("views/12_Data_Governance.py", title="Data Governance (RLS)", icon="🛡️"),
         ]
     })
     
