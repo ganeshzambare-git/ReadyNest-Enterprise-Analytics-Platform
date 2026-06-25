@@ -9,3 +9,8 @@
 **Cause:** The `app.py` wrapper used `subprocess.run(["streamlit", "run", "src/app/main.py"])` but didn't pass the root directory to the Streamlit process.
 **Fix:** Modified `app.py` to read `os.environ`, explicitly inject `os.path.dirname(__file__)` into `PYTHONPATH`, and pass `env=env` to the subprocess.
 **Status:** Resolved.
+
+
+## Update 2026-06-25: Cross-Origin IFrames & CSS Stripping
+- **Mistake:** Attempting to inject `header_script.html` with hard-coded Python multiline strings caused CSS line comments (`//`) to break the entire layout when whitespace was stripped.
+- **Fix:** We now read HTML/JS/CSS assets directly from separate files (e.g., `ui_styles.html`) using Python's `open().read()` and `unsafe_allow_html=True`.

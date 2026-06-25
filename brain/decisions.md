@@ -10,3 +10,8 @@
 
 ## Decision: Renaming Streamlit `pages/` to `views/`
 **Reason:** Streamlit automatically scans folders named `pages/` on startup and executes modules inside them. This caused `ModuleNotFoundError` during deployment on platforms like Render because `main.py` had not yet injected the root directory into `sys.path`. By renaming to `views/` and using `st.navigation`, we enforce explicit, safe loading.
+
+
+## Update 2026-06-25: Static Link Rerouting
+- **Decision:** We decided to keep the static links (Pricing, Docs, Resources) inside the Streamlit app instead of pushing to an external Next.js app that doesn't exist yet.
+- **Reasoning:** It provides a better immediate user experience and avoids 'Connection Refused' errors. Next.js integration is delayed until the backend is fully stable.

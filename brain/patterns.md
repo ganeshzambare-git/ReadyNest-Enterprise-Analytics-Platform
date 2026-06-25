@@ -23,3 +23,8 @@
 ## 5. UI Component Pattern
 - **CSS:** Use standard modular or vanilla CSS (e.g., `Hero.css`, `PipelineCards.css`). Tailwind is not used by default unless specified.
 - **Design System:** Prioritize glassmorphism, dynamic animations, and premium data visualizations.
+
+
+## Update 2026-06-25: Error Boundaries and Caching
+- **Error Boundaries:** Complex UI grids (like Plotly charts in Executive Home) must be wrapped in `try/except` blocks returning `st.error()` so that a single bad chart doesn't crash the page.
+- **Caching:** Core data IO (`pd.read_csv`, `pd.read_excel`) should be wrapped in `@st.cache_data(show_spinner=False)` to heavily optimize dashboard loading times.

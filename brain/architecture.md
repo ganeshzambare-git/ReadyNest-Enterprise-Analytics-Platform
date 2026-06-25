@@ -28,3 +28,9 @@
 - **Docker:** `deployment/docker/docker-compose.yml`
 - **Kubernetes:** `deployment/kubernetes/deployment.yaml`
 - **Cloud:** Render (Streamlit) & Vercel (React) supported.
+
+
+## Update 2026-06-25: Production Routing & Module Template
+- **Routing:** We completely abandoned hard-coded `localhost:3000` HTML links in `global_header.html` in favor of Streamlit's native `st.navigation` triggered via injected JS (`window.parent.document`).
+- **Feature Modules:** Implemented a unified `module_template.py` architecture for all 26 feature modules, moving away from disparate hard-coded logic.
+- **RBAC:** `main.py` is now the central authority for Role-Based Access Control, dynamically compiling the `st.navigation` dictionary based on `st.session_state.user_role`.
