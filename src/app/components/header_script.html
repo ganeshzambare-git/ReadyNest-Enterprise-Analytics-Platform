@@ -1,0 +1,20 @@
+<script>
+    const parentDoc = window.parent.document;
+    setInterval(() => {
+        const links = parentDoc.querySelectorAll('.nav-link:not(.bound)');
+        links.forEach(el => {
+            el.classList.add('bound');
+            el.addEventListener('click', (e) => {
+                e.preventDefault();
+                const title = el.getAttribute('data-title');
+                const xpath = `//span[text()="${title}"]/ancestor::a`;
+                const target = parentDoc.evaluate(xpath, parentDoc, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+                if (target) {
+                    target.click();
+                } else {
+                    console.log("Could not find hidden sidebar link for: " + title);
+                }
+            });
+        });
+    }, 1000);
+</script>

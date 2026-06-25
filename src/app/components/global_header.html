@@ -1,0 +1,125 @@
+<div style="
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 64px;
+    background-color: rgba(3, 20, 46, 0.95);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(226, 232, 240, 0.1);
+    z-index: 999999;
+    display: flex;
+    align-items: center;
+    padding: 0 2rem;
+    font-family: 'Inter', sans-serif;
+    color: white;
+">
+    <div style="display: flex; align-items: center; gap: 0.5rem; text-decoration: none; color: white;">
+        <div style="height: 32px; width: 32px; border-radius: 6px; background-color: #00d084; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #03142e;">R</div>
+        <div style="display: flex; flex-direction: column; line-height: 1;">
+            <span style="font-weight: bold; font-size: 1.125rem; letter-spacing: -0.025em; color: white;">ReadyNest</span>
+            <span style="font-size: 0.65rem; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.1em; font-weight: 600;">Data Analytics Platform</span>
+        </div>
+    </div>
+    <div style="flex: 1;"></div>
+    <div style="display: flex; gap: 1.5rem; align-items: center;">
+        <a href="http://localhost:3000/platform" style="color: rgba(255,255,255,0.8); text-decoration: none; font-size: 0.875rem; font-weight: 500; transition: color 0.2s;" onmouseover="this.style.color='white'" onmouseout="this.style.color='rgba(255,255,255,0.8)'">Platform</a>
+        
+        <div class="header-dropdown" style="position: relative; display: inline-block; padding: 20px 0;">
+            <span style="color: rgba(255,255,255,0.8); cursor: pointer; font-size: 0.875rem; font-weight: 500;" onmouseover="this.style.color='white'" onmouseout="this.style.color='rgba(255,255,255,0.8)'">Services ▾</span>
+            <div class="header-dropdown-content" style="display: none; position: absolute; background-color: rgba(6, 27, 59, 0.95); backdrop-filter: blur(10px); min-width: 250px; box-shadow: 0px 8px 32px 0px rgba(0,0,0,0.5); z-index: 999999; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); padding: 1rem; top: 100%; left: -100px; max-height: 75vh; overflow-y: auto;">
+                <div style="font-size: 0.7rem; text-transform: uppercase; color: #00d084; font-weight: bold; margin-bottom: 0.5rem;">Data Foundation</div>
+                <a href="#" class="nav-link dd-item" data-title="Data Ingestion">📥 Data Ingestion</a>
+                <a href="#" class="nav-link dd-item" data-title="Data Quality Assessment">✅ Data Quality Assessment</a>
+                <a href="#" class="nav-link dd-item" data-title="Data Cleaning">🧹 Data Cleaning</a>
+                <a href="#" class="nav-link dd-item" data-title="Descriptive Statistics">📊 Descriptive Statistics</a>
+                <a href="#" class="nav-link dd-item" data-title="Univariate Analysis">📈 Univariate Analysis</a>
+                <a href="#" class="nav-link dd-item" data-title="Bivariate Analysis">🔗 Bivariate Analysis</a>
+
+                <div style="font-size: 0.7rem; text-transform: uppercase; color: #00d084; font-weight: bold; margin-top: 1rem; margin-bottom: 0.5rem;">Customer Intelligence</div>
+                <a href="#" class="nav-link dd-item" data-title="Customer Overview">👁️ Customer Overview</a>
+                <a href="#" class="nav-link dd-item" data-title="Customer Analysis">👥 Customer Analysis</a>
+                <a href="#" class="nav-link dd-item" data-title="Customer Segmentation">🎯 Customer Segmentation</a>
+                <a href="#" class="nav-link dd-item" data-title="Behavior Analysis">🧠 Behavior Analysis</a>
+
+                <div style="font-size: 0.7rem; text-transform: uppercase; color: #00d084; font-weight: bold; margin-top: 1rem; margin-bottom: 0.5rem;">Sales & Product Intelligence</div>
+                <a href="#" class="nav-link dd-item" data-title="Sales Performance">💰 Sales Performance</a>
+                <a href="#" class="nav-link dd-item" data-title="Product Performance">📦 Product Performance</a>
+                <a href="#" class="nav-link dd-item" data-title="Sales Analytics">📈 Sales Analytics</a>
+                <a href="#" class="nav-link dd-item" data-title="Product Analytics">📊 Product Analytics</a>
+
+                <div style="font-size: 0.7rem; text-transform: uppercase; color: #00d084; font-weight: bold; margin-top: 1rem; margin-bottom: 0.5rem;">Business Intelligence</div>
+                <a href="#" class="nav-link dd-item" data-title="Interactive Dashboard">🎛️ Interactive Dashboard</a>
+                <a href="#" class="nav-link dd-item" data-title="Key Insights">💡 Key Insights</a>
+                <a href="#" class="nav-link dd-item" data-title="Business Suggestions">💼 Business Suggestions</a>
+                <a href="#" class="nav-link dd-item" data-title="Recommendations">🎯 Recommendations</a>
+
+                <div style="font-size: 0.7rem; text-transform: uppercase; color: #00d084; font-weight: bold; margin-top: 1rem; margin-bottom: 0.5rem;">Geographic & Advanced Analytics</div>
+                <a href="#" class="nav-link dd-item" data-title="Geographic Intelligence">🗺️ Geographic Intelligence</a>
+                <a href="#" class="nav-link dd-item" data-title="Feature Engineering">⚙️ Feature Engineering</a>
+                <a href="#" class="nav-link dd-item" data-title="Advanced Visual Analytics">🌌 Advanced Visual Analytics</a>
+
+                <div style="font-size: 0.7rem; text-transform: uppercase; color: #00d084; font-weight: bold; margin-top: 1rem; margin-bottom: 0.5rem;">AI & Machine Learning</div>
+                <a href="#" class="nav-link dd-item" data-title="Predictive Modeling & AI">🤖 Predictive Modeling & AI</a>
+
+                <div style="font-size: 0.7rem; text-transform: uppercase; color: #00d084; font-weight: bold; margin-top: 1rem; margin-bottom: 0.5rem;">Reporting & Automation</div>
+                <a href="#" class="nav-link dd-item" data-title="Automated Reporting">📄 Automated Reporting</a>
+
+                <div style="font-size: 0.7rem; text-transform: uppercase; color: #00d084; font-weight: bold; margin-top: 1rem; margin-bottom: 0.5rem;">Enterprise Platform</div>
+                <a href="#" class="nav-link dd-item" data-title="Governance & Security">🛡️ Governance & Security</a>
+                <a href="#" class="nav-link dd-item" data-title="Monitoring & Observability">🔍 Monitoring & Observability</a>
+                <a href="#" class="nav-link dd-item" data-title="Cloud & Enterprise Integration">☁️ Cloud & Enterprise Integration</a>
+            </div>
+        </div>
+
+        <a href="http://localhost:3000/resources" style="color: rgba(255,255,255,0.8); text-decoration: none; font-size: 0.875rem; font-weight: 500; transition: color 0.2s;" onmouseover="this.style.color='white'" onmouseout="this.style.color='rgba(255,255,255,0.8)'">Resources</a>
+        <a href="http://localhost:3000/pricing" style="color: rgba(255,255,255,0.8); text-decoration: none; font-size: 0.875rem; font-weight: 500; transition: color 0.2s;" onmouseover="this.style.color='white'" onmouseout="this.style.color='rgba(255,255,255,0.8)'">Pricing</a>
+        <a href="http://localhost:3000/docs" style="color: rgba(255,255,255,0.8); text-decoration: none; font-size: 0.875rem; font-weight: 500; transition: color 0.2s;" onmouseover="this.style.color='white'" onmouseout="this.style.color='rgba(255,255,255,0.8)'">Docs</a>
+        <a href="http://localhost:3000/about" style="color: rgba(255,255,255,0.8); text-decoration: none; font-size: 0.875rem; font-weight: 500; transition: color 0.2s;" onmouseover="this.style.color='white'" onmouseout="this.style.color='rgba(255,255,255,0.8)'">About</a>
+    </div>
+    <div style="margin-left: 2rem; display: flex; gap: 0.5rem; align-items: center;">
+        <a href="http://localhost:3000/login" style="padding: 0.5rem 1rem; color: white; text-decoration: none; font-size: 0.875rem; font-weight: 500; border-radius: 6px; transition: background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.1)'" onmouseout="this.style.background='transparent'">Sign In</a>
+        <a href="http://localhost:3000/register" style="padding: 0.5rem 1rem; background-color: #00d084; color: #03142e; text-decoration: none; font-size: 0.875rem; font-weight: 600; border-radius: 6px; box-shadow: 0 0 20px 0px rgba(0, 208, 132, 0.3); transition: opacity 0.2s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">Get Started</a>
+    </div>
+</div>
+<style>
+    /* Dropdown CSS */
+    .header-dropdown:hover .header-dropdown-content {
+        display: block !important;
+    }
+    .dd-item {
+        color: white; 
+        padding: 8px 12px; 
+        text-decoration: none; 
+        display: block; 
+        font-size: 0.875rem; 
+        border-radius: 4px;
+        transition: background 0.2s;
+    }
+    .dd-item:hover {
+        background-color: rgba(255,255,255,0.1);
+    }
+    .header-dropdown-content::-webkit-scrollbar {
+        width: 6px;
+    }
+    .header-dropdown-content::-webkit-scrollbar-thumb {
+        background-color: rgba(255,255,255,0.2);
+        border-radius: 3px;
+    }
+
+    /* Push the main Streamlit content down so it's not hidden by our fixed header */
+    .stApp > header {
+        top: 64px !important;
+        background: transparent !important;
+    }
+    .stApp > div:first-child {
+        margin-top: 64px;
+    }
+    /* Streamlit sidebar completely hidden */
+    section[data-testid="stSidebar"] {
+        display: none !important;
+    }
+    button[data-testid="collapsedControl"] {
+        display: none !important;
+    }
+</style>
