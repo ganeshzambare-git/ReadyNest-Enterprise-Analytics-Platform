@@ -136,6 +136,21 @@
   }
 }
 
+@layer components {
+  .container {
+    width: 100%;
+    margin-right: auto;
+    margin-left: auto;
+    padding-right: 1rem;
+    padding-left: 1rem;
+  }
+  @media (min-width: 1400px) {
+    .container {
+      max-width: 1400px;
+    }
+  }
+}
+
 /* Glassmorphism utilities */
 .glass {
   @apply bg-card/70 backdrop-blur-md border border-white/10 shadow-lg;

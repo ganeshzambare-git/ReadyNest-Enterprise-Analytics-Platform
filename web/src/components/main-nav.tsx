@@ -41,7 +41,7 @@ const businessIntelligence = [
 
 export function MainNav() {
   return (
-    <div className="hidden md:flex flex-1 items-center gap-6">
+    <div className="flex flex-1 items-center gap-6">
       <Link href="/" className="flex items-center gap-2">
         <div className="h-8 w-8 rounded-md bg-primary flex items-center justify-center">
           <span className="font-bold text-primary-foreground leading-none">R</span>
@@ -51,8 +51,9 @@ export function MainNav() {
           <span className="text-[0.65rem] text-muted-foreground uppercase tracking-widest font-semibold">Insight Engine</span>
         </div>
       </Link>
-      <NavigationMenu>
-        <NavigationMenuList>
+      <div className="hidden md:flex">
+        <NavigationMenu>
+          <NavigationMenuList>
           <NavigationMenuItem>
             <Link href="/platform" legacyBehavior passHref>
               <NavigationMenuLink className={navigationMenuTriggerStyle()}>
@@ -142,6 +143,7 @@ export function MainNav() {
           </NavigationMenuItem>
         </NavigationMenuList>
       </NavigationMenu>
+      </div>
     </div>
   )
 }
