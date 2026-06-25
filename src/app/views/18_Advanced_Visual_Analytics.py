@@ -1,23 +1,3 @@
-import streamlit as st
-import sys
-import os
-
-# Add project root to path
-project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '../..'))
-if project_root not in sys.path:
-    sys.path.insert(0, project_root)
-
-from components.module_template import render_header, render_footer
-
-st.set_page_config(page_title="Advanced Visual Analytics - ReadyNest - ReadyNest", layout="wide")
-
-render_header(
-    title="Advanced Visual Analytics - ReadyNest",
-    description="Multi-dimensional plotting, network graphs, and heatmaps.",
-    business_value="Uncovers complex multi-variable relationships invisible in standard charts."
-)
-
-# --- RESTORED LEGACY LOGIC ---
 """
 src/app/pages/5_Data_Visualization.py — Executive Data Visualization UI
 ===============================================================
@@ -73,7 +53,7 @@ with st.sidebar:
 
 # ── Main UI ───────────────────────────────────────────────────────────────────
 
-
+st.title("📊 Executive Dashboard")
 st.markdown("Interactive visual storytelling for Sales, Products, and Regional performance.")
 
 if df is None:
@@ -180,7 +160,3 @@ with tab3:
                 st.info("A 'Customer' and 'Profit' column is required for the Profitability Matrix.")
     else:
         st.info("A 'Region' or 'State' column is required for Regional Analysis.")
-
-
-# --- FOOTER ---
-render_footer("Advanced Visual Analytics - ReadyNest")

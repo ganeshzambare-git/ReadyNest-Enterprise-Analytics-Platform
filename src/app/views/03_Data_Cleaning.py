@@ -1,23 +1,3 @@
-import streamlit as st
-import sys
-import os
-
-# Add project root to path
-project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '../..'))
-if project_root not in sys.path:
-    sys.path.insert(0, project_root)
-
-from components.module_template import render_header, render_footer
-
-st.set_page_config(page_title="Data Cleaning - ReadyNest - ReadyNest", layout="wide")
-
-render_header(
-    title="Data Cleaning - ReadyNest",
-    description="Apply transformations, imputations, and standardizations to raw data.",
-    business_value="Reduces manual data preparation time by 60%, allowing analysts to focus on insights."
-)
-
-# --- RESTORED LEGACY LOGIC ---
 """
 src/app/pages/1_Data_Cleaning.py — ReadyNest Data Cleaning Module UI
 =============================================================
@@ -110,7 +90,7 @@ with st.sidebar:
 
 # ── Main UI ───────────────────────────────────────────────────────────────────
 
-
+st.title("🧹 Data Cleaning Engine")
 st.caption("Automated data cleaning and quality scoring.")
 
 df = get_current_df()
@@ -336,7 +316,3 @@ with tab6:
         log_df = st.session_state["cleaning_log"].to_dataframe()
         log_csv = log_df.to_csv(index=False).encode('utf-8')
         st.download_button("Download Cleaning Log", data=log_csv, file_name="cleaning_log.csv", mime="text/csv", use_container_width=True)
-
-
-# --- FOOTER ---
-render_footer("Data Cleaning - ReadyNest")

@@ -1,23 +1,3 @@
-import streamlit as st
-import sys
-import os
-
-# Add project root to path
-project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '../..'))
-if project_root not in sys.path:
-    sys.path.insert(0, project_root)
-
-from components.module_template import render_header, render_footer
-
-st.set_page_config(page_title="Bivariate Analysis - ReadyNest - ReadyNest", layout="wide")
-
-render_header(
-    title="Bivariate Analysis - ReadyNest",
-    description="Analyze relationships and correlations between two variables.",
-    business_value="Discovers hidden correlations that drive key business metrics like conversion rates."
-)
-
-# --- RESTORED LEGACY LOGIC ---
 """
 src/app/pages/4_Bivariate_Analysis.py — Bivariate EDA UI
 =================================================
@@ -71,7 +51,7 @@ with st.sidebar:
 
 # ── Main UI ───────────────────────────────────────────────────────────────────
 
-
+st.title("🔗 Bivariate Exploratory Analysis")
 st.markdown("Analyze relationships, detect correlations, and visualize trends between two variables.")
 
 if df is None:
@@ -153,7 +133,3 @@ with tab2:
                     st.markdown(f"- {ins}")
         else:
             st.error("Could not analyze relationship. Check for missing data.")
-
-
-# --- FOOTER ---
-render_footer("Bivariate Analysis - ReadyNest")

@@ -1,23 +1,3 @@
-import streamlit as st
-import sys
-import os
-
-# Add project root to path
-project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '../..'))
-if project_root not in sys.path:
-    sys.path.insert(0, project_root)
-
-from components.module_template import render_header, render_footer
-
-st.set_page_config(page_title="Predictive Modeling & AI - ReadyNest - ReadyNest", layout="wide")
-
-render_header(
-    title="Predictive Modeling & AI - ReadyNest",
-    description="Train and deploy ML models to predict future outcomes.",
-    business_value="Transitions the business from reactive reporting to proactive decision making."
-)
-
-# --- RESTORED LEGACY LOGIC ---
 """
 src/app/pages/07_Predictive_Modeling.py — Predictive ML Dashboard
 ==========================================================
@@ -55,6 +35,7 @@ with st.sidebar:
     st.markdown("## 🤖 Predictive ML Core")
     st.info("Train Random Forest and XGBoost models on-the-fly to predict future sales and customer churn.")
 
+st.title("🤖 Predictive Analytics (ML)")
 st.markdown("Leverage Machine Learning to understand drivers of Revenue and predict Customer Churn.")
 
 if df is None:
@@ -110,7 +91,3 @@ with tab2:
                 
                 st.markdown("#### Top Drivers of Churn")
                 st.dataframe(res["feature_importance"], use_container_width=True)
-
-
-# --- FOOTER ---
-render_footer("Predictive Modeling & AI - ReadyNest")

@@ -1,23 +1,3 @@
-import streamlit as st
-import sys
-import os
-
-# Add project root to path
-project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '../..'))
-if project_root not in sys.path:
-    sys.path.insert(0, project_root)
-
-from components.module_template import render_header, render_footer
-
-st.set_page_config(page_title="Automated Reporting - ReadyNest - ReadyNest", layout="wide")
-
-render_header(
-    title="Automated Reporting - ReadyNest",
-    description="Schedule and distribute PDF/Excel reports to stakeholders.",
-    business_value="Eliminates the manual weekly reporting grind for data analysts."
-)
-
-# --- RESTORED LEGACY LOGIC ---
 """
 src/app/pages/10_Automated_Reporting.py — Automated Reporting Engine UI
 ===============================================================
@@ -39,7 +19,7 @@ from src.config.config import APP_ICON, APP_TITLE
 
 
 
-
+st.title("⏱️ Automated Reporting Engine")
 st.markdown("Configure enterprise schedules to automatically generate and email reports to stakeholders.")
 
 scheduler = ReportScheduler()
@@ -98,7 +78,3 @@ else:
                     st.rerun()
             
             st.markdown("---")
-
-
-# --- FOOTER ---
-render_footer("Automated Reporting - ReadyNest")

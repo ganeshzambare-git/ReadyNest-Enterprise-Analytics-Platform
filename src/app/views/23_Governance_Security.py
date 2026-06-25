@@ -1,23 +1,3 @@
-import streamlit as st
-import sys
-import os
-
-# Add project root to path
-project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '../..'))
-if project_root not in sys.path:
-    sys.path.insert(0, project_root)
-
-from components.module_template import render_header, render_footer
-
-st.set_page_config(page_title="Governance & Security - ReadyNest - ReadyNest", layout="wide")
-
-render_header(
-    title="Governance & Security - ReadyNest",
-    description="Manage roles, access logs, PII masking, and audit trails.",
-    business_value="Ensures compliance with GDPR, CCPA, and enterprise infosec policies."
-)
-
-# --- RESTORED LEGACY LOGIC ---
 """
 src/app/pages/12_Data_Governance.py — Data Governance & Security Portal
 ================================================================
@@ -35,7 +15,7 @@ from src.visualization.chart_factory import VisualizationEngine
 
 
 
-
+st.title("🛡️ Data Governance & Security Portal")
 st.markdown("Manage Business Metrics definitions and enforce Row-Level Security (RLS).")
 
 # ── 1. Row-Level Security (RLS) Simulator ─────────────────────────────────────
@@ -102,7 +82,3 @@ glossary_data = [
 ]
 
 st.table(pd.DataFrame(glossary_data))
-
-
-# --- FOOTER ---
-render_footer("Governance & Security - ReadyNest")

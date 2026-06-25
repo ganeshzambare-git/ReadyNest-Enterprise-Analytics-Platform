@@ -1,23 +1,3 @@
-import streamlit as st
-import sys
-import os
-
-# Add project root to path
-project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '../..'))
-if project_root not in sys.path:
-    sys.path.insert(0, project_root)
-
-from components.module_template import render_header, render_footer
-
-st.set_page_config(page_title="Key Insights - ReadyNest - ReadyNest", layout="wide")
-
-render_header(
-    title="Key Insights - ReadyNest",
-    description="AI-generated summaries of the most important metrics changes.",
-    business_value="Saves executives hours of manual dashboard scanning every week."
-)
-
-# --- RESTORED LEGACY LOGIC ---
 """
 src/app/pages/6_Insight_Extraction.py — Insight Extraction UI
 ======================================================
@@ -74,7 +54,7 @@ with st.sidebar:
 
 # ── Main UI ───────────────────────────────────────────────────────────────────
 
-
+st.title("💡 Automated Insight Extraction")
 st.markdown("*\"Data will talk to you if you're willing to listen.\" — Jim Bergeson*")
 
 if df is None:
@@ -172,7 +152,3 @@ with tab3:
         st.markdown("### 🟢 Long-Term Strategy (Low Priority)")
         for insight in low_pri:
             st.checkbox(f"**{insight.area}**: {insight.recommendation}", key=f"low_{insight.title}")
-
-
-# --- FOOTER ---
-render_footer("Key Insights - ReadyNest")

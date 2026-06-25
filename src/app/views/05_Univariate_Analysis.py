@@ -1,23 +1,3 @@
-import streamlit as st
-import sys
-import os
-
-# Add project root to path
-project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '../..'))
-if project_root not in sys.path:
-    sys.path.insert(0, project_root)
-
-from components.module_template import render_header, render_footer
-
-st.set_page_config(page_title="Univariate Analysis - ReadyNest - ReadyNest", layout="wide")
-
-render_header(
-    title="Univariate Analysis - ReadyNest",
-    description="Analyze single variables in isolation to understand their distributions.",
-    business_value="Critical for identifying highly skewed metrics that require transformation."
-)
-
-# --- RESTORED LEGACY LOGIC ---
 """
 src/app/pages/3_Univariate_Analysis.py — Univariate EDA UI
 ===================================================
@@ -71,7 +51,7 @@ with st.sidebar:
 
 # ── Main UI ───────────────────────────────────────────────────────────────────
 
-
+st.title("🔬 Univariate Exploratory Analysis")
 st.markdown("Analyze distributions, detect outliers, and understand the characteristics of individual variables.")
 
 if df is None:
@@ -185,7 +165,3 @@ else:
         st.markdown("### 💡 Business Insights")
         for ins in analysis.insights:
             st.markdown(f"- {ins}")
-
-
-# --- FOOTER ---
-render_footer("Univariate Analysis - ReadyNest")

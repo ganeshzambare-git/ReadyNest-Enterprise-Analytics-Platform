@@ -2,7 +2,7 @@ import streamlit as st
 import time
 from src.app.authentication import register_user, verify_login
 
-st.set_page_config(page_title="Authentication | ReadyNest", page_icon="🔐", layout="centered")
+
 
 # Custom CSS removed to allow global Streamlit config.toml theme to propagate.
 

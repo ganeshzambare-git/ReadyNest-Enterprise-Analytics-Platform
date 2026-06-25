@@ -1,23 +1,3 @@
-import streamlit as st
-import sys
-import os
-
-# Add project root to path
-project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '../..'))
-if project_root not in sys.path:
-    sys.path.insert(0, project_root)
-
-from components.module_template import render_header, render_footer
-
-st.set_page_config(page_title="Descriptive Statistics - ReadyNest - ReadyNest", layout="wide")
-
-render_header(
-    title="Descriptive Statistics - ReadyNest",
-    description="Calculate central tendencies, dispersions, and distribution shapes.",
-    business_value="Provides immediate high-level understanding of data distributions and baselines."
-)
-
-# --- RESTORED LEGACY LOGIC ---
 """
 src/app/pages/2_Descriptive_Statistics.py — ReadyNest Statistics Module UI
 ===================================================================
@@ -73,7 +53,7 @@ with st.sidebar:
 
 # ── Main UI ───────────────────────────────────────────────────────────────────
 
-
+st.title("📈 Descriptive Statistics & Insights")
 st.caption("Comprehensive statistical summaries and automated business insights.")
 
 if df is None:
@@ -209,7 +189,3 @@ with tab4:
     
     st.markdown("---")
     st.info("💡 **Note:** The export includes all statistical metrics (Mean, Median, Standard Deviation, etc.) as well as the AI-generated business insights.")
-
-
-# --- FOOTER ---
-render_footer("Descriptive Statistics - ReadyNest")

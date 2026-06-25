@@ -1,23 +1,3 @@
-import streamlit as st
-import sys
-import os
-
-# Add project root to path
-project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '../..'))
-if project_root not in sys.path:
-    sys.path.insert(0, project_root)
-
-from components.module_template import render_header, render_footer
-
-st.set_page_config(page_title="Business Suggestions - ReadyNest - ReadyNest", layout="wide")
-
-render_header(
-    title="Business Suggestions - ReadyNest",
-    description="Prescriptive analytics recommending specific business actions.",
-    business_value="Bridges the gap between knowing what happened and knowing what to do about it."
-)
-
-# --- RESTORED LEGACY LOGIC ---
 """
 src/app/pages/11_Experimentation.py — A/B Testing Framework
 ===================================================
@@ -35,8 +15,10 @@ except ImportError:
 
 from src.config.config import APP_ICON, APP_TITLE
 
+# ── Setup ─────────────────────────────────────────────────────────────────────
 
-st.markdown("Calculate statistical significance for your pricing, discount, and conversion experiments.")
+st.title("🧪 A/B Testing Engine")
+st.caption("Calculate statistical significance for your pricing, discount, and conversion experiments.")
 
 if stats is None:
     st.error("Missing `scipy` library required for statistical calculations.")
@@ -102,7 +84,3 @@ if st.button("Calculate Significance", type="primary"):
     else:
         st.warning(f"**Not Statistically Significant.** (p-value: {p_val:.4f})")
         st.write("The difference in performance could be due to random chance. You may need a larger sample size or a stronger treatment effect.")
-
-
-# --- FOOTER ---
-render_footer("Business Suggestions - ReadyNest")

@@ -1,23 +1,3 @@
-import streamlit as st
-import sys
-import os
-
-# Add project root to path
-project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '../..'))
-if project_root not in sys.path:
-    sys.path.insert(0, project_root)
-
-from components.module_template import render_header, render_footer
-
-st.set_page_config(page_title="Geographic Intelligence - ReadyNest - ReadyNest", layout="wide")
-
-render_header(
-    title="Geographic Intelligence - ReadyNest",
-    description="Spatial analysis and mapping of revenue, customers, and operations.",
-    business_value="Optimizes supply chain routing and identifies under-served regional markets."
-)
-
-# --- RESTORED LEGACY LOGIC ---
 """
 src/app/pages/09_Geographic_Intelligence.py — Location-Based Analytics
 ==============================================================
@@ -48,7 +28,7 @@ def get_current_df() -> pd.DataFrame | None:
 
 df = get_current_df()
 
-
+st.title("🗺️ Geographic Intelligence")
 st.markdown("Analyze business performance through location-based heatmaps and spatial drilldowns.")
 
 if df is None:
@@ -86,7 +66,3 @@ with col2:
     st.subheader("Top Locations")
     grouped = df.groupby(state_col)[rev_col].sum().sort_values(ascending=False).head(10).reset_index()
     st.dataframe(grouped, use_container_width=True)
-
-
-# --- FOOTER ---
-render_footer("Geographic Intelligence - ReadyNest")

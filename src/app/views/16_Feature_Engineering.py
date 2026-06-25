@@ -9,7 +9,7 @@ if project_root not in sys.path:
 
 from components.module_template import render_feature_module
 
-st.set_page_config(page_title="Feature Engineering - ReadyNest", layout="wide")
+
 
 render_feature_module(
     title="Feature Engineering",

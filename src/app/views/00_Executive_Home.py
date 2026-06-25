@@ -29,12 +29,7 @@ from src.config.config import APP_ICON, APP_TITLE
 
 # ── 1. PAGE SETUP & CSS INJECTION ─────────────────────────────────────────────
 
-st.set_page_config(
-    page_title=f"Executive Home | {APP_TITLE}",
-    page_icon="🏠",
-    layout="wide",
-    initial_sidebar_state="collapsed",
-)
+
 
     # CSS removed to allow global Streamlit config.toml theme to propagate.
 
@@ -185,40 +180,28 @@ with col_sp1:
     if mapping["date"] and rev_col:
         st.markdown("**Monthly Revenue Trend**")
         metrics_to_plot = [m for m in [rev_col, prof_col] if m]
-        try:
-            fig_trend = vis_engine.plot_monthly_trend(df_filtered, mapping["date"], metrics_to_plot)
-            st.plotly_chart(fig_trend, use_container_width=True)
-        except Exception as e:
-            st.error(f"Error rendering Monthly Revenue Trend: {e}")
+        fig_trend = vis_engine.plot_monthly_trend(df_filtered, mapping["date"], metrics_to_plot)
+        st.plotly_chart(fig_trend, use_container_width=True)
 
 with col_sp2:
     if mapping["category"] and rev_col:
         st.markdown("**Revenue by Category**")
-        try:
-            fig_cat = vis_engine.plot_category_performance(df_filtered, mapping["category"], rev_col)
-            st.plotly_chart(fig_cat, use_container_width=True)
-        except Exception as e:
-            st.error(f"Error rendering Revenue by Category: {e}")
+        fig_cat = vis_engine.plot_category_performance(df_filtered, mapping["category"], rev_col)
+        st.plotly_chart(fig_cat, use_container_width=True)
 
 
 col_p1, col_p2 = st.columns(2)
 with col_p1:
     if mapping["product"] and rev_col:
         st.markdown("**Top 10 Products (Revenue)**")
-        try:
-            fig_top = vis_engine.plot_top_products(df_filtered, mapping["product"], rev_col, top_n=10)
-            st.plotly_chart(fig_top, use_container_width=True)
-        except Exception as e:
-            st.error(f"Error rendering Top 10 Products: {e}")
+        fig_top = vis_engine.plot_top_products(df_filtered, mapping["product"], rev_col, top_n=10)
+        st.plotly_chart(fig_top, use_container_width=True)
 
 with col_p2:
     if mapping["product"] and prof_col:
         st.markdown("**Bottom 10 Products (Profit Risk)**")
-        try:
-            fig_bot = vis_engine.plot_top_products(df_filtered, mapping["product"], prof_col, top_n=10, bottom=True)
-            st.plotly_chart(fig_bot, use_container_width=True)
-        except Exception as e:
-            st.error(f"Error rendering Bottom 10 Products: {e}")
+        fig_bot = vis_engine.plot_top_products(df_filtered, mapping["product"], prof_col, top_n=10, bottom=True)
+        st.plotly_chart(fig_bot, use_container_width=True)
 
 # ── 6. REGIONAL & CUSTOMER ANALYTICS ──────────────────────────────────────────
 
@@ -230,20 +213,14 @@ with col_rc1:
     reg_col = mapping["region"] or mapping["state"]
     if reg_col and rev_col:
         st.markdown(f"**Regional Distribution ({reg_col})**")
-        try:
-            fig_reg = vis_engine.plot_regional_distribution(df_filtered, reg_col, rev_col)
-            st.plotly_chart(fig_reg, use_container_width=True)
-        except Exception as e:
-            st.error(f"Error rendering Regional Distribution: {e}")
+        fig_reg = vis_engine.plot_regional_distribution(df_filtered, reg_col, rev_col)
+        st.plotly_chart(fig_reg, use_container_width=True)
 
 with col_rc2:
     if cust_col and rev_col and prof_col:
         st.markdown("**Customer Profitability Matrix**")
-        try:
-            fig_cust = vis_engine.plot_customer_scatter(df_filtered, cust_col, rev_col, prof_col)
-            st.plotly_chart(fig_cust, use_container_width=True)
-        except Exception as e:
-            st.error(f"Error rendering Customer Matrix: {e}")
+        fig_cust = vis_engine.plot_customer_scatter(df_filtered, cust_col, rev_col, prof_col)
+        st.plotly_chart(fig_cust, use_container_width=True)
 
 # ── 7. ADVANCED ANALYTICS (FORECASTING) ───────────────────────────────────────
 

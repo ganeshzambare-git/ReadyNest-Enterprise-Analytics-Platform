@@ -1,6 +1,6 @@
 import streamlit as st
 
-st.set_page_config(page_title="Resources - ReadyNest", page_icon="📚", layout="wide")
+
 
 st.markdown("""
 <div style="text-align: center; margin-top: 5rem;">
