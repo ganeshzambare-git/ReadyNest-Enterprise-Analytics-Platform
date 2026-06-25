@@ -20,6 +20,15 @@ from src.config.config import MAX_PREVIEW_ROWS, SUPPORTED_EXTENSIONS
 from src.database.connection import SQLConnector
 from src.core.logging_manager import detect_file_type, get_logger, sanitize_column_names
 from src.ingestion.schema_validator import FileValidator, ValidationResult
+import streamlit as st
+
+@st.cache_data(show_spinner=False)
+def _cached_read_csv(path: str, encoding: str, sep: str, **kwargs) -> pd.DataFrame:
+    return pd.read_csv(path, encoding=encoding, sep=sep, **kwargs)
+
+@st.cache_data(show_spinner=False)
+def _cached_read_excel(path: str, sheet_name, **kwargs) -> pd.DataFrame:
+    return pd.read_excel(path, sheet_name=sheet_name, **kwargs)
 
 logger = get_logger("src.ingestion.csv_loader")
 
@@ -145,8 +154,8 @@ class DataLoader:
             )
 
         try:
-            df = pd.read_csv(
-                path,
+            df = _cached_read_csv(
+                str(path),
                 encoding=encoding,
                 sep=separator,
                 **read_kwargs,
@@ -200,7 +209,7 @@ class DataLoader:
             )
 
         try:
-            df = pd.read_excel(path, sheet_name=sheet_name, **read_kwargs)
+            df = _cached_read_excel(str(path), sheet_name=sheet_name, **read_kwargs)
             df = self._post_process(df)
             logger.info(f"Excel loaded: {len(df):,} rows × {len(df.columns)} cols.")
             return LoadResult(dataframe=df, validation=validation, source_name=path.name)

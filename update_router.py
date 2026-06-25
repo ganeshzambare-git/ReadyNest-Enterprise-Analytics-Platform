@@ -1,34 +1,15 @@
-import sys
 import os
+import re
 
-# Add the project root to sys.path so 'src' can be imported globally
-project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '../..'))
-if project_root not in sys.path:
-    sys.path.insert(0, project_root)
+filepath = r"d:\Data Analytics Dashboard project\src\app\main.py"
 
-import streamlit as st
+with open(filepath, 'r', encoding='utf-8') as f:
+    content = f.read()
 
-st.set_page_config(
-    page_title="ReadyNest Analytics",
-    page_icon="📦",
-    layout="wide",
-    initial_sidebar_state="expanded",
-)
+# We need to replace the entire 'else:' block for the authenticated router.
+old_block_pattern = r"else:\s*# Authenticated Router with Structured Navigation\s*pg = st\.navigation\(\{[\s\S]*?\}\)"
 
-if "logged_in" not in st.session_state:
-    st.session_state.logged_in = False
-
-if not st.session_state.logged_in:
-    # Unauthenticated Router
-    pg = st.navigation([
-        st.Page("views/000_NextJS_Platform.py", title="Next.js Platform", icon="🚀", default=True),
-        st.Page("views/pricing_page.py", title="Pricing", icon="💳"),
-        st.Page("views/resources_page.py", title="Resources", icon="📚"),
-        st.Page("views/docs_page.py", title="Docs", icon="📖"),
-        st.Page("views/about_page.py", title="About", icon="ℹ️"),
-        st.Page("views/auth_page.py", title="Legacy Login", icon="🔐")
-    ])
-else:
+new_block = """else:
     # Authenticated Router with Structured Navigation
     user_role = st.session_state.get("user_role", "Admin")
     nav_dict = {
@@ -97,32 +78,11 @@ else:
             st.Page("views/25_Cloud_Enterprise_Integration.py", title="Cloud & Enterprise Integration", icon="☁️"),
         ]
 
-    pg = st.navigation(nav_dict)
+    pg = st.navigation(nav_dict)"""
 
-# Load UI assets from external files to prevent IDE parsing errors
-components_dir = os.path.join(os.path.dirname(__file__), 'components')
+new_content = re.sub(old_block_pattern, new_block, content)
 
-# Apply DarkStore UI Theme
-try:
-    with open(os.path.join(components_dir, 'ui_styles.html'), 'r', encoding='utf-8') as f:
-        st.markdown(f.read(), unsafe_allow_html=True)
-except FileNotFoundError:
-    pass
-
-# Global Header Injection
-try:
-    with open(os.path.join(components_dir, 'global_header.html'), 'r', encoding='utf-8') as f:
-        st.markdown(f.read(), unsafe_allow_html=True)
-except FileNotFoundError:
-    pass
-
-# Inject JS to route navigation via the hidden sidebar
-import streamlit.components.v1 as components
-try:
-    with open(os.path.join(components_dir, 'header_script.html'), 'r', encoding='utf-8') as f:
-        components.html(f.read(), height=0, width=0)
-except FileNotFoundError:
-    pass
-
-pg.run()
-# Force hot reload
+with open(filepath, 'w', encoding='utf-8') as f:
+    f.write(new_content)
+    
+print("Updated RBAC in main.py")
