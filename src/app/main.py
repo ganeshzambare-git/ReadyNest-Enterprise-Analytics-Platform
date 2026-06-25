@@ -21,13 +21,17 @@ if "logged_in" not in st.session_state:
 if not st.session_state.logged_in:
     # Unauthenticated Router
     pg = st.navigation([
-        st.Page("views/auth_page.py", title="Login / Sign Up", icon="🔐", default=True)
+        st.Page("views/000_NextJS_Platform.py", title="Next.js Platform", icon="🚀", default=True),
+        st.Page("views/auth_page.py", title="Legacy Login", icon="🔐")
     ])
 else:
     # Authenticated Router with Structured Navigation
     pg = st.navigation({
+        "New Platform Experience": [
+            st.Page("views/000_NextJS_Platform.py", title="Next.js Platform", icon="🚀", default=True),
+        ],
         "Executive Dashboard": [
-            st.Page("views/00_Executive_Home.py", title="Executive Home", icon="🏠", default=True),
+            st.Page("views/00_Executive_Home.py", title="Executive Home", icon="🏠"),
         ],
         "Data Pipeline & Engineering": [
             st.Page("views/0_Data_Loading.py", title="Data Loading", icon="📦"),
@@ -139,5 +143,60 @@ h2, h3 {
 }
 </style>
 """, unsafe_allow_html=True)
+
+# Global Header Injection (matches Next.js React App Header)
+global_header_html = """
+<div style="
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 64px;
+    background-color: rgba(3, 20, 46, 0.95);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(226, 232, 240, 0.1);
+    z-index: 999999;
+    display: flex;
+    align-items: center;
+    padding: 0 2rem;
+    font-family: 'Inter', sans-serif;
+    color: white;
+">
+    <div style="display: flex; align-items: center; gap: 0.5rem; text-decoration: none; color: white;">
+        <div style="height: 32px; width: 32px; border-radius: 6px; background-color: #00d084; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #03142e;">R</div>
+        <div style="display: flex; flex-direction: column; line-height: 1;">
+            <span style="font-weight: bold; font-size: 1.125rem; letter-spacing: -0.025em; color: white;">ReadyNest</span>
+            <span style="font-size: 0.65rem; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.1em; font-weight: 600;">Insight Engine</span>
+        </div>
+    </div>
+    <div style="flex: 1;"></div>
+    <div style="display: flex; gap: 1.5rem; align-items: center;">
+        <a href="http://localhost:3000/platform" style="color: rgba(255,255,255,0.8); text-decoration: none; font-size: 0.875rem; font-weight: 500; transition: color 0.2s;" onmouseover="this.style.color='white'" onmouseout="this.style.color='rgba(255,255,255,0.8)'">Platform</a>
+        <a href="http://localhost:3000/resources" style="color: rgba(255,255,255,0.8); text-decoration: none; font-size: 0.875rem; font-weight: 500; transition: color 0.2s;" onmouseover="this.style.color='white'" onmouseout="this.style.color='rgba(255,255,255,0.8)'">Resources</a>
+        <a href="http://localhost:3000/pricing" style="color: rgba(255,255,255,0.8); text-decoration: none; font-size: 0.875rem; font-weight: 500; transition: color 0.2s;" onmouseover="this.style.color='white'" onmouseout="this.style.color='rgba(255,255,255,0.8)'">Pricing</a>
+        <a href="http://localhost:3000/docs" style="color: rgba(255,255,255,0.8); text-decoration: none; font-size: 0.875rem; font-weight: 500; transition: color 0.2s;" onmouseover="this.style.color='white'" onmouseout="this.style.color='rgba(255,255,255,0.8)'">Docs</a>
+    </div>
+    <div style="margin-left: 2rem; display: flex; gap: 0.5rem; align-items: center;">
+        <a href="http://localhost:3000/login" style="padding: 0.5rem 1rem; color: white; text-decoration: none; font-size: 0.875rem; font-weight: 500; border-radius: 6px; transition: background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.1)'" onmouseout="this.style.background='transparent'">Sign In</a>
+        <a href="http://localhost:3000/register" style="padding: 0.5rem 1rem; background-color: #00d084; color: #03142e; text-decoration: none; font-size: 0.875rem; font-weight: 600; border-radius: 6px; box-shadow: 0 0 20px 0px rgba(0, 208, 132, 0.3); transition: opacity 0.2s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">Get Started</a>
+    </div>
+</div>
+<style>
+    /* Push the main Streamlit content down so it's not hidden by our fixed header */
+    .stApp > header {
+        top: 64px !important;
+        background: transparent !important;
+    }
+    .stApp > div:first-child {
+        margin-top: 64px;
+    }
+    /* Streamlit sidebar push down */
+    section[data-testid="stSidebar"] {
+        top: 64px !important;
+        height: calc(100vh - 64px) !important;
+    }
+</style>
+"""
+st.markdown(global_header_html, unsafe_allow_html=True)
 
 pg.run()
