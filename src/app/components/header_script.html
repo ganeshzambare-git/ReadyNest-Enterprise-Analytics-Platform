@@ -7,12 +7,25 @@
             el.addEventListener('click', (e) => {
                 e.preventDefault();
                 const title = el.getAttribute('data-title');
-                const xpath = `//span[text()="${title}"]/ancestor::a`;
-                const target = parentDoc.evaluate(xpath, parentDoc, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
-                if (target) {
-                    target.click();
+                
+                const sidebar = parentDoc.querySelector('[data-testid="stSidebar"]');
+                if (sidebar) {
+                    const sidebarLinks = sidebar.querySelectorAll('a');
+                    let found = false;
+                    for (let i = 0; i < sidebarLinks.length; i++) {
+                        // Match exactly by text content (ignoring surrounding spaces or emojis)
+                        if (sidebarLinks[i].textContent.includes(title)) {
+                            sidebarLinks[i].click();
+                            found = true;
+                            break;
+                        }
+                    }
+                    if (!found) {
+                        console.log('Could not find hidden sidebar link for: ' + title);
+                        alert('Could not navigate to: ' + title + '. Ensure you are authenticated and the sidebar contains this module.');
+                    }
                 } else {
-                    console.log("Could not find hidden sidebar link for: " + title);
+                    console.log('Sidebar not found in DOM.');
                 }
             });
         });
