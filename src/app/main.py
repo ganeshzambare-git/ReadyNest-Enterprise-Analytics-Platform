@@ -22,6 +22,10 @@ if not st.session_state.logged_in:
     # Unauthenticated Router
     pg = st.navigation([
         st.Page("views/000_NextJS_Platform.py", title="Next.js Platform", icon="🚀", default=True),
+        st.Page("views/pricing_page.py", title="Pricing", icon="💳"),
+        st.Page("views/resources_page.py", title="Resources", icon="📚"),
+        st.Page("views/docs_page.py", title="Docs", icon="📖"),
+        st.Page("views/about_page.py", title="About", icon="ℹ️"),
         st.Page("views/auth_page.py", title="Legacy Login", icon="🔐")
     ])
 else:
@@ -71,6 +75,12 @@ else:
             st.Page("views/23_Governance_Security.py", title="Governance & Security", icon="🛡️"),
             st.Page("views/24_Monitoring_Observability.py", title="Monitoring & Observability", icon="🔍"),
             st.Page("views/25_Cloud_Enterprise_Integration.py", title="Cloud & Enterprise Integration", icon="☁️"),
+        ],
+        "Platform Information": [
+            st.Page("views/pricing_page.py", title="Pricing", icon="💳"),
+            st.Page("views/resources_page.py", title="Resources", icon="📚"),
+            st.Page("views/docs_page.py", title="Docs", icon="📖"),
+            st.Page("views/about_page.py", title="About", icon="ℹ️"),
         ]
     })
 
@@ -100,3 +110,4 @@ except FileNotFoundError:
     pass
 
 pg.run()
+# Force hot reload
