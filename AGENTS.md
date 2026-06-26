@@ -64,3 +64,9 @@ Once the task is successfully merged or deployed, the **Memory Agent**:
 3. Records decisions and alternatives to `decisions.md`.
 4. Records any bugs/mistakes fixed to `mistakes.md`.
 5. Updates `master-memory.md` with the new project state.
+
+### Phase 4: Version Control (End of Task)
+At the very end of any task where you have modified code or project files, you **must**:
+1. Run `git status` to verify your changes.
+2. Commit all changes with a descriptive message (e.g., `git add . ; git commit -m "..."`).
+3. Push the changes to GitHub (`git push`).
