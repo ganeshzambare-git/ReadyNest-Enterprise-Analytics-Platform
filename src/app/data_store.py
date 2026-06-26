@@ -11,7 +11,7 @@ project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '../..'))
 def get_raw_data():
     """Loads the raw dataset from the parquet file."""
     try:
-        data_path = os.path.join(project_root, "..", "data_lake", "curated", "feature_store_customers.parquet")
+        data_path = os.path.join(project_root, "data_lake", "curated", "feature_store_customers.parquet")
         df = pd.read_parquet(data_path)
         return df
     except Exception as e:
