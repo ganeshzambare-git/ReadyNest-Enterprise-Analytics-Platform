@@ -11,27 +11,10 @@ if project_root not in sys.path:
     sys.path.insert(0, project_root)
 
 from components.module_template import render_header, render_footer  # type: ignore
+from services.data_store import get_augmented_data
 
 @st.cache_data(show_spinner=False)
-def load_and_augment_data():
-    try:
-        # Construct absolute path safely
-        data_path = os.path.join(project_root, "..", "data_lake", "curated", "feature_store_customers.parquet")
-        # Load the curated dataset
-        df = pd.read_parquet(data_path)
-    except Exception as e:
-        st.error(f"Error loading customer data: {e}")
-        # Create minimal fallback data to prevent crash
-        return pd.DataFrame(columns=['Total_Spend_CLV', 'Churn_Indicator'])
-
-    # We need to augment fields not natively in the current parquet file
-    np.random.seed(len(df) % 10000)
-    
-    # 1. Geographic Region
-    regions = ['North America', 'Europe', 'Asia-Pacific', 'Latin America', 'Middle East & Africa']
-    df['Region'] = list(np.random.choice(regions, size=len(df), p=[0.45, 0.25, 0.15, 0.10, 0.05]))
-    
-    # 2. Customer Segment
+def compute_overview_segments(df):
     clv_75 = df['Total_Spend_CLV'].quantile(0.75)
     clv_25 = df['Total_Spend_CLV'].quantile(0.25)
     
@@ -43,29 +26,12 @@ def load_and_augment_data():
         else:
             return 'Loyal'
             
-    df['Customer_Segment'] = df['Total_Spend_CLV'].apply(determine_segment)
-    
-    # 3. Join Date
-    now = pd.to_datetime('today')
-    # Generate random join dates over the last 3 years
-    df['Join_Date'] = now - pd.to_timedelta(np.random.randint(1, 1095, size=len(df)).tolist(), unit='D')
-    
-    return df
+    df_out = df.copy()
+    df_out['Customer_Segment'] = df_out['Total_Spend_CLV'].apply(determine_segment)
+    return df_out
 
-def run():
-    render_header(
-        title="Customer Overview",
-        description="A complete executive snapshot of customer activity, growth, retention, acquisition, and engagement.",
-        business_value="Identifies key demographic shifts and highlights opportunities to maximize Customer Lifetime Value (CLV)."
-    )
-
-    df = load_and_augment_data()
-    
-    if df.empty or len(df) < 5:
-        st.warning("Insufficient data available to render dashboard.")
-        return
-
-    # Calculate KPIs
+@st.cache_data(show_spinner=False)
+def compute_kpis(df):
     total_customers = len(df)
     active_customers = len(df[df['Churn_Indicator'] == 0])
     churned_customers = len(df[df['Churn_Indicator'] == 1])
@@ -80,6 +46,44 @@ def run():
     retention_rate = round((active_customers / max(total_customers, 1)) * 100, 1)
     churn_rate = round((churned_customers / max(total_customers, 1)) * 100, 1)
     avg_clv = df['Total_Spend_CLV'].mean()
+    
+    return {
+        'total_customers': total_customers,
+        'active_customers': active_customers,
+        'returning_customers': returning_customers,
+        'new_customers': new_customers,
+        'vip_customers': vip_customers,
+        'growth_rate': growth_rate,
+        'retention_rate': retention_rate,
+        'churn_rate': churn_rate,
+        'avg_clv': avg_clv
+    }
+
+def run():
+    render_header(
+        title="Customer Overview",
+        description="A complete executive snapshot of customer activity, growth, retention, acquisition, and engagement.",
+        business_value="Identifies key demographic shifts and highlights opportunities to maximize Customer Lifetime Value (CLV)."
+    )
+
+    df = get_augmented_data()
+    
+    if df.empty or len(df) < 5:
+        st.warning("Insufficient data available to render dashboard.")
+        return
+
+    df = compute_overview_segments(df)
+    
+    kpis = compute_kpis(df)
+    total_customers = kpis['total_customers']
+    active_customers = kpis['active_customers']
+    returning_customers = kpis['returning_customers']
+    new_customers = kpis['new_customers']
+    vip_customers = kpis['vip_customers']
+    growth_rate = kpis['growth_rate']
+    retention_rate = kpis['retention_rate']
+    churn_rate = kpis['churn_rate']
+    avg_clv = kpis['avg_clv']
 
     # KPI Grid layout
     st.markdown("<h3 style='color: #FFFFFF; font-family: \"Orbitron\", sans-serif; margin-bottom: 20px;'>Key Performance Indicators</h3>", unsafe_allow_html=True)

@@ -12,25 +12,10 @@ if project_root not in sys.path:
     sys.path.insert(0, project_root)
 
 from components.module_template import render_header, render_footer  # type: ignore
+from services.data_store import get_augmented_data
 
 @st.cache_data(show_spinner=False)
-def load_and_augment_data():
-    try:
-        data_path = os.path.join(project_root, "..", "data_lake", "curated", "feature_store_customers.parquet")
-        df = pd.read_parquet(data_path)
-    except Exception as e:
-        st.error(f"Error loading customer data: {e}")
-        return pd.DataFrame()
-
-    np.random.seed(len(df) % 10000)
-    
-    # Synthesize Profit (assuming 15% - 35% margin)
-    df['Profit'] = df['Total_Spend_CLV'] * np.random.uniform(0.15, 0.35, size=len(df))  # type: ignore
-    
-    # Identify repeat purchasers
-    df['Repeat_Purchaser'] = (df['Purchase_Frequency'] > 1).astype(int)
-    
-    # Determine Customer Segments
+def compute_customer_segments(df):
     clv_75 = df['Total_Spend_CLV'].quantile(0.75)
     recency_25 = df['Recency_Days'].quantile(0.25)
     recency_75 = df['Recency_Days'].quantile(0.75)
@@ -47,8 +32,30 @@ def load_and_augment_data():
         else:
             return 'Average'
             
-    df['Customer_Segment'] = df.apply(get_segment, axis=1)
-    return df
+    df_with_segments = df.copy()
+    df_with_segments['Customer_Segment'] = df_with_segments.apply(get_segment, axis=1)
+    return df_with_segments
+
+@st.cache_data(show_spinner=False)
+def compute_kpis(df):
+    return {
+        'rev_per_customer': df['Total_Spend_CLV'].mean(),
+        'avg_order_value': df['Average_Order_Value'].mean(),
+        'avg_purchase_freq': df['Purchase_Frequency'].mean(),
+        'avg_profit': df['Profit'].mean(),
+        'repeat_purchase_rate': df['Repeat_Purchaser'].mean() * 100
+    }
+
+@st.cache_data(show_spinner=False)
+def compute_insights(df):
+    total_rev = df['Total_Spend_CLV'].sum()
+    return {
+        'most_valuable_count': len(df[df['Customer_Segment'] == 'Most Valuable']),
+        'at_risk_count': len(df[df['Customer_Segment'] == 'At-Risk']),
+        'high_potential_count': len(df[df['Customer_Segment'] == 'High Potential']),
+        'declining_count': len(df[df['Customer_Segment'] == 'Declining']),
+        'valuable_rev_pct': (df[df['Customer_Segment'] == 'Most Valuable']['Total_Spend_CLV'].sum() / total_rev) * 100 if total_rev > 0 else 0
+    }
 
 def run():
     render_header(
@@ -57,18 +64,21 @@ def run():
         business_value="Identifies high-value segments and highlights opportunities to maximize retention and profitability."
     )
 
-    df = load_and_augment_data()
+    df = get_augmented_data()
     
     if df.empty or len(df) < 5:
         st.warning("Insufficient data available to render dashboard.")
         return
+        
+    df = compute_customer_segments(df)
 
     # Calculate KPIs
-    rev_per_customer = df['Total_Spend_CLV'].mean()
-    avg_order_value = df['Average_Order_Value'].mean()
-    avg_purchase_freq = df['Purchase_Frequency'].mean()
-    avg_profit = df['Profit'].mean()
-    repeat_purchase_rate = df['Repeat_Purchaser'].mean() * 100
+    kpis = compute_kpis(df)
+    rev_per_customer = kpis['rev_per_customer']
+    avg_order_value = kpis['avg_order_value']
+    avg_purchase_freq = kpis['avg_purchase_freq']
+    avg_profit = kpis['avg_profit']
+    repeat_purchase_rate = kpis['repeat_purchase_rate']
 
     # KPI Grid
     st.markdown("<h3 style='color: #FFFFFF; font-family: \"Orbitron\", sans-serif; margin-bottom: 20px;'>Customer Performance Metrics</h3>", unsafe_allow_html=True)
@@ -177,13 +187,12 @@ def run():
 
     # Dynamic Insights Section
     try:
-        most_valuable_count = len(df[df['Customer_Segment'] == 'Most Valuable'])
-        at_risk_count = len(df[df['Customer_Segment'] == 'At-Risk'])
-        high_potential_count = len(df[df['Customer_Segment'] == 'High Potential'])
-        declining_count = len(df[df['Customer_Segment'] == 'Declining'])
-        
-        total_rev = df['Total_Spend_CLV'].sum()
-        valuable_rev_pct = (df[df['Customer_Segment'] == 'Most Valuable']['Total_Spend_CLV'].sum() / total_rev) * 100 if total_rev > 0 else 0
+        insights = compute_insights(df)
+        most_valuable_count = insights['most_valuable_count']
+        at_risk_count = insights['at_risk_count']
+        high_potential_count = insights['high_potential_count']
+        declining_count = insights['declining_count']
+        valuable_rev_pct = insights['valuable_rev_pct']
         
         st.markdown(f"""
         <div style="margin-top: 2rem; background: rgba(10, 15, 36, 0.6); border: 1px solid rgba(0, 238, 255, 0.2); border-radius: 12px; padding: 1.5rem; box-shadow: 0 0 15px rgba(0,238,255,0.05);">

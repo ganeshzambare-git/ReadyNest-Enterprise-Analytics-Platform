@@ -14,16 +14,16 @@ if project_root not in sys.path:
     sys.path.insert(0, project_root)
 
 from components.module_template import render_header, render_footer  # type: ignore
+from services.data_store import get_augmented_data
 
 @st.cache_data(show_spinner=False)
-def load_data():
-    try:
-        data_path = os.path.join(project_root, "..", "data_lake", "curated", "feature_store_customers.parquet")
-        df = pd.read_parquet(data_path)
-        return df
-    except Exception as e:
-        st.error(f"Error loading customer data: {e}")
-        return pd.DataFrame()
+def compute_kpis(df_final):
+    return {
+        'total_customers': len(df_final),
+        'champions_count': len(df_final[df_final['Segment'] == 'Champions']),
+        'at_risk_count': len(df_final[df_final['Segment'] == 'At Risk']),
+        'total_rev': df_final['Total_Spend_CLV'].sum()
+    }
 
 @st.cache_data(show_spinner=False)
 def calculate_rfm(df):
@@ -279,7 +279,7 @@ def run():
         business_value="Enables hyper-personalized marketing campaigns, lifting conversion by up to 25% and reducing churn through targeted interventions."
     )
 
-    df_raw = load_data()
+    df_raw = get_augmented_data()
     
     if df_raw.empty:
         st.warning("No customer data available to segment.")
@@ -297,10 +297,11 @@ def run():
     st.markdown("<h3 style='color: #FFFFFF; font-family: \"Orbitron\", sans-serif; margin-bottom: 20px;'>Segmentation Overview</h3>", unsafe_allow_html=True)
     col1, col2, col3, col4 = st.columns(4)
     
-    total_customers = len(df_final)
-    champions_count = len(df_final[df_final['Segment'] == 'Champions'])
-    at_risk_count = len(df_final[df_final['Segment'] == 'At Risk'])
-    total_rev = df_final['Total_Spend_CLV'].sum()
+    kpis = compute_kpis(df_final)
+    total_customers = kpis['total_customers']
+    champions_count = kpis['champions_count']
+    at_risk_count = kpis['at_risk_count']
+    total_rev = kpis['total_rev']
     
     col1.metric("Total Customers Segmented", f"{total_customers:,}")
     col2.metric("Champions", f"{champions_count:,}", f"{(champions_count/total_customers)*100:.1f}% of base")

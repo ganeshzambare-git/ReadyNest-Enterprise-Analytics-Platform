@@ -12,52 +12,37 @@ if project_root not in sys.path:
     sys.path.insert(0, project_root)
 
 from components.module_template import render_header, render_footer  # type: ignore
+from services.data_store import get_augmented_data
 
 @st.cache_data(show_spinner=False)
-def load_and_augment_data():
-    try:
-        data_path = os.path.join(project_root, "..", "data_lake", "curated", "feature_store_customers.parquet")
-        df = pd.read_parquet(data_path)
-    except Exception as e:
-        st.error(f"Error loading customer data: {e}")
-        return pd.DataFrame(), pd.DataFrame(), pd.DataFrame()
-
+def compute_funnel_and_seasonality(df):
     np.random.seed(len(df) % 10000)
     
-    # Synthesize Behavioral Data
-    # 1. Session Activity
-    df['Avg_Session_Duration_Mins'] = np.random.normal(loc=12, scale=4, size=len(df)).clip(min=1)  # type: ignore
-    df['Monthly_Sessions'] = (df['Purchase_Frequency'] * np.random.uniform(1.5, 4.0, size=len(df))).astype(int)  # type: ignore
-    
-    # 2. Time Between Purchases (Days)
-    df['Time_Between_Purchases_Days'] = (df['Recency_Days'] + np.random.normal(30, 10, size=len(df))).clip(min=1)  # type: ignore
-    
-    # 3. Product Affinity & Cart Behavior
-    product_categories = ['Electronics', 'Apparel', 'Home Goods', 'Beauty', 'Sports']
-    df['Primary_Affinity'] = np.random.choice(product_categories, size=len(df))  # type: ignore
-    df['Cart_Abandonment_Rate'] = np.random.uniform(0.2, 0.8, size=len(df))  # type: ignore
-    
-    # Identify repeat purchasers
-    df['Repeat_Purchaser'] = (df['Purchase_Frequency'] > 1).astype(int)
-    
-    # Synthesize funnel data (aggregate)
     funnel_data = pd.DataFrame({
         'Stage': ['Website Visits', 'Product Views', 'Add to Cart', 'Checkout Initiated', 'Successful Purchases'],
         'Users': [int(len(df) * np.random.uniform(6.0, 8.0)), int(len(df) * np.random.uniform(4.0, 5.5)), int(len(df) * np.random.uniform(2.0, 3.0)), int(len(df) * np.random.uniform(1.2, 1.8)), len(df)]
     })
     
-    # Synthesize seasonal buying patterns (monthly)
     months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
     base_purchases = max(100, int(len(df) * np.random.uniform(0.3, 0.6)))
     seasonal_data = pd.DataFrame({
         'Month': months,
         'Purchases': np.random.normal(base_purchases, base_purchases * 0.2, size=12).astype(int)
     })
-    # Add some seasonality (e.g., peak in Nov/Dec)
     seasonal_data.loc[10, 'Purchases'] = int(seasonal_data.loc[10, 'Purchases'] * 1.8)  # type: ignore
     seasonal_data.loc[11, 'Purchases'] = int(seasonal_data.loc[11, 'Purchases'] * 2.2)  # type: ignore
     
-    return df, funnel_data, seasonal_data
+    return funnel_data, seasonal_data
+
+@st.cache_data(show_spinner=False)
+def compute_kpis(df):
+    return {
+        'avg_purchase_freq': df['Purchase_Frequency'].mean(),
+        'avg_session_duration': df['Avg_Session_Duration_Mins'].mean(),
+        'avg_time_between_purchases': df['Time_Between_Purchases_Days'].mean(),
+        'avg_cart_abandonment': df['Cart_Abandonment_Rate'].mean() * 100,
+        'repeat_purchase_rate': df['Repeat_Purchaser'].mean() * 100
+    }
 
 def run():
     render_header(
@@ -66,18 +51,20 @@ def run():
         business_value="Identifies purchase drivers, drop-off points, and engagement patterns to optimize the customer lifecycle."
     )
 
-    df, funnel_data, seasonal_data = load_and_augment_data()
+    df = get_augmented_data()
     
     if df.empty:
         st.warning("Insufficient data available to render dashboard.")
         return
 
-    # Calculate Behavioral Metrics
-    avg_purchase_freq = df['Purchase_Frequency'].mean()
-    avg_session_duration = df['Avg_Session_Duration_Mins'].mean()
-    avg_time_between_purchases = df['Time_Between_Purchases_Days'].mean()
-    avg_cart_abandonment = df['Cart_Abandonment_Rate'].mean() * 100
-    repeat_purchase_rate = df['Repeat_Purchaser'].mean() * 100
+    funnel_data, seasonal_data = compute_funnel_and_seasonality(df)
+
+    kpis = compute_kpis(df)
+    avg_purchase_freq = kpis['avg_purchase_freq']
+    avg_session_duration = kpis['avg_session_duration']
+    avg_time_between_purchases = kpis['avg_time_between_purchases']
+    avg_cart_abandonment = kpis['avg_cart_abandonment']
+    repeat_purchase_rate = kpis['repeat_purchase_rate']
 
     # KPI Grid
     st.markdown("<h3 style='color: #FFFFFF; font-family: \"Orbitron\", sans-serif; margin-bottom: 20px;'>Behavioral Metrics</h3>", unsafe_allow_html=True)
