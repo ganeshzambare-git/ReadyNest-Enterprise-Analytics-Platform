@@ -40,6 +40,7 @@ else:
             st.Page("views/resources_page.py", title="Resources", icon="📚"),
             st.Page("views/docs_page.py", title="Docs", icon="📖"),
             st.Page("views/about_page.py", title="About", icon="ℹ️"),
+            st.Page("views/auth_page.py", title="Legacy Login", icon="🔐"),
         ]
     }
     
