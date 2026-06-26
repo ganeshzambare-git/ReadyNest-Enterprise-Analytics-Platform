@@ -510,52 +510,52 @@ st.markdown("""
 
 st.markdown("""
 <div class="enterprise-footer">
-    <div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 30px;">
-        <div style="flex: 1; min-width: 250px;">
-            <div style="font-size: 1.5rem; font-weight: 800; color: #00ffb3; font-family: 'Orbitron', sans-serif; margin-bottom: 1rem;">READYNEST</div>
-            <p style="color: #94A3B8; font-size: 0.9rem; line-height: 1.6;">
-                Enterprise Data Analytics Platform.<br>
-                Transform Raw Data Into Enterprise Intelligence.
-            </p>
-        </div>
-        
-        <div style="flex: 1; min-width: 150px;">
-            <div class="footer-heading">Platform</div>
-            <a href="#" class="footer-link">Products</a>
-            <a href="#" class="footer-link">Services</a>
-            <a href="#" class="footer-link">Pricing</a>
-            <a href="#" class="footer-link">Documentation</a>
-        </div>
-        
-        <div style="flex: 1; min-width: 150px;">
-            <div class="footer-heading">Company</div>
-            <a href="#" class="footer-link">About</a>
-            <a href="#" class="footer-link">Careers</a>
-            <a href="#" class="footer-link">Contact</a>
-            <a href="#" class="footer-link">Resources</a>
-        </div>
-        
-        <div style="flex: 1; min-width: 150px;">
-            <div class="footer-heading">Capabilities</div>
-            <a href="#" class="footer-link">Technology</a>
-            <a href="#" class="footer-link">Cloud</a>
-            <a href="#" class="footer-link">Machine Learning</a>
-            <a href="#" class="footer-link">Security</a>
-            <a href="#" class="footer-link">Reporting</a>
-            <a href="#" class="footer-link">Analytics</a>
-        </div>
-        
-        <div style="flex: 1; min-width: 150px;">
-            <div class="footer-heading">Social</div>
-            <a href="#" class="footer-link">GitHub</a>
-            <a href="#" class="footer-link">LinkedIn</a>
-            <a href="#" class="footer-link">YouTube</a>
-            <a href="#" class="footer-link">Twitter</a>
-        </div>
-    </div>
-    
-    <div style="margin-top: 4rem; text-align: center; color: #64748B; font-size: 0.8rem; border-top: 1px solid rgba(0,255,200,0.1); padding-top: 2rem;">
-        &copy; 2026 ReadyNest Enterprise Analytics. All rights reserved.
-    </div>
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 30px;">
+<div style="flex: 1; min-width: 250px;">
+<div style="font-size: 1.5rem; font-weight: 800; color: #00ffb3; font-family: 'Orbitron', sans-serif; margin-bottom: 1rem;">READYNEST</div>
+<p style="color: #94A3B8; font-size: 0.9rem; line-height: 1.6;">
+Enterprise Data Analytics Platform.<br>
+Transform Raw Data Into Enterprise Intelligence.
+</p>
+</div>
+
+<div style="flex: 1; min-width: 150px;">
+<div class="footer-heading">Platform</div>
+<a href="#" class="footer-link">Products</a>
+<a href="#" class="footer-link">Services</a>
+<a href="#" class="footer-link">Pricing</a>
+<a href="#" class="footer-link">Documentation</a>
+</div>
+
+<div style="flex: 1; min-width: 150px;">
+<div class="footer-heading">Company</div>
+<a href="#" class="footer-link">About</a>
+<a href="#" class="footer-link">Careers</a>
+<a href="#" class="footer-link">Contact</a>
+<a href="#" class="footer-link">Resources</a>
+</div>
+
+<div style="flex: 1; min-width: 150px;">
+<div class="footer-heading">Capabilities</div>
+<a href="#" class="footer-link">Technology</a>
+<a href="#" class="footer-link">Cloud</a>
+<a href="#" class="footer-link">Machine Learning</a>
+<a href="#" class="footer-link">Security</a>
+<a href="#" class="footer-link">Reporting</a>
+<a href="#" class="footer-link">Analytics</a>
+</div>
+
+<div style="flex: 1; min-width: 150px;">
+<div class="footer-heading">Social</div>
+<a href="https://github.com/ganeshzambare-git" target="_blank" class="footer-link">GitHub</a>
+<a href="https://www.linkedin.com/in/ganesh-zambare-10369a313/" target="_blank" class="footer-link">LinkedIn</a>
+<a href="#" class="footer-link">YouTube</a>
+<a href="#" class="footer-link">Twitter</a>
+</div>
+</div>
+
+<div style="margin-top: 4rem; text-align: center; color: #64748B; font-size: 0.8rem; border-top: 1px solid rgba(0,255,200,0.1); padding-top: 2rem;">
+&copy; 2026 ReadyNest Enterprise Analytics. All rights reserved.
+</div>
 </div>
 """, unsafe_allow_html=True)
