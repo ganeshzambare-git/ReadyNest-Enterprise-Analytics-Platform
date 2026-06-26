@@ -105,9 +105,12 @@ def run():
         col_viz1, col_viz2 = st.columns(2)
 
         with col_viz1:
+            # Dynamically resolve customer identifier
+            cust_col = next((c for c in df.columns if c.lower() in ['customername', 'customer_name', 'user_name', 'client_name', 'client', 'customer_id', 'user_id', 'customer', 'user']), df.columns[0])
+            
             # Top Customers Bar Chart
             top_10 = df.nlargest(10, 'Total_Spend_CLV').sort_values('Total_Spend_CLV', ascending=True)
-            fig_top = px.bar(top_10, x='Total_Spend_CLV', y='customername', orientation='h', title='Top 10 Customers by Revenue', color='Total_Spend_CLV', color_continuous_scale='Teal')
+            fig_top = px.bar(top_10, x='Total_Spend_CLV', y=cust_col, orientation='h', title='Top 10 Customers by Revenue', color='Total_Spend_CLV', color_continuous_scale='Teal')
             fig_top.update_layout(**chart_layout_config, coloraxis_showscale=False)
             st.plotly_chart(fig_top, use_container_width=True)
 
@@ -163,9 +166,12 @@ def run():
     st.markdown("<h3 style='color: #FFFFFF; font-family: \"Orbitron\", sans-serif; margin-bottom: 20px;'>Detailed Analytics</h3>", unsafe_allow_html=True)
     
     col_table1, col_table2 = st.columns(2)
+    
+    cust_col = next((c for c in df.columns if c.lower() in ['customername', 'customer_name', 'user_name', 'client_name', 'client', 'customer_id', 'user_id', 'customer', 'user']), df.columns[0])
+    
     with col_table1:
         st.markdown("<h5 style='color: #94A3B8;'>Top 10 Customers</h5>", unsafe_allow_html=True)
-        st.dataframe(df.nlargest(10, 'Total_Spend_CLV')[['customername', 'Total_Spend_CLV', 'Profit', 'Customer_Segment']], use_container_width=True, hide_index=True)
+        st.dataframe(df.nlargest(10, 'Total_Spend_CLV')[[cust_col, 'Total_Spend_CLV', 'Profit', 'Customer_Segment']], use_container_width=True, hide_index=True)
         
         st.markdown("<h5 style='color: #94A3B8;'>Segment Contribution (Revenue vs Profit)</h5>", unsafe_allow_html=True)
         segment_contrib = df.groupby('Customer_Segment')[['Total_Spend_CLV', 'Profit']].sum().reset_index()
@@ -175,7 +181,7 @@ def run():
 
     with col_table2:
         st.markdown("<h5 style='color: #94A3B8;'>Bottom 10 Customers</h5>", unsafe_allow_html=True)
-        st.dataframe(df.nsmallest(10, 'Total_Spend_CLV')[['customername', 'Total_Spend_CLV', 'Profit', 'Customer_Segment']], use_container_width=True, hide_index=True)
+        st.dataframe(df.nsmallest(10, 'Total_Spend_CLV')[[cust_col, 'Total_Spend_CLV', 'Profit', 'Customer_Segment']], use_container_width=True, hide_index=True)
 
 
     st.divider()
