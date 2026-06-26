@@ -16,21 +16,21 @@ from data_store import get_augmented_data
 
 @st.cache_data(show_spinner=False)
 def compute_funnel_and_seasonality(df):
-    np.random.seed(len(df) % 10000)
-    
     funnel_data = pd.DataFrame({
         'Stage': ['Website Visits', 'Product Views', 'Add to Cart', 'Checkout Initiated', 'Successful Purchases'],
-        'Users': [int(len(df) * np.random.uniform(6.0, 8.0)), int(len(df) * np.random.uniform(4.0, 5.5)), int(len(df) * np.random.uniform(2.0, 3.0)), int(len(df) * np.random.uniform(1.2, 1.8)), len(df)]
+        'Users': [int(len(df) * 5), int(len(df) * 3), int(len(df) * 2), int(len(df) * 1.5), len(df)]
     })
     
     months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-    base_purchases = max(100, int(len(df) * np.random.uniform(0.3, 0.6)))
-    seasonal_data = pd.DataFrame({
-        'Month': months,
-        'Purchases': np.random.normal(base_purchases, base_purchases * 0.2, size=12).astype(int)
-    })
-    seasonal_data.loc[10, 'Purchases'] = int(seasonal_data.loc[10, 'Purchases'] * 1.8)  # type: ignore
-    seasonal_data.loc[11, 'Purchases'] = int(seasonal_data.loc[11, 'Purchases'] * 2.2)  # type: ignore
+    df_dates = df.copy()
+    df_dates['Month'] = pd.to_datetime(df_dates['Join_Date']).dt.month_name().str[:3]
+    seasonal_data = df_dates.groupby('Month').size().reset_index(name='Purchases')
+    
+    # Ensure all months are present
+    all_months = pd.DataFrame({'Month': months})
+    seasonal_data = pd.merge(all_months, seasonal_data, on='Month', how='left').fillna(0)
+    seasonal_data['Month'] = pd.Categorical(seasonal_data['Month'], categories=months, ordered=True)
+    seasonal_data = seasonal_data.sort_values('Month')
     
     return funnel_data, seasonal_data
 
@@ -145,38 +145,49 @@ def run():
 
     st.divider()
 
-    # AI Insights Section
+    # Dynamic Insights Section
     try:
-        top_affinity = df['Primary_Affinity'].value_counts().index[0]
-        drop_off_pct = (1 - (funnel_data.iloc[-1]['Users'] / funnel_data.iloc[2]['Users'])) * 100
+        from src.reporting.insight_generator import InsightEngine
+        insight_engine = InsightEngine()
         
-        st.markdown(f"""
-        <div style="margin-top: 2rem; background: rgba(10, 15, 36, 0.6); border: 1px solid rgba(0, 238, 255, 0.2); border-radius: 12px; padding: 1.5rem; box-shadow: 0 0 15px rgba(0,238,255,0.05);">
-            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 1rem;">
-                <div style="font-size: 1.5rem;">🧠</div>
-                <h3 style="color: #00EEFF; margin: 0; font-family: 'Orbitron', sans-serif;">AI-Powered Behavioral Insights</h3>
-            </div>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
-                <div>
-                    <h4 style="color: #FFFFFF; margin-bottom: 0.5rem; font-family: 'Orbitron', sans-serif;">Key Observations</h4>
-                    <ul style="color: #94A3B8; line-height: 1.6;">
-                        <li><strong style="color: #00EEFF;">Purchase Drivers:</strong> Strong correlation between session duration and LTV. Users averaging >15 mins per session have 40% higher lifetime spend.</li>
-                        <li><strong style="color: #ef4444;">Drop-Off Points:</strong> Major drop-off identified between 'Add to Cart' and 'Checkout'. Cart abandonment is causing an estimated {drop_off_pct:.1f}% conversion loss.</li>
-                        <li><strong style="color: #00d084;">Seasonal Trends:</strong> Clear Q4 peak identified, with November/December activity tracking 2x higher than the Q1/Q2 average.</li>
-                        <li><strong style="color: #f59e0b;">Buying Triggers:</strong> High affinity for <strong>{top_affinity}</strong> often serves as the initial "gateway" purchase before expanding to other categories.</li>
-                    </ul>
+        with st.spinner("Consultant Engine is analyzing behavioral data..."):
+            insights = insight_engine.extract_insights(df)
+            
+        if insights:
+            st.markdown("""
+            <div style="margin-top: 2rem; background: rgba(10, 15, 36, 0.6); border: 1px solid rgba(0, 238, 255, 0.2); border-radius: 12px; padding: 1.5rem; box-shadow: 0 0 15px rgba(0,238,255,0.05);">
+                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 1rem;">
+                    <div style="font-size: 1.5rem;">🤖</div>
+                    <h3 style="color: #00EEFF; margin: 0; font-family: 'Orbitron', sans-serif;">AI-Powered Behavioral Insights</h3>
                 </div>
-                <div>
-                    <h4 style="color: #FFFFFF; margin-bottom: 0.5rem; font-family: 'Orbitron', sans-serif;">Strategic Recommendations</h4>
-                    <ul style="color: #94A3B8; line-height: 1.6;">
-                        <li><strong style="color: #ec4899;">Campaign Optimization:</strong> Shift 30% of top-of-funnel ad spend toward remarketing for users who abandon carts with high-value items.</li>
-                        <li><strong style="color: #ec4899;">Product Bundling:</strong> Create dynamic bundles pairing {top_affinity} products with underperforming categories to leverage high affinity.</li>
-                        <li><strong style="color: #ec4899;">Personalization:</strong> Implement triggered "abandoned cart" emails sent at the {avg_time_between_purchases:.0f}-day mark, offering a time-sensitive 10% discount.</li>
-                    </ul>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                    <div>
+                        <h4 style="color: #FFFFFF; margin-bottom: 0.5rem; font-family: 'Orbitron', sans-serif;">Key Observations</h4>
+                        <ul style="color: #94A3B8; line-height: 1.6;">
+            """, unsafe_allow_html=True)
+            
+            for ins in insights[:4]:
+                color = "#00d084" if ins.category == "Opportunity" else "#ec4899" if ins.category == "Risk" else "#3B82F6"
+                st.markdown(f'<li><strong style="color: {color};">{ins.title}:</strong> {ins.business_impact}</li>', unsafe_allow_html=True)
+                
+            st.markdown("""
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 style="color: #FFFFFF; margin-bottom: 0.5rem; font-family: 'Orbitron', sans-serif;">Strategic Recommendations</h4>
+                        <ul style="color: #94A3B8; line-height: 1.6;">
+            """, unsafe_allow_html=True)
+            
+            for ins in insights[:4]:
+                color = "#ec4899" if ins.priority_level == "High" else "#00d084"
+                st.markdown(f'<li><strong style="color: {color};">{ins.area} Action:</strong> {ins.recommendation}</li>', unsafe_allow_html=True)
+                
+            st.markdown("""
+                        </ul>
+                    </div>
                 </div>
             </div>
-        </div>
-        """, unsafe_allow_html=True)
+            """, unsafe_allow_html=True)
     except Exception as e:
         st.error(f"Error generating AI Insights: {e}")
 

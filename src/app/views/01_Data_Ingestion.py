@@ -91,6 +91,7 @@ def _store(df: pd.DataFrame, name: str) -> None:
     st.session_state["df"] = df
     st.session_state["source_name"] = name
     st.session_state["report"] = meta_gen.generate(df, file_name=name)
+    st.cache_data.clear()
 
 
 # ── Load panel ────────────────────────────────────────────────────────────────

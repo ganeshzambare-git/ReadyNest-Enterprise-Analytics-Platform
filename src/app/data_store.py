@@ -28,8 +28,10 @@ def get_augmented_data():
     if df.empty:
         return df
 
-    # We use a deterministic seed based on dataset size so it updates if data changes, but remains consistent across pages
-    np.random.seed(len(df) % 10000)
+    import hashlib
+    col_str = "".join(df.columns)
+    stable_hash = int(hashlib.md5(col_str.encode()).hexdigest(), 16)
+    np.random.seed((stable_hash + len(df)) % 10000)
     
     # 1. Base business fields
     df['Profit'] = df['Total_Spend_CLV'] * np.random.uniform(0.15, 0.35, size=len(df))  # type: ignore
