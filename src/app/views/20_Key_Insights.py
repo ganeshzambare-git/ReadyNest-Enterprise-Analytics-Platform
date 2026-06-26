@@ -1,154 +1,86 @@
-"""
-src/app/pages/6_Insight_Extraction.py — Insight Extraction UI
-======================================================
-Streamlit dashboard that acts as an automated BI consultant,
-presenting heuristic-driven business insights in a structured format.
-"""
-
-import sys
-import importlib
-import pandas as pd
 import streamlit as st
+import pandas as pd
+import numpy as np
 
-# Force reload the insights backend to fix caching issues
-if "src.reporting.insight_generator" in sys.modules:
-    importlib.reload(sys.modules["src.reporting.insight_generator"])
-from src.reporting.insight_generator import InsightEngine
-from src.config.config import APP_ICON, APP_TITLE
+from src.app.components.module_template import render_header, render_footer
+from src.app.data_store import get_augmented_data
 
-
-# ── Setup & State ─────────────────────────────────────────────────────────────
-
-
-
-def get_current_df() -> pd.DataFrame | None:
-    if st.session_state.get("clean_df") is not None:
-        return st.session_state["clean_df"]
-    if st.session_state.get("df") is not None:
-        return st.session_state["df"]
-    return None
-
-df = get_current_df()
-
-# ── Sidebar ───────────────────────────────────────────────────────────────────
-
-with st.sidebar:
-    st.markdown(
-        """
-        <div style='text-align:center; padding: 12px 0 4px 0;'>
-            <span style='font-size:2.4rem;'>💡</span><br>
-            <span style='font-size:1.1rem; font-weight:800;
-                         letter-spacing:.08em; color:#14235F;'>
-                READYNEST
-            </span><br>
-            <span style='font-size:.72rem; color:#6b7280; letter-spacing:.12em;'>
-                INSIGHT ENGINE
-            </span>
-        </div>
-        <hr style='margin:12px 0;'>
-        """,
-        unsafe_allow_html=True,
+def run():
+    render_header(
+        title="Key Insights Engine",
+        description="Automated business insights generation highlighting anomalies, trends, and growth opportunities.",
+        business_value="Reduces time-to-insight from days to seconds, highlighting the most critical focus areas automatically."
     )
+
+    df = get_augmented_data()
     
-    st.info("💡 **Tip:** This module uses heuristic algorithms to find mathematical risks and opportunities in your dataset.")
+    if df.empty:
+        st.warning("Insufficient data available.")
+        return
 
-# ── Main UI ───────────────────────────────────────────────────────────────────
+    # Simulate Insight Extraction Engine
+    st.markdown("""
+    <div style="background: rgba(10, 15, 36, 0.8); border: 1px solid rgba(0,238,255,0.2); padding: 20px; border-radius: 12px; margin-bottom: 30px; text-align: center;">
+        <h2 style="color: #00EEFF; font-family: 'Orbitron', sans-serif; margin: 0;">AI Insight Generation Engine Active</h2>
+        <p style="color: #94A3B8; margin-top: 10px;">Scanning millions of data points across Revenue, Customers, Products, and Geography...</p>
+    </div>
+    """, unsafe_allow_html=True)
 
-st.title("💡 Automated Insight Extraction")
-st.markdown("*\"Data will talk to you if you're willing to listen.\" — Jim Bergeson*")
-
-if df is None:
-    st.warning("⚠️ No dataset loaded. Please go to **Data Loading** to upload a file.")
-    st.stop()
-
-engine = InsightEngine()
-
-with st.spinner("Consultant Engine is scanning the dataset for patterns..."):
-    insights = engine.extract_insights(df)
-
-if not insights:
-    st.warning("The engine could not extract any insights. This usually happens if the dataset lacks distinct 'Sales', 'Profit', or 'Category' columns.")
-    st.info("Try going to **Data Cleaning** -> **Type & Format** to auto-convert your columns, or ensure your CSV has financial metrics.")
-    st.stop()
-
-# ── Metrics Pre-computation ───────────────────────────────────────────────────
-
-risks = [i for i in insights if i.category == "Risk"]
-opps = [i for i in insights if i.category == "Opportunity"]
-neutrals = [i for i in insights if i.category == "Insight"]
-
-high_pri = len([i for i in insights if i.priority_level == "High"])
-
-# ── Tabs ──────────────────────────────────────────────────────────────────────
-
-tab1, tab2, tab3 = st.tabs(["📋 Executive Summary", "🔍 Comprehensive Insight Report", "✅ Action Plan"])
-
-# ── Tab 1: Executive Summary ──────────────────────────────────────────────────
-
-with tab1:
-    st.subheader("High-Level Diagnostic")
-    
-    col_k1, col_k2, col_k3, col_k4 = st.columns(4)
-    col_k1.metric("Total Findings", len(insights))
-    col_k2.metric("Critical Risks 🚨", len(risks))
-    col_k3.metric("Growth Opportunities 🚀", len(opps))
-    col_k4.metric("High Priority Actions ⚠️", high_pri)
-    
-    st.markdown("---")
-    st.subheader("🏆 Top 3 Critical Insights")
-    
-    for idx, insight in enumerate(insights[:3]):
-        icon = "🚨" if insight.category == "Risk" else "🚀" if insight.category == "Opportunity" else "ℹ️"
-        st.markdown(f"#### {icon} {insight.title}")
-        st.markdown(f"**Impact:** {insight.business_impact}")
-        st.markdown(f"**Action:** {insight.recommendation}")
-        st.markdown("<br>", unsafe_allow_html=True)
-
-
-# ── Tab 2: Insight Report ─────────────────────────────────────────────────────
-
-with tab2:
-    st.subheader("Detailed Findings")
-    st.write("A deep dive into the mathematical evidence behind each business recommendation.")
-    
-    for idx, insight in enumerate(insights):
-        color = "red" if insight.category == "Risk" else "green" if insight.category == "Opportunity" else "blue"
-        icon = "🚨" if insight.category == "Risk" else "🚀" if insight.category == "Opportunity" else "ℹ️"
+    try:
+        from src.reporting.insight_generator import InsightEngine
+        insight_engine = InsightEngine()
         
-        with st.expander(f"{icon} {insight.title} ({insight.area})", expanded=(idx==0)):
-            st.markdown(f"""
-            <div style="padding: 10px; border-left: 5px solid {color}; background-color: #f8fafc;">
-                <p><strong>Priority Level:</strong> {insight.priority_level}</p>
-                <p><strong>Insight:</strong> {insight.insight}</p>
-                <p><strong>Evidence:</strong> {insight.evidence}</p>
-                <p><strong>Business Impact:</strong> {insight.business_impact}</p>
-                <p><strong>Recommendation:</strong> {insight.recommendation}</p>
-            </div>
-            """, unsafe_allow_html=True)
-
-
-# ── Tab 3: Action Plan ────────────────────────────────────────────────────────
-
-with tab3:
-    st.subheader("Prioritized Action Plan")
-    st.write("Checklist of recommended actions sorted by urgency.")
-    
-    # High Priority
-    if high_pri > 0:
-        st.markdown("### 🛑 Immediate Action Required (High Priority)")
-        for insight in [i for i in insights if i.priority_level == "High"]:
-            st.checkbox(f"**{insight.area}**: {insight.recommendation}", key=f"high_{insight.title}")
+        with st.spinner("Compiling Top 10 Executive Insights..."):
+            insights = insight_engine.extract_insights(df)
             
-    # Medium Priority
-    med_pri = [i for i in insights if i.priority_level == "Medium"]
-    if med_pri:
-        st.markdown("### ⚠️ Short-Term Goals (Medium Priority)")
-        for insight in med_pri:
-            st.checkbox(f"**{insight.area}**: {insight.recommendation}", key=f"med_{insight.title}")
+        if insights:
+            # We will render them as nice cards
+            st.markdown("<h3 style='color: #FFFFFF; font-family: \"Orbitron\", sans-serif; margin-bottom: 20px;'>Top Insights & Anomalies</h3>", unsafe_allow_html=True)
             
-    # Low Priority
-    low_pri = [i for i in insights if i.priority_level == "Low"]
-    if low_pri:
-        st.markdown("### 🟢 Long-Term Strategy (Low Priority)")
-        for insight in low_pri:
-            st.checkbox(f"**{insight.area}**: {insight.recommendation}", key=f"low_{insight.title}")
+            for i, ins in enumerate(insights[:10]): # Top 10
+                # Determine styling based on category and priority
+                border_color = "#ec4899" if ins.category == "Risk" else "#00d084" if ins.category == "Opportunity" else "#3B82F6"
+                bg_color = "rgba(236, 72, 153, 0.05)" if ins.category == "Risk" else "rgba(0, 208, 132, 0.05)" if ins.category == "Opportunity" else "rgba(59, 130, 246, 0.05)"
+                icon = "⚠️" if ins.category == "Risk" else "📈" if ins.category == "Opportunity" else "🔍"
+                
+                st.markdown(f"""
+                <div style="background: {bg_color}; border-left: 5px solid {border_color}; padding: 20px; border-radius: 8px; margin-bottom: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px;">
+                        <h4 style="color: #FFFFFF; margin: 0; font-family: 'Orbitron', sans-serif;">{icon} {ins.title}</h4>
+                        <span style="background: {border_color}; color: #FFF; padding: 3px 10px; border-radius: 12px; font-size: 0.8rem; font-weight: bold;">{ins.priority_level} Priority</span>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px;">
+                        <div>
+                            <span style="color: #94A3B8; font-size: 0.9rem; text-transform: uppercase;">Supporting Evidence</span>
+                            <p style="color: #E2E8F0; margin-top: 5px;">{ins.metric_context}</p>
+                        </div>
+                        <div>
+                            <span style="color: #94A3B8; font-size: 0.9rem; text-transform: uppercase;">Business Impact</span>
+                            <p style="color: #E2E8F0; margin-top: 5px;">{ins.business_impact}</p>
+                        </div>
+                    </div>
+                </div>
+                """, unsafe_allow_html=True)
+                
+            # Analysis Summary
+            st.divider()
+            col1, col2, col3, col4 = st.columns(4)
+            col1.metric("Total Insights Generated", f"{len(insights)}")
+            col2.metric("Critical Risks", f"{len([i for i in insights if i.category == 'Risk' and i.priority_level == 'High'])}")
+            col3.metric("Growth Opportunities", f"{len([i for i in insights if i.category == 'Opportunity'])}")
+            col4.metric("Anomalies Detected", f"{len([i for i in insights if i.category == 'Anomaly'])}")
+
+    except Exception as e:
+        st.error(f"Error generating AI Insights: {e}")
+
+    # Export Section
+    st.divider()
+    st.markdown("<br>", unsafe_allow_html=True)
+    col1, col2, col3, col4 = st.columns([1, 1, 1, 5])
+    with col1:
+        st.button("📄 Export Insights PDF", key="btn_pdf_insights", use_container_width=True)
+    with col2:
+        st.button("✉️ Email Exec Summary", key="btn_email_insights", use_container_width=True)
+
+if __name__ == "__main__":
+    run()
