@@ -46,7 +46,7 @@ def get_augmented_data():
     # 4. Behavioral Data
     df['Avg_Session_Duration_Mins'] = np.random.normal(loc=12, scale=4, size=len(df)).clip(min=1)  # type: ignore
     df['Monthly_Sessions'] = (df['Purchase_Frequency'] * np.random.uniform(1.5, 4.0, size=len(df))).astype(int)  # type: ignore
-    df['Time_Between_Purchases_Days'] = (df['Recency_Days'] + np.random.normal(30, 10, size=len(df))).clip(min=1)  # type: ignore
+    df['Time_Between_Purchases_Days'] = (df['Recency_Days'] + np.random.normal(30, 10, size=len(df))).clip(lower=1)  # type: ignore
     
     product_categories = ['Electronics', 'Apparel', 'Home Goods', 'Beauty', 'Sports']
     df['Primary_Affinity'] = np.random.choice(product_categories, size=len(df))  # type: ignore
