@@ -102,9 +102,9 @@ def run():
             st.plotly_chart(fig_funnel, use_container_width=True)
 
             # 2. Purchase Heatmap (Cart Abandonment vs Time Between Purchases)
-            # Create bins for heatmap
-            df['Abandon_Bin'] = pd.qcut(df['Cart_Abandonment_Rate'], q=4, labels=['Low', 'Med-Low', 'Med-High', 'High'])
-            df['Freq_Bin'] = pd.qcut(df['Purchase_Frequency'], q=4, labels=['Low', 'Med-Low', 'Med-High', 'High'])
+            # Create bins for heatmap using rank to avoid duplicate edges
+            df['Abandon_Bin'] = pd.qcut(df['Cart_Abandonment_Rate'].rank(method='first'), q=4, labels=['Low', 'Med-Low', 'Med-High', 'High'])
+            df['Freq_Bin'] = pd.qcut(df['Purchase_Frequency'].rank(method='first'), q=4, labels=['Low', 'Med-Low', 'Med-High', 'High'])
             
             heatmap_data = df.groupby(['Abandon_Bin', 'Freq_Bin'], observed=True)['Average_Order_Value'].mean().unstack().fillna(0)
             fig_heatmap = px.imshow(heatmap_data, text_auto=True, aspect="auto", 

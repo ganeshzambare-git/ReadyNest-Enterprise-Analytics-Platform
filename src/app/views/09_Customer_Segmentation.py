@@ -296,7 +296,7 @@ def run():
     
     if df_raw.empty:
         st.warning("No customer data available to segment.")
-        render_footer()
+        render_footer(title="Customer Segmentation")
         return
 
     with st.spinner("Running segmentation models..."):
@@ -335,7 +335,7 @@ def run():
     
     render_insights_and_recommendations(df_final)
     
-    render_footer()
+    render_footer(title="Customer Segmentation")
 
 if __name__ == "__main__":
     run()
