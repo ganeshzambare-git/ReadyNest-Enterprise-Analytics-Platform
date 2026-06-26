@@ -11,7 +11,7 @@ if project_root not in sys.path:
     sys.path.insert(0, project_root)
 
 from components.module_template import render_header, render_footer  # type: ignore
-from services.data_store import get_augmented_data
+from data_store import get_augmented_data
 
 @st.cache_data(show_spinner=False)
 def compute_overview_segments(df):
