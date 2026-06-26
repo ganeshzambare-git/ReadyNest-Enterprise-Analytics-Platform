@@ -41,13 +41,13 @@ def get_raw_data():
         if rev_cols and pd.api.types.is_numeric_dtype(df[rev_cols[0]]):
             df['Total_Spend_CLV'] = df[rev_cols[0]]
         else:
-            df['Total_Spend_CLV'] = rng.uniform(100, 5000, size=len(df))
+            df['Total_Spend_CLV'] = rng.uniform(100, 5000, size=len(df))  # type: ignore
             
     if 'Purchase_Frequency' not in df.columns:
-        df['Purchase_Frequency'] = rng.randint(1, 15, size=len(df))
+        df['Purchase_Frequency'] = rng.randint(1, 15, size=len(df))  # type: ignore
         
     if 'Recency_Days' not in df.columns:
-        df['Recency_Days'] = rng.randint(1, 365, size=len(df))
+        df['Recency_Days'] = rng.randint(1, 365, size=len(df))  # type: ignore
         
     if 'Average_Order_Value' not in df.columns:
         df['Average_Order_Value'] = df['Total_Spend_CLV'] / df['Purchase_Frequency']
@@ -69,7 +69,7 @@ def get_augmented_data():
     
     # 1. Base business fields
     if 'Profit' not in df.columns:
-        df['Profit'] = df['Total_Spend_CLV'] * np.random.uniform(0.15, 0.35, size=len(df))
+        df['Profit'] = df['Total_Spend_CLV'] * np.random.uniform(0.15, 0.35, size=len(df))  # type: ignore
     df['Repeat_Purchaser'] = (df['Purchase_Frequency'] > 1).astype(int)
     
     # 2. Geographic Data
@@ -84,19 +84,19 @@ def get_augmented_data():
     
     # 4. Behavioral Data
     if 'Avg_Session_Duration_Mins' not in df.columns:
-        df['Avg_Session_Duration_Mins'] = np.random.normal(loc=12, scale=4, size=len(df)).clip(min=1)
+        df['Avg_Session_Duration_Mins'] = np.random.normal(loc=12, scale=4, size=len(df)).clip(min=1)  # type: ignore
     if 'Monthly_Sessions' not in df.columns:
-        df['Monthly_Sessions'] = (df['Purchase_Frequency'] * np.random.uniform(1.5, 4.0, size=len(df))).astype(int)
+        df['Monthly_Sessions'] = (df['Purchase_Frequency'] * np.random.uniform(1.5, 4.0, size=len(df))).astype(int)  # type: ignore
     if 'Time_Between_Purchases_Days' not in df.columns:
-        df['Time_Between_Purchases_Days'] = (df['Recency_Days'] + np.random.normal(30, 10, size=len(df))).clip(lower=1)
+        df['Time_Between_Purchases_Days'] = (df['Recency_Days'] + np.random.normal(30, 10, size=len(df))).clip(lower=1)  # type: ignore
     
     product_categories = ['Electronics', 'Apparel', 'Home Goods', 'Beauty', 'Sports']
     if 'Primary_Affinity' not in df.columns:
-        df['Primary_Affinity'] = np.random.choice(product_categories, size=len(df))
+        df['Primary_Affinity'] = np.random.choice(product_categories, size=len(df))  # type: ignore
     if 'Cart_Abandonment_Rate' not in df.columns:
-        df['Cart_Abandonment_Rate'] = np.random.uniform(0.2, 0.8, size=len(df))
+        df['Cart_Abandonment_Rate'] = np.random.uniform(0.2, 0.8, size=len(df))  # type: ignore
     
     if 'Churn_Indicator' not in df.columns:
-        df['Churn_Indicator'] = np.random.choice([0, 1], size=len(df), p=[0.8, 0.2])
+        df['Churn_Indicator'] = np.random.choice([0, 1], size=len(df), p=[0.8, 0.2])  # type: ignore
 
     return df
