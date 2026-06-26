@@ -39,12 +39,19 @@ def render_feature_module(
     # Visualization Section
     st.markdown("<h3 style='color: #FFFFFF; font-family: \"Orbitron\", sans-serif;'>Data Visualization</h3>", unsafe_allow_html=True)
     
-    # Generate deterministic mock data based on title length so it looks somewhat consistent
-    np.random.seed(len(title)) 
-    df = pd.DataFrame(
-        np.random.randn(20, 3).cumsum(axis=0), 
-        columns=['Primary Metric', 'Secondary Metric', 'Tertiary Metric']
-    )
+    from src.app.data_store import get_augmented_data
+    real_df = get_augmented_data()
+    
+    if not real_df.empty and 'Join_Date' in real_df.columns:
+        real_df_dates = real_df.copy()
+        real_df_dates['Date'] = pd.to_datetime(real_df_dates['Join_Date']).dt.date
+        df = real_df_dates.groupby('Date').agg(
+            Primary_Metric=('Total_Spend_CLV', 'sum'),
+            Secondary_Metric=('Average_Order_Value', 'mean'),
+            Tertiary_Metric=('Purchase_Frequency', 'sum')
+        ).tail(20).fillna(0)
+    else:
+        df = pd.DataFrame(columns=['Primary Metric', 'Secondary Metric', 'Tertiary Metric'])
     
     if chart_type == "line":
         st.line_chart(df)
@@ -71,19 +78,33 @@ def render_feature_module(
         st.button("📑 Export PPT", key=f"btn_ppt_{title}", use_container_width=True)
         
     # AI Recommendations Section
-    st.markdown("""
-    <div style="margin-top: 3rem; background: rgba(10, 15, 36, 0.6); border: 1px solid rgba(0, 238, 255, 0.2); border-radius: 12px; padding: 1.5rem; box-shadow: 0 0 15px rgba(0,238,255,0.05);">
-        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 1rem;">
-            <div style="font-size: 1.5rem;">💡</div>
-            <h3 style="color: #00EEFF; margin: 0; font-family: 'Orbitron', sans-serif;">AI Recommendations & Insights</h3>
-        </div>
-        <ul style="color: #94A3B8; line-height: 1.6;">
-            <li><strong style="color: white;">Trend Analysis:</strong> Consider adjusting strategies based on the recent downward trend in the Secondary Metric.</li>
-            <li><strong style="color: white;">Correlation:</strong> The Primary Metric is showing strong correlation with overall performance indicators.</li>
-            <li><strong style="color: white;">Anomaly Detection:</strong> Automated anomaly detection found no unusual patterns in the current dataset. Proceed with standard operational guidelines.</li>
-        </ul>
-    </div>
-    """, unsafe_allow_html=True)
+    try:
+        from src.reporting.insight_generator import InsightEngine
+        insight_engine = InsightEngine()
+        
+        with st.spinner("Consultant Engine is analyzing data..."):
+            insights = insight_engine.extract_insights(real_df)
+            
+        if insights:
+            st.markdown("""
+            <div style="margin-top: 3rem; background: rgba(10, 15, 36, 0.6); border: 1px solid rgba(0, 238, 255, 0.2); border-radius: 12px; padding: 1.5rem; box-shadow: 0 0 15px rgba(0,238,255,0.05);">
+                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 1rem;">
+                    <div style="font-size: 1.5rem;">💡</div>
+                    <h3 style="color: #00EEFF; margin: 0; font-family: 'Orbitron', sans-serif;">AI Recommendations & Insights</h3>
+                </div>
+                <ul style="color: #94A3B8; line-height: 1.6;">
+            """, unsafe_allow_html=True)
+            
+            for ins in insights[:3]:
+                color = "#ec4899" if ins.priority_level == "High" else "#00d084"
+                st.markdown(f'<li><strong style="color: {color};">{ins.area} Action:</strong> {ins.recommendation}</li>', unsafe_allow_html=True)
+                
+            st.markdown("""
+                </ul>
+            </div>
+            """, unsafe_allow_html=True)
+    except Exception as e:
+        st.error(f"Error generating AI Insights: {e}")
 
 
 def render_header(title: str, description: str, business_value: str):
@@ -114,15 +135,33 @@ def render_footer(title: str):
         st.button("📑 Export PPT", key=f"btn_ppt_{title}_foot", use_container_width=True)
         
     # AI Recommendations Section
-    st.markdown("""
-    <div style="margin-top: 3rem; background: rgba(10, 15, 36, 0.6); border: 1px solid rgba(0, 238, 255, 0.2); border-radius: 12px; padding: 1.5rem; box-shadow: 0 0 15px rgba(0,238,255,0.05);">
-        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 1rem;">
-            <div style="font-size: 1.5rem;">💡</div>
-            <h3 style="color: #00EEFF; margin: 0; font-family: 'Orbitron', sans-serif;">AI Recommendations & Insights</h3>
-        </div>
-        <ul style="color: #94A3B8; line-height: 1.6;">
-            <li><strong style="color: white;">System Optimized:</strong> The module has successfully executed the advanced analytics pipeline.</li>
-            <li><strong style="color: white;">Integration:</strong> Data is synchronized with the central Data Lake.</li>
-        </ul>
-    </div>
-    """, unsafe_allow_html=True)
+    try:
+        from src.app.data_store import get_augmented_data
+        from src.reporting.insight_generator import InsightEngine
+        
+        real_df = get_augmented_data()
+        insight_engine = InsightEngine()
+        
+        with st.spinner("Consultant Engine is analyzing data..."):
+            insights = insight_engine.extract_insights(real_df)
+            
+        if insights:
+            st.markdown("""
+            <div style="margin-top: 3rem; background: rgba(10, 15, 36, 0.6); border: 1px solid rgba(0, 238, 255, 0.2); border-radius: 12px; padding: 1.5rem; box-shadow: 0 0 15px rgba(0,238,255,0.05);">
+                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 1rem;">
+                    <div style="font-size: 1.5rem;">💡</div>
+                    <h3 style="color: #00EEFF; margin: 0; font-family: 'Orbitron', sans-serif;">AI Recommendations & Insights</h3>
+                </div>
+                <ul style="color: #94A3B8; line-height: 1.6;">
+            """, unsafe_allow_html=True)
+            
+            for ins in insights[:2]:
+                color = "#00EEFF"
+                st.markdown(f'<li><strong style="color: {color};">{ins.title}:</strong> {ins.business_impact}</li>', unsafe_allow_html=True)
+                
+            st.markdown("""
+                </ul>
+            </div>
+            """, unsafe_allow_html=True)
+    except Exception as e:
+        pass
