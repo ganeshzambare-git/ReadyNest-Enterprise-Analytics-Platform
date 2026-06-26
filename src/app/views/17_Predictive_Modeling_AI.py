@@ -58,9 +58,9 @@ with tab1:
             res = engine.train_sales_predictor(df)
             
             if res is None:
-                st.error("Missing Revenue column to predict.")
+                st.warning("⚠️ Missing Revenue column to predict.")
             elif "error" in res:
-                st.error(f"Error: {res['error']}")
+                st.warning(f"⚠️ Error: {res['error']}")
             else:
                 st.success(f"Model Trained Successfully on {res['dataset_size']:,} records!")
                 
@@ -81,9 +81,9 @@ with tab2:
             res = engine.train_churn_predictor(df)
             
             if res is None:
-                st.error("Missing columns to engineer customer features.")
+                st.warning("⚠️ Missing columns to engineer customer features.")
             elif "error" in res:
-                st.error(f"Error: {res['error']}")
+                st.warning(f"⚠️ Error: {res['error']}")
             else:
                 st.success(f"Model Trained Successfully on {res['customer_count']:,} customers!")
                 

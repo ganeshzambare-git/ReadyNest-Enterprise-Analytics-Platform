@@ -67,7 +67,7 @@ with st.spinner("Auto-detecting dataset schema..."):
 
 # If auto-mapping completely fails for essential revenue metric, allow manual override.
 if mapping["revenue"] is None:
-    st.error("❌ Could not auto-detect a Revenue/Sales column.")
+    st.warning("⚠️ Could not auto-detect a Revenue/Sales column.")
     st.stop()
 
 # ── KPI Header ────────────────────────────────────────────────────────────────

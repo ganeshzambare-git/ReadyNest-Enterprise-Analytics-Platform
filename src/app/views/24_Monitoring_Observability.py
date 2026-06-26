@@ -48,7 +48,7 @@ def run():
     with col_viz1:
         # Simulate time series telemetry
         np.random.seed(int(time.time() % 100))
-        times = pd.date_range(end=pd.Timestamp.now(), periods=60, freq='T')
+        times = pd.date_range(end=pd.Timestamp.now(), periods=60, freq='min')
         throughput_vals = np.random.normal(throughput, throughput*0.1, 60)
         telemetry_df = pd.DataFrame({'Time': times, 'Throughput': throughput_vals})
         

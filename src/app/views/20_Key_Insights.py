@@ -52,7 +52,7 @@ def run():
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px;">
                         <div>
                             <span style="color: #94A3B8; font-size: 0.9rem; text-transform: uppercase;">Supporting Evidence</span>
-                            <p style="color: #E2E8F0; margin-top: 5px;">{ins.metric_context}</p>
+                            <p style="color: #E2E8F0; margin-top: 5px;">{ins.evidence}</p>
                         </div>
                         <div>
                             <span style="color: #94A3B8; font-size: 0.9rem; text-transform: uppercase;">Business Impact</span>

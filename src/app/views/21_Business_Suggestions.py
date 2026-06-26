@@ -46,7 +46,7 @@ def run():
 
             def render_suggestion_card(suggestion, color):
                 # We will map fields from Insight to Business Suggestion format
-                problem = suggestion.metric_context
+                problem = suggestion.evidence
                 recommendation = suggestion.recommendation
                 expected_impact = suggestion.business_impact
                 # Fake ROI for the prompt requirement

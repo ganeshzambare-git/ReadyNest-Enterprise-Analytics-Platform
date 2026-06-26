@@ -41,7 +41,7 @@ rev_col = mapping["revenue"]
 state_col = mapping["state"]
 
 if not rev_col:
-    st.error("No numerical Revenue column detected.")
+    st.warning("⚠️ No numerical Revenue column detected.")
     st.stop()
 
 if not state_col:
