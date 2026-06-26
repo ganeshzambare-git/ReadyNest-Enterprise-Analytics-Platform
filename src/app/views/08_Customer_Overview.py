@@ -5,13 +5,8 @@ import plotly.express as px
 import sys
 import os
 
-# Add project root to path so we can import components
-project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '../..'))
-if project_root not in sys.path:
-    sys.path.insert(0, project_root)
-
-from components.module_template import render_header, render_footer  # type: ignore
-from data_store import get_augmented_data
+from src.app.components.module_template import render_header, render_footer
+from src.app.data_store import get_augmented_data
 
 @st.cache_data(show_spinner=False)
 def compute_overview_segments(df):

@@ -6,19 +6,14 @@ import plotly.graph_objects as go
 import sys
 import os
 
-# Add project root to path so we can import components
-project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '../..'))
-if project_root not in sys.path:
-    sys.path.insert(0, project_root)
-
-from components.module_template import render_header, render_footer  # type: ignore
-from data_store import get_augmented_data
+from src.app.components.module_template import render_header, render_footer
+from src.app.data_store import get_augmented_data
 
 @st.cache_data(show_spinner=False)
 def compute_funnel_and_seasonality(df):
     funnel_data = pd.DataFrame({
         'Stage': ['Website Visits', 'Product Views', 'Add to Cart', 'Checkout Initiated', 'Successful Purchases'],
-        'Users': [int(len(df) * 5), int(len(df) * 3), int(len(df) * 2), int(len(df) * 1.5), len(df)]
+        'Users': [len(df) * 5, len(df) * 3, len(df) * 2, int(len(df) * 1.5), len(df)]
     })
     
     months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
