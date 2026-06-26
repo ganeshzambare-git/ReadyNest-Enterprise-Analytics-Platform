@@ -188,11 +188,12 @@ st.markdown("""
     }
 
     /* Footer */
-    .footer {
+    .enterprise-footer {
         margin-top: 5rem;
         border-top: 1px solid rgba(0,255,200,0.15);
         padding-top: 3rem;
         padding-bottom: 3rem;
+        margin-bottom: 5rem;
     }
     .footer-heading {
         color: #00d9ff;
@@ -508,7 +509,7 @@ st.markdown("""
 # ── 10. FOOTER ────────────────────────────────────────────────────────────────
 
 st.markdown("""
-<div class="footer">
+<div class="enterprise-footer">
     <div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 30px;">
         <div style="flex: 1; min-width: 250px;">
             <div style="font-size: 1.5rem; font-weight: 800; color: #00ffb3; font-family: 'Orbitron', sans-serif; margin-bottom: 1rem;">READYNEST</div>
