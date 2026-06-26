@@ -12,10 +12,7 @@ export function Header() {
           <nav className="flex items-center space-x-2">
             <ThemeToggle />
             <Link href="/login">
-              <Button variant="ghost">Sign In</Button>
-            </Link>
-            <Link href="/register">
-              <Button className="bg-primary text-primary-foreground hover:bg-primary/90 glow-primary">
+              <Button className="bg-green-600 text-white hover:bg-green-700 glow-primary">
                 Get Started
               </Button>
             </Link>
