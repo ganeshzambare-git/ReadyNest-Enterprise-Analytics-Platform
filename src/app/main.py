@@ -16,7 +16,7 @@ st.set_page_config(
 )
 
 if "logged_in" not in st.session_state:
-    st.session_state.logged_in = False
+    st.session_state.logged_in = True # Auto-login to make everything visible on frontend
 
 if not st.session_state.logged_in:
     # Unauthenticated Router
