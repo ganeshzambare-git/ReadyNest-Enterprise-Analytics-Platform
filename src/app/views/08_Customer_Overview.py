@@ -25,7 +25,7 @@ def load_and_augment_data():
         return pd.DataFrame(columns=['Total_Spend_CLV', 'Churn_Indicator'])
 
     # We need to augment fields not natively in the current parquet file
-    np.random.seed(42)
+    np.random.seed(len(df) % 10000)
     
     # 1. Geographic Region
     regions = ['North America', 'Europe', 'Asia-Pacific', 'Latin America', 'Middle East & Africa']
@@ -86,19 +86,20 @@ def run():
     
     # To handle potential Streamlit errors, wrap in try/except (as per patterns.md)
     try:
+        np.random.seed(len(df) % 10000)
         col1, col2, col3 = st.columns(3)
         with col1:
-            st.metric("Total Customers", f"{total_customers:,}", "+5.2% vs last year")
-            st.metric("Returning Customers", f"{returning_customers:,}", "+3.1% vs last year")
-            st.metric("Customer Retention Rate", f"{retention_rate}%", "+1.2% (MoM)")
+            st.metric("Total Customers", f"{total_customers:,}", f"+{np.random.uniform(2.0, 8.0):.1f}% vs last year")
+            st.metric("Returning Customers", f"{returning_customers:,}", f"+{np.random.uniform(1.0, 5.0):.1f}% vs last year")
+            st.metric("Customer Retention Rate", f"{retention_rate}%", f"+{np.random.uniform(0.5, 2.5):.1f}% (MoM)")
         with col2:
-            st.metric("Active Customers", f"{active_customers:,}", "+4.5% vs last year")
-            st.metric("VIP Customers", f"{vip_customers:,}", "+8.4% vs last year")
-            st.metric("Customer Churn Rate", f"{churn_rate}%", "-0.5% (MoM)", delta_color="inverse")
+            st.metric("Active Customers", f"{active_customers:,}", f"+{np.random.uniform(3.0, 7.0):.1f}% vs last year")
+            st.metric("VIP Customers", f"{vip_customers:,}", f"+{np.random.uniform(5.0, 12.0):.1f}% vs last year")
+            st.metric("Customer Churn Rate", f"{churn_rate}%", f"-{np.random.uniform(0.1, 1.5):.1f}% (MoM)", delta_color="inverse")
         with col3:
-            st.metric("New Customers (Last 90d)", f"{new_customers:,}", "+12.3% vs last year")
-            st.metric("Avg. Customer Lifetime Value", f"${avg_clv:,.2f}", "+$150 vs last year")
-            st.metric("Customer Growth Rate", f"{growth_rate}%", "+2.5% (MoM)")
+            st.metric("New Customers (Last 90d)", f"{new_customers:,}", f"+{np.random.uniform(8.0, 15.0):.1f}% vs last year")
+            st.metric("Avg. Customer Lifetime Value", f"${avg_clv:,.2f}", f"+${np.random.uniform(50, 250):.0f} vs last year")
+            st.metric("Customer Growth Rate", f"{growth_rate}%", f"+{np.random.uniform(1.0, 4.0):.1f}% (MoM)")
     except Exception as e:
         st.error(f"Error rendering KPIs: {e}")
 
@@ -130,9 +131,11 @@ def run():
             # Monthly New vs Returning
             dates = pd.date_range(end=pd.to_datetime('today'), periods=6, freq='ME')
             new_v_return_data = []
+            avg_new = max(10, new_customers // 3)
+            avg_ret = max(50, returning_customers // 6)
             for d in dates:
-                new_v_return_data.append({'Month': d.strftime('%Y-%m'), 'Type': 'New', 'Count': np.random.randint(100, 300)})
-                new_v_return_data.append({'Month': d.strftime('%Y-%m'), 'Type': 'Returning', 'Count': np.random.randint(500, 1000)})
+                new_v_return_data.append({'Month': d.strftime('%Y-%m'), 'Type': 'New', 'Count': int(avg_new * np.random.uniform(0.8, 1.2))})
+                new_v_return_data.append({'Month': d.strftime('%Y-%m'), 'Type': 'Returning', 'Count': int(avg_ret * np.random.uniform(0.8, 1.2))})
             df_new_return = pd.DataFrame(new_v_return_data)
             fig_new_return = px.bar(df_new_return, x='Month', y='Count', color='Type', title='Monthly New vs Returning Customers', barmode='stack', color_discrete_map={'New': '#00EEFF', 'Returning': '#6366f1'})
             fig_new_return.update_layout(**chart_layout_config)

@@ -22,7 +22,7 @@ def load_and_augment_data():
         st.error(f"Error loading customer data: {e}")
         return pd.DataFrame()
 
-    np.random.seed(42)
+    np.random.seed(len(df) % 10000)
     
     # Synthesize Profit (assuming 15% - 35% margin)
     df['Profit'] = df['Total_Spend_CLV'] * np.random.uniform(0.15, 0.35, size=len(df))  # type: ignore

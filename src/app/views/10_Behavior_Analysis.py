@@ -22,7 +22,7 @@ def load_and_augment_data():
         st.error(f"Error loading customer data: {e}")
         return pd.DataFrame(), pd.DataFrame(), pd.DataFrame()
 
-    np.random.seed(42)
+    np.random.seed(len(df) % 10000)
     
     # Synthesize Behavioral Data
     # 1. Session Activity
@@ -43,14 +43,15 @@ def load_and_augment_data():
     # Synthesize funnel data (aggregate)
     funnel_data = pd.DataFrame({
         'Stage': ['Website Visits', 'Product Views', 'Add to Cart', 'Checkout Initiated', 'Successful Purchases'],
-        'Users': [150000, 95000, 45000, 20000, len(df)]
+        'Users': [int(len(df) * np.random.uniform(6.0, 8.0)), int(len(df) * np.random.uniform(4.0, 5.5)), int(len(df) * np.random.uniform(2.0, 3.0)), int(len(df) * np.random.uniform(1.2, 1.8)), len(df)]
     })
     
     # Synthesize seasonal buying patterns (monthly)
     months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+    base_purchases = max(100, int(len(df) * np.random.uniform(0.3, 0.6)))
     seasonal_data = pd.DataFrame({
         'Month': months,
-        'Purchases': np.random.normal(5000, 1500, size=12).astype(int)
+        'Purchases': np.random.normal(base_purchases, base_purchases * 0.2, size=12).astype(int)
     })
     # Add some seasonality (e.g., peak in Nov/Dec)
     seasonal_data.loc[10, 'Purchases'] = int(seasonal_data.loc[10, 'Purchases'] * 1.8)  # type: ignore
