@@ -6,13 +6,8 @@ import plotly.graph_objects as go
 import sys
 import os
 
-# Add project root to path so we can import components
-project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '../..'))
-if project_root not in sys.path:
-    sys.path.insert(0, project_root)
-
-from components.module_template import render_header, render_footer  # type: ignore
-from data_store import get_augmented_data
+from src.app.components.module_template import render_header, render_footer
+from src.app.data_store import get_augmented_data
 
 @st.cache_data(show_spinner=False)
 def compute_customer_segments(df):
@@ -187,40 +182,47 @@ def run():
 
     # Dynamic Insights Section
     try:
-        insights = compute_insights(df)
-        most_valuable_count = insights['most_valuable_count']
-        at_risk_count = insights['at_risk_count']
-        high_potential_count = insights['high_potential_count']
-        declining_count = insights['declining_count']
-        valuable_rev_pct = insights['valuable_rev_pct']
+        from src.reporting.insight_generator import InsightEngine
+        insight_engine = InsightEngine()
         
-        st.markdown(f"""
-        <div style="margin-top: 2rem; background: rgba(10, 15, 36, 0.6); border: 1px solid rgba(0, 238, 255, 0.2); border-radius: 12px; padding: 1.5rem; box-shadow: 0 0 15px rgba(0,238,255,0.05);">
-            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 1rem;">
-                <div style="font-size: 1.5rem;">🤖</div>
-                <h3 style="color: #00EEFF; margin: 0; font-family: 'Orbitron', sans-serif;">AI-Powered Insights & Recommendations</h3>
-            </div>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
-                <div>
-                    <h4 style="color: #FFFFFF; margin-bottom: 0.5rem; font-family: 'Orbitron', sans-serif;">Segment Analysis</h4>
-                    <ul style="color: #94A3B8; line-height: 1.6;">
-                        <li><strong style="color: #00EEFF;">Most Valuable:</strong> {most_valuable_count} customers driving {valuable_rev_pct:.1f}% of total revenue. These customers purchase frequently and recently.</li>
-                        <li><strong style="color: #00d084;">High Potential:</strong> {high_potential_count} customers who recently purchased but have lower overall spend. Ripe for development.</li>
-                        <li><strong style="color: #f59e0b;">At-Risk:</strong> {at_risk_count} historically high-spending customers who haven't purchased recently.</li>
-                        <li><strong style="color: #ef4444;">Declining:</strong> {declining_count} low-spending customers with high recency days, showing low engagement.</li>
-                    </ul>
+        with st.spinner("Consultant Engine is analyzing segment data..."):
+            insights = insight_engine.extract_insights(df)
+            
+        if insights:
+            st.markdown("""
+            <div style="margin-top: 2rem; background: rgba(10, 15, 36, 0.6); border: 1px solid rgba(0, 238, 255, 0.2); border-radius: 12px; padding: 1.5rem; box-shadow: 0 0 15px rgba(0,238,255,0.05);">
+                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 1rem;">
+                    <div style="font-size: 1.5rem;">🤖</div>
+                    <h3 style="color: #00EEFF; margin: 0; font-family: 'Orbitron', sans-serif;">AI-Powered Insights & Recommendations</h3>
                 </div>
-                <div>
-                    <h4 style="color: #FFFFFF; margin-bottom: 0.5rem; font-family: 'Orbitron', sans-serif;">Strategic Recommendations</h4>
-                    <ul style="color: #94A3B8; line-height: 1.6;">
-                        <li><strong style="color: #ec4899;">Customer Retention Plan:</strong> Launch a targeted 'Win-Back' email and discount campaign specifically for the {at_risk_count} 'At-Risk' VIP customers to prevent churn.</li>
-                        <li><strong style="color: #ec4899;">Cross-Selling Opportunities:</strong> Use product recommendation engines to cross-sell to the {high_potential_count} 'High Potential' customers to increase their Average Order Value.</li>
-                        <li><strong style="color: #ec4899;">Personalized Marketing:</strong> Assign dedicated account managers or exclusive loyalty perks to the {most_valuable_count} 'Most Valuable' customers to maintain their {repeat_purchase_rate:.1f}% repeat purchase rate.</li>
-                    </ul>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                    <div>
+                        <h4 style="color: #FFFFFF; margin-bottom: 0.5rem; font-family: 'Orbitron', sans-serif;">Segment Analysis</h4>
+                        <ul style="color: #94A3B8; line-height: 1.6;">
+            """, unsafe_allow_html=True)
+            
+            for ins in insights[:4]:
+                color = "#00d084" if ins.category == "Opportunity" else "#ec4899" if ins.category == "Risk" else "#3B82F6"
+                st.markdown(f'<li><strong style="color: {color};">{ins.title}:</strong> {ins.business_impact}</li>', unsafe_allow_html=True)
+                
+            st.markdown("""
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 style="color: #FFFFFF; margin-bottom: 0.5rem; font-family: 'Orbitron', sans-serif;">Strategic Recommendations</h4>
+                        <ul style="color: #94A3B8; line-height: 1.6;">
+            """, unsafe_allow_html=True)
+            
+            for ins in insights[:4]:
+                color = "#ec4899" if ins.priority_level == "High" else "#00d084"
+                st.markdown(f'<li><strong style="color: {color};">{ins.area} Action:</strong> {ins.recommendation}</li>', unsafe_allow_html=True)
+                
+            st.markdown("""
+                        </ul>
+                    </div>
                 </div>
             </div>
-        </div>
-        """, unsafe_allow_html=True)
+            """, unsafe_allow_html=True)
     except Exception as e:
         st.error(f"Error generating AI Insights: {e}")
 

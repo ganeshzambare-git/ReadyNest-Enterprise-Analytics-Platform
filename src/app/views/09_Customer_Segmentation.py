@@ -8,13 +8,8 @@ import os
 from sklearn.preprocessing import StandardScaler  # type: ignore
 from sklearn.cluster import KMeans, AgglomerativeClustering  # type: ignore
 
-# Add project root to path so we can import components
-project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '../..'))
-if project_root not in sys.path:
-    sys.path.insert(0, project_root)
-
-from components.module_template import render_header, render_footer  # type: ignore
-from data_store import get_augmented_data
+from src.app.components.module_template import render_header, render_footer
+from src.app.data_store import get_augmented_data
 
 @st.cache_data(show_spinner=False)
 def compute_kpis(df_final):
@@ -246,30 +241,48 @@ def render_insights_and_recommendations(df):
         </div>
         """, unsafe_allow_html=True)
 
-    st.markdown("<h4 style='color: #00EEFF; margin-top: 30px;'>Actionable Marketing Strategies</h4>", unsafe_allow_html=True)
+    st.markdown("<h4 style='color: #00EEFF; margin-top: 30px;'>AI-Powered Marketing Strategies</h4>", unsafe_allow_html=True)
     
-    tabs = st.tabs(["Retention Campaigns", "Marketing Strategies", "Loyalty Programs"])
-    
-    with tabs[0]:
-        st.markdown("""
-        - **Win-back Emails for 'At Risk':** Send 'We Miss You' emails with a 20% discount code valid for 48 hours.
-        - **Exit Surveys for 'Lost Customers':** Automatically trigger a feedback survey when Recency > 180 days to understand friction points.
-        - **Proactive Support:** Flag accounts in the 'Slipping Away' persona for manual reach-out from the customer success team.
-        """)
+    try:
+        from src.reporting.insight_generator import InsightEngine
+        insight_engine = InsightEngine()
         
-    with tabs[1]:
-        st.markdown("""
-        - **Cross-Sell to 'Potential Loyalists':** Recommend complementary products based on their initial purchase (Market Basket Analysis integration).
-        - **Lookalike Audiences:** Export the 'Champions' and 'Whales' segments to ad platforms (Google/Meta) to acquire similar high-LTV users.
-        - **Personalized Content:** Adjust homepage banners based on the user's RFM segment when they log in.
-        """)
-        
-    with tabs[2]:
-        st.markdown("""
-        - **VIP Tiers:** Invite 'Champions' to an exclusive beta-testing group for new products.
-        - **Points Multipliers:** Offer 2x loyalty points to 'New Customers' on their second and third purchases to establish a habit.
-        - **Anniversary Gifts:** Send automated gifts or high-value coupons on the anniversary of a 'Loyal Customer's' first purchase.
-        """)
+        with st.spinner("Consultant Engine is analyzing segmentation clusters..."):
+            insights = insight_engine.extract_insights(df)
+            
+        if insights:
+            st.markdown("""
+            <div style="background: rgba(10, 15, 36, 0.6); border: 1px solid rgba(0, 238, 255, 0.2); border-radius: 12px; padding: 1.5rem; box-shadow: 0 0 15px rgba(0,238,255,0.05);">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                    <div>
+                        <h4 style="color: #FFFFFF; margin-bottom: 0.5rem; font-family: 'Orbitron', sans-serif;">Segment Analysis</h4>
+                        <ul style="color: #94A3B8; line-height: 1.6;">
+            """, unsafe_allow_html=True)
+            
+            for ins in insights[:4]:
+                color = "#00d084" if ins.category == "Opportunity" else "#ec4899" if ins.category == "Risk" else "#3B82F6"
+                st.markdown(f'<li><strong style="color: {color};">{ins.title}:</strong> {ins.business_impact}</li>', unsafe_allow_html=True)
+                
+            st.markdown("""
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 style="color: #FFFFFF; margin-bottom: 0.5rem; font-family: 'Orbitron', sans-serif;">Actionable Strategies</h4>
+                        <ul style="color: #94A3B8; line-height: 1.6;">
+            """, unsafe_allow_html=True)
+            
+            for ins in insights[:4]:
+                color = "#ec4899" if ins.priority_level == "High" else "#00d084"
+                st.markdown(f'<li><strong style="color: {color};">{ins.area} Action:</strong> {ins.recommendation}</li>', unsafe_allow_html=True)
+                
+            st.markdown("""
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            """, unsafe_allow_html=True)
+    except Exception as e:
+        st.error(f"Error generating AI Insights: {e}")
 
 
 def run():
