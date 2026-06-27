@@ -5,3 +5,7 @@ logs/
 venv/
 .venv/
 .chrome/
+data_lake/
+data/
+*.csv
+_tmp*
