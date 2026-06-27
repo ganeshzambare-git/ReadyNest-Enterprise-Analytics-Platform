@@ -33,7 +33,7 @@ else:
     user_role = st.session_state.get("user_role", "Admin")
     nav_dict = {
         "Home": [
-            st.Page("views/00_Home.py", title="Home", icon="🏠", default=True),
+            st.Page("views/00_Executive_Home.py", title="Executive Home", icon="🏠", default=True),
         ],
         "Platform Information": [
             st.Page("views/pricing_page.py", title="Pricing", icon="💳"),

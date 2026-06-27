@@ -47,7 +47,7 @@ def run():
     st.markdown("<h3 style='color: #FFFFFF; font-family: \"Orbitron\", sans-serif; margin-bottom: 20px;'>Feature Correlation Map</h3>", unsafe_allow_html=True)
     
     # Compute correlation matrix for numeric columns dynamically
-    numeric_df = df.select_dtypes(include=[np.number])
+    numeric_df = df.select_dtypes(include=['number'])
     if not numeric_df.empty and len(numeric_df.columns) > 1:
         # Sample or limit to top 15 features to avoid massive heatmaps
         corr_cols = numeric_df.columns[:15]

@@ -22,11 +22,11 @@ def run():
         
     np.random.seed(42)
     if 'Product_Category' not in df.columns:
-        df['Product_Category'] = np.random.choice(['Hardware', 'Software', 'Services', 'Subscriptions'], size=len(df), p=[0.2, 0.4, 0.1, 0.3])
+        df['Product_Category'] = np.random.choice(['Hardware', 'Software', 'Services', 'Subscriptions'], size=len(df), p=[0.2, 0.4, 0.1, 0.3]).tolist()
     if 'Product_Subcategory' not in df.columns:
-        df['Product_Subcategory'] = np.random.choice(['Basic', 'Pro', 'Enterprise', 'Legacy'], size=len(df))
+        df['Product_Subcategory'] = np.random.choice(['Basic', 'Pro', 'Enterprise', 'Legacy'], size=len(df)).tolist()
     if 'Lifecycle_Stage' not in df.columns:
-        df['Lifecycle_Stage'] = np.random.choice(['Introduction', 'Growth', 'Maturity', 'Decline'], size=len(df), p=[0.1, 0.3, 0.5, 0.1])
+        df['Lifecycle_Stage'] = np.random.choice(['Introduction', 'Growth', 'Maturity', 'Decline'], size=len(df), p=[0.1, 0.3, 0.5, 0.1]).tolist()
     
     if 'Join_Date' in df.columns:
         df['Date'] = pd.to_datetime(df['Join_Date'])

@@ -35,11 +35,11 @@ def run():
     # Generate synthetic categorical dimensions if missing
     np.random.seed(42)
     if 'Region' not in df.columns:
-        df['Region'] = np.random.choice(['North America', 'Europe', 'Asia Pacific', 'Latin America'], size=len(df), p=[0.4, 0.3, 0.2, 0.1])
+        df['Region'] = np.random.choice(['North America', 'Europe', 'Asia Pacific', 'Latin America'], size=len(df), p=[0.4, 0.3, 0.2, 0.1]).tolist()
     if 'Product_Category' not in df.columns:
-        df['Product_Category'] = np.random.choice(['Hardware', 'Software', 'Services', 'Subscriptions'], size=len(df), p=[0.2, 0.4, 0.1, 0.3])
+        df['Product_Category'] = np.random.choice(['Hardware', 'Software', 'Services', 'Subscriptions'], size=len(df), p=[0.2, 0.4, 0.1, 0.3]).tolist()
     if 'Customer_Segment' not in df.columns:
-        df['Customer_Segment'] = np.random.choice(['Enterprise', 'Mid-Market', 'SMB', 'Startup'], size=len(df), p=[0.2, 0.3, 0.4, 0.1])
+        df['Customer_Segment'] = np.random.choice(['Enterprise', 'Mid-Market', 'SMB', 'Startup'], size=len(df), p=[0.2, 0.3, 0.4, 0.1]).tolist()
 
     # Global Filters Toolbar
     st.markdown("""

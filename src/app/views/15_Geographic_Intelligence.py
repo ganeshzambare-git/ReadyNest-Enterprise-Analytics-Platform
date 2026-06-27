@@ -64,5 +64,6 @@ with col1:
 
 with col2:
     st.subheader("Top Locations")
-    grouped = df.groupby(state_col)[rev_col].sum().sort_values(ascending=False).head(10).reset_index()
+    grouped = df.groupby(state_col)[rev_col].sum().reset_index()
+    grouped = grouped.sort_values(by=rev_col, ascending=False).head(10)
     st.dataframe(grouped, use_container_width=True)

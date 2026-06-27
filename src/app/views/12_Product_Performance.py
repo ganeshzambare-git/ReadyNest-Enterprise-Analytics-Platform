@@ -48,7 +48,7 @@ def run():
         # Create synthetic product categories for visualization
         np.random.seed(42)
         products = ['Enterprise Plan', 'Pro Plan', 'Basic Plan', 'Add-on: Storage', 'Add-on: Users']
-        df['Product'] = np.random.choice(products, size=len(df), p=[0.1, 0.3, 0.4, 0.1, 0.1])
+        df['Product'] = np.random.choice(products, size=len(df), p=[0.1, 0.3, 0.4, 0.1, 0.1]).tolist()
         product_col = 'Product'
 
     kpis = compute_product_kpis(df)

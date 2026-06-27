@@ -23,13 +23,13 @@ def run():
     # Generate synthetic categorical dimensions if missing for demonstration
     np.random.seed(42)
     if 'Region' not in df.columns:
-        df['Region'] = np.random.choice(['North America', 'Europe', 'Asia Pacific', 'Latin America'], size=len(df), p=[0.4, 0.3, 0.2, 0.1])
+        df['Region'] = np.random.choice(['North America', 'Europe', 'Asia Pacific', 'Latin America'], size=len(df), p=[0.4, 0.3, 0.2, 0.1]).tolist()
     if 'Channel' not in df.columns:
-        df['Channel'] = np.random.choice(['Direct Sales', 'Partner Network', 'Online Portal', 'Referral'], size=len(df), p=[0.3, 0.4, 0.2, 0.1])
+        df['Channel'] = np.random.choice(['Direct Sales', 'Partner Network', 'Online Portal', 'Referral'], size=len(df), p=[0.3, 0.4, 0.2, 0.1]).tolist()
     if 'Category' not in df.columns:
-        df['Category'] = np.random.choice(['Enterprise Software', 'Cloud Services', 'Consulting', 'Support'], size=len(df), p=[0.5, 0.2, 0.15, 0.15])
+        df['Category'] = np.random.choice(['Enterprise Software', 'Cloud Services', 'Consulting', 'Support'], size=len(df), p=[0.5, 0.2, 0.15, 0.15]).tolist()
     if 'Customer_Segment' not in df.columns:
-        df['Customer_Segment'] = np.random.choice(['Enterprise', 'Mid-Market', 'SMB', 'Startup'], size=len(df), p=[0.2, 0.3, 0.4, 0.1])
+        df['Customer_Segment'] = np.random.choice(['Enterprise', 'Mid-Market', 'SMB', 'Startup'], size=len(df), p=[0.2, 0.3, 0.4, 0.1]).tolist()
 
     # Advanced Metrics
     total_rev = df['Total_Spend_CLV'].sum()
