@@ -1,19 +1,16 @@
+import sys
+from pathlib import Path
 import subprocess
 import os
-import sys
+
+ROOT_DIR = Path(__file__).resolve().parent
+
+if str(ROOT_DIR) not in sys.path:
+    sys.path.insert(0, str(ROOT_DIR))
 
 port = os.environ.get("PORT", "8501")
 
-env = os.environ.copy()
-project_root = os.path.abspath(os.path.dirname(__file__))
-if "PYTHONPATH" in env:
-    env["PYTHONPATH"] = f"{project_root}{os.pathsep}{env['PYTHONPATH']}"
-else:
-    env["PYTHONPATH"] = project_root
-
 subprocess.run([
-    sys.executable,
-    "-m",
     "streamlit",
     "run",
     "src/app/main.py",
@@ -21,4 +18,4 @@ subprocess.run([
     port,
     "--server.address",
     "0.0.0.0"
-], env=env)
+])
