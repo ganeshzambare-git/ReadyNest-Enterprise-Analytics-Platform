@@ -21,10 +21,21 @@ def get_raw_data():
             if os.path.exists(data_path):
                 df = pd.read_parquet(data_path)
             else:
-                df = pd.DataFrame(columns=['Total_Spend_CLV', 'Purchase_Frequency', 'Recency_Days', 'Average_Order_Value'])
+                st.toast("Generating 100,000 rows of enterprise data for analysis...", icon="⚙️")
+                df = pd.DataFrame({
+                    'Customer_ID': [f"CUST-{i:06d}" for i in range(100000)],
+                    'Total_Spend_CLV': np.random.uniform(100, 5000, size=100000),
+                    'Purchase_Frequency': np.random.randint(1, 15, size=100000),
+                    'Recency_Days': np.random.randint(1, 365, size=100000)
+                })
         except Exception as e:
             st.error(f"Error loading customer data: {e}")
-            df = pd.DataFrame(columns=['Total_Spend_CLV', 'Purchase_Frequency', 'Recency_Days', 'Average_Order_Value'])
+            df = pd.DataFrame({
+                'Customer_ID': [f"CUST-{i:06d}" for i in range(100000)],
+                'Total_Spend_CLV': np.random.uniform(100, 5000, size=100000),
+                'Purchase_Frequency': np.random.randint(1, 15, size=100000),
+                'Recency_Days': np.random.randint(1, 365, size=100000)
+            })
 
     if df.empty:
         return df
