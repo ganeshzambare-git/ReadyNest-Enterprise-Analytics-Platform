@@ -16,17 +16,18 @@ st.set_page_config(
 )
 
 if "logged_in" not in st.session_state:
-    st.session_state.logged_in = True # Auto-login to make everything visible on frontend
+    st.session_state.logged_in = False # Default to unauthenticated
 
 if not st.session_state.logged_in:
     # Unauthenticated Router
     pg = st.navigation([
-        st.Page("views/000_NextJS_Platform.py", title="Next.js Platform", icon="🚀", default=True),
+        st.Page("views/00_Home.py", title="Home", icon="🏠", default=True),
+        st.Page("views/000_NextJS_Platform.py", title="Platform", icon="🚀"),
         st.Page("views/pricing_page.py", title="Pricing", icon="💳"),
         st.Page("views/resources_page.py", title="Resources", icon="📚"),
         st.Page("views/docs_page.py", title="Docs", icon="📖"),
         st.Page("views/about_page.py", title="About", icon="ℹ️"),
-        st.Page("views/auth_page.py", title="Legacy Login", icon="🔐")
+        st.Page("views/auth_page.py", title="Sign In", icon="🔐")
     ])
 else:
     # Authenticated Router with Structured Navigation
