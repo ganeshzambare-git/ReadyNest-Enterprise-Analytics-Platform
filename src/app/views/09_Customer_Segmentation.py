@@ -157,7 +157,7 @@ def render_visualizations(df, chart_layout_config):
     # 3. Cluster Scatter Plot (ML Segments)
     with col3:
         # Taking a sample if dataset is too large for 3D scatter
-        sample_df = df.sample(n=min(2000, len(df)), random_state=42) if len(df) > 2000 else df
+        sample_df = df.sample(n=min(100000, len(df)), random_state=42) if len(df) > 100000 else df
         fig_scatter = px.scatter_3d(
             sample_df,
             x='Recency_Days',

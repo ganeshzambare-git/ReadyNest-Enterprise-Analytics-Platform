@@ -295,7 +295,7 @@ with tab1:
         )
 
         # Row-count selector
-        n_rows = st.slider("Rows to preview", 5, min(100, len(df)), MAX_PREVIEW_ROWS)
+        n_rows = st.slider("Rows to preview", 5, min(100000, len(df)), min(MAX_PREVIEW_ROWS, len(df)))
         st.dataframe(df.head(n_rows), use_container_width=True, height=340)
 
         # Column info table

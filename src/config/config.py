@@ -29,7 +29,7 @@ EXPORT_DIR.mkdir(exist_ok=True)
 SUPPORTED_EXTENSIONS = {".csv", ".xlsx", ".xls"}
 
 # ── UI Settings ───────────────────────────────────────────────────────────────
-MAX_PREVIEW_ROWS = int(os.getenv("MAX_PREVIEW_ROWS", "10"))
+MAX_PREVIEW_ROWS = int(os.getenv("MAX_PREVIEW_ROWS", "100000"))
 APP_TITLE = "ReadyNest — Data Loading Module"
 APP_ICON = "📦"
 

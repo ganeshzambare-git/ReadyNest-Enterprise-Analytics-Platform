@@ -142,14 +142,14 @@ def run():
             
             fig_pareto = go.Figure()
             # Subsample for pareto chart if too many rows to keep it readable
-            sample_size = min(len(df_pareto), 1000)
+            sample_size = min(len(df_pareto), 100000)
             df_pareto_sample = df_pareto.head(sample_size)
             
             fig_pareto.add_trace(go.Bar(x=df_pareto_sample['Rank'], y=df_pareto_sample['Total_Spend_CLV'], name='Revenue', marker_color='#00EEFF'))
             fig_pareto.add_trace(go.Scatter(x=df_pareto_sample['Rank'], y=df_pareto_sample['Cumulative_Percentage'], name='Cumulative %', yaxis='y2', line=dict(color='#ec4899', width=3)))
             
             fig_pareto.update_layout(
-                title='Customer Contribution Pareto Chart (Top 1000)',
+                title='Customer Contribution Pareto Chart (Top 100000)',
                 yaxis=dict(title='Revenue'),
                 yaxis2=dict(title='Cumulative %', overlaying='y', side='right', range=[0, 100]),
                 **chart_layout_config
