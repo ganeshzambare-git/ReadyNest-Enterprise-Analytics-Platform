@@ -1,524 +1,391 @@
 # 🚀 ReadyNest Insight Engine
+### Enterprise Data Analytics, Business Intelligence, Machine Learning & AI Platform
 
-![Version](https://img.shields.io/badge/version-2.0.0-blue.svg)
-![Python](https://img.shields.io/badge/python-3.10%2B-blue)
-![Streamlit](https://img.shields.io/badge/streamlit-1.28%2B-red)
-![Power BI](https://img.shields.io/badge/PowerBI-Integrated-yellow)
-![Machine Learning](https://img.shields.io/badge/ML-scikit--learn_|_xgboost-green)
-![CI/CD](https://img.shields.io/badge/build-production_ready-brightgreen)
-![Architecture](https://img.shields.io/badge/Architecture-Enterprise-purple)
+<div align="center">
 
-## 📌 Overview
+![Version](https://img.shields.io/badge/version-3.0.0-blue.svg)
+![Python](https://img.shields.io/badge/Python-3.11+-blue)
+![Streamlit](https://img.shields.io/badge/Streamlit-1.46-red)
+![Machine Learning](https://img.shields.io/badge/ML-ScikitLearn%20%7C%20XGBoost-green)
+![Database](https://img.shields.io/badge/Database-PostgreSQL%20%7C%20MySQL-orange)
+![Cloud](https://img.shields.io/badge/Cloud-AWS%20%7C%20BigQuery-yellow)
+![CI/CD](https://img.shields.io/badge/CI/CD-GitHub%20Actions-brightgreen)
+![Enterprise](https://img.shields.io/badge/Architecture-Enterprise-purple)
+![License](https://img.shields.io/badge/license-MIT-blue)
 
-**ReadyNest Insight Engine** is an enterprise-grade end-to-end Data Analytics, Business Intelligence, and Predictive Analytics platform designed to transform raw business data into actionable insights.
+<h3>
+Enterprise Data Analytics • Business Intelligence • Machine Learning • Data Engineering • Executive Reporting
+</h3>
 
-The platform combines Data Engineering, Data Analytics, Machine Learning, Business Intelligence, Executive Reporting, Data Governance, and Cloud Analytics concepts into a unified production-ready solution.
+</div>
 
-It enables organizations to:
+---
 
-* Monitor business performance in real time
-* Discover hidden trends and opportunities
-* Improve data quality and governance
-* Forecast revenue and demand
-* Predict customer churn
-* Automate executive reporting
-* Support strategic decision-making through advanced analytics
+# 📌 Project Overview
+
+**ReadyNest Insight Engine** is an enterprise-grade end-to-end **Data Analytics, Business Intelligence, Machine Learning, Reporting, Governance, and Cloud Analytics Platform** designed to transform raw business data into actionable business intelligence through advanced analytics, predictive modeling, interactive dashboards, automated reporting, recommendation systems, and governance-driven decision making.
+
+The platform combines:
+
+- 📊 Data Analytics
+- 📈 Business Intelligence
+- 🤖 Machine Learning & Artificial Intelligence
+- ☁️ Cloud Analytics
+- 🏛 Data Governance
+- 📑 Executive Reporting
+- 🔍 Monitoring & Observability
+- 🏢 Enterprise Architecture
+- 🚀 DevOps & CI/CD
+
+into a unified enterprise analytics ecosystem.
+
+ReadyNest enables organizations to:
+
+- Ingest data from multiple sources
+- Assess and improve data quality
+- Perform exploratory data analysis
+- Build predictive machine learning models
+- Generate executive reports
+- Monitor business KPIs
+- Implement governance frameworks
+- Deploy enterprise-scale analytics platforms
+
+---
+
+# ⚡ Enterprise Technology Stack
+
+## 🖥️ Frontend & Visualization
+
+| Technology | Version |
+|------------|---------|
+| Python | 3.11+ |
+| Streamlit | 1.46.0 |
+| Plotly | 6.1.2 |
+| Plotly Graph Objects | 6.1.2 |
+| Plotly Express | 6.1.2 |
+| Matplotlib | 3.10.3 |
+| Seaborn | 0.13.2 |
+| Power BI | Latest |
+| Tableau | Latest |
+
+---
+
+## 📊 Programming & Analytics
+
+| Technology | Version |
+|------------|---------|
+| Pandas | 2.3.0 |
+| NumPy | 2.3.1 |
+| SciPy | 1.16.0 |
+| StatsModels | 0.14.5 |
+| OpenPyXL | 3.1.5 |
+
+---
+
+## 🤖 Machine Learning & Artificial Intelligence
+
+| Technology | Version |
+|------------|---------|
+| Scikit-Learn | 1.7.0 |
+| XGBoost | 3.0.2 |
+| K-Means Clustering | Scikit-Learn Implementation |
+| Collaborative Filtering | Custom Implementation |
+| Content-Based Recommendation Systems | Custom Implementation |
+
+---
+
+## 🗄️ Database Technologies
+
+| Technology | Version |
+|------------|---------|
+| PostgreSQL | 17.x |
+| MySQL | 9.x |
+| SQLAlchemy | 2.0.41 |
+
+---
+
+## ☁️ Data Engineering & Cloud
+
+| Technology | Version |
+|------------|---------|
+| AWS S3 | Latest API |
+| Google BigQuery | Latest API |
+| PyArrow | 20.0.0 |
+| Apache Parquet | Latest |
+| ETL Pipelines | Custom Framework |
+| Data Lake Architecture | Enterprise Architecture |
+
+---
+
+## 📑 Reporting & Automation
+
+| Technology | Version |
+|------------|---------|
+| ReportLab | 4.4.2 |
+| FPDF2 | 2.8.3 |
+| OpenPyXL | 3.1.5 |
+| Python-PPTX | 1.0.2 |
+| APScheduler | 3.11.0 |
+
+---
+
+## 🔌 APIs & Integration Services
+
+- PostgreSQL API
+- MySQL API
+- AWS S3 API
+- Google Cloud BigQuery API
+- Kaleido API
+- FPDF2 API
+
+---
+
+## 🔒 Security & Governance
+
+- Role-Based Access Control (RBAC)
+- Row-Level Security (RLS)
+- Audit Logging
+- Data Lineage
+- Compliance Monitoring
+
+---
+
+## 🚀 DevOps & Deployment
+
+| Technology | Version |
+|------------|---------|
+| Git | 2.50+ |
+| GitHub | Latest |
+| GitHub Actions | Latest |
+| Docker | 28.3+ |
+| Kubernetes | 1.33+ |
+| Terraform | 1.12+ |
+| Nginx | 1.28+ |
+| CI/CD Pipelines | Enterprise Workflow |
 
 ---
 
 # 🏗 Enterprise Architecture
 
-The platform follows a multi-layer enterprise architecture.
-
 ```text
-Data Sources
-    │
-    ▼
-Data Ingestion Layer
-    │
-    ▼
-Data Processing Layer
-    │
-    ▼
-Analytics Layer
-    │
-    ▼
-Feature Engineering Layer
-    │
-    ▼
-Machine Learning Layer
-    │
-    ▼
-Visualization Layer
-    │
-    ▼
-Reporting Layer
-    │
-    ▼
-Governance Layer
-    │
-    ▼
-Cloud & Deployment Layer
+                           DATA SOURCES
+────────────────────────────────────────────────────────
+
+ CSV │ Excel │ SQL │ APIs │ Cloud Storage │ Files
+                      │
+                      ▼
+
+                DATA INGESTION
+────────────────────────────────────────────────────────
+
+CSV Loader
+Excel Loader
+SQL Loader
+API Loader
+Folder Loader
+Schema Validator
+Metadata Extractor
+
+                      │
+                      ▼
+
+              DATA QUALITY LAYER
+────────────────────────────────────────────────────────
+
+Completeness Analysis
+Accuracy Analysis
+Consistency Checks
+Uniqueness Validation
+Profiling Engine
+Quality Scoring
+
+                      │
+                      ▼
+
+              DATA CLEANING LAYER
+────────────────────────────────────────────────────────
+
+Missing Values
+Duplicate Removal
+Outlier Detection
+Standardization
+Transformation
+Data Validation
+
+                      │
+                      ▼
+
+               ANALYTICS ENGINE
+────────────────────────────────────────────────────────
+
+Descriptive Statistics
+Univariate Analysis
+Bivariate Analysis
+Correlation Analysis
+Business Analytics
+
+                      │
+                      ▼
+
+           FEATURE ENGINEERING
+────────────────────────────────────────────────────────
+
+Customer Features
+Sales Features
+Product Features
+Regional Features
+Feature Store
+
+                      │
+                      ▼
+
+         MACHINE LEARNING & AI
+────────────────────────────────────────────────────────
+
+Revenue Forecasting
+Demand Forecasting
+Customer Churn
+Customer Segmentation
+Recommendation Engine
+
+                      │
+                      ▼
+
+           VISUALIZATION LAYER
+────────────────────────────────────────────────────────
+
+Executive Dashboard
+Sales Dashboard
+Customer Dashboard
+Product Dashboard
+Geographic Dashboard
+Forecast Dashboard
+
+                      │
+                      ▼
+
+             REPORTING ENGINE
+────────────────────────────────────────────────────────
+
+PDF Reports
+Excel Reports
+PowerPoint Reports
+Executive Reports
+Automated Reports
+
+                      │
+                      ▼
+
+           GOVERNANCE LAYER
+────────────────────────────────────────────────────────
+
+RBAC
+RLS
+Audit Logs
+Data Lineage
+Compliance
+
+                      │
+                      ▼
+
+          CLOUD INTEGRATION
+────────────────────────────────────────────────────────
+
+AWS S3
+Google BigQuery
+Data Lake
+Cloud Storage
+Enterprise Deployment
 ```
 
-### Core Layers
+---
 
-#### Data Ingestion
+# ✨ Enterprise Features & Modules
 
-* CSV Loader
-* Excel Loader
-* SQL Connector
-* API Connector
-* Folder Loader
-* Metadata Extraction
-* Schema Validation
+The ReadyNest platform contains **26 enterprise modules**.
 
-#### Data Processing
-
-* Missing Value Handling
-* Duplicate Removal
-* Data Standardization
-* Data Type Conversion
-* Outlier Detection
-* Data Quality Scoring
-
-#### Analytics Engine
-
-* Descriptive Statistics
-* Univariate Analysis
-* Bivariate Analysis
-* Correlation Analysis
-* Cohort Analysis
-* Business Insight Generation
-
-#### Feature Engineering
-
-* Customer Lifetime Value (CLV)
-* Retention Scores
-* Revenue Growth Metrics
-* Churn Indicators
-* Product Popularity Scores
-
-#### Machine Learning
-
-* Revenue Forecasting
-* Demand Forecasting
-* Customer Churn Prediction
-* Customer Segmentation
-* Product Recommendation Engine
+| Module | Description |
+|---------|-------------|
+| Data Ingestion | Enterprise ETL pipelines |
+| Data Quality Assessment | Data profiling & quality scoring |
+| Data Cleaning | Automated preprocessing |
+| Descriptive Statistics | Statistical profiling |
+| Univariate Analysis | Single variable analysis |
+| Bivariate Analysis | Relationship analysis |
+| Customer Overview | Customer intelligence |
+| Customer Analysis | Customer analytics |
+| Customer Segmentation | ML segmentation |
+| Behavior Analysis | Behavioral analytics |
+| Sales Performance | Sales KPI monitoring |
+| Product Performance | Product intelligence |
+| Sales Analytics | Revenue analytics |
+| Product Analytics | Product insights |
+| Geographic Analytics | Geospatial intelligence |
+| Interactive Dashboard | Enterprise dashboards |
+| Key Insights Engine | AI insight generation |
+| Business Suggestions | Business recommendation engine |
+| Recommendation Engine | Product/customer recommendations |
+| Feature Engineering | ML feature creation |
+| Predictive Modeling | Forecasting & AI |
+| Advanced Visual Analytics | Treemap, Sankey, Heatmaps |
+| Automated Reporting | PDF, Excel, PPT exports |
+| Governance & Security | RBAC, RLS, Compliance |
+| Monitoring & Observability | Health monitoring |
+| Cloud Integration | AWS & BigQuery |
 
 ---
 
-# 🌊 Data Lake Architecture
-
-The project implements a modern analytics pipeline inspired by cloud data lake architectures.
-
-### Raw Layer
-
-Immutable source datasets.
-
-```text
-CSV
-Excel
-SQL Exports
-API Data
-```
-
-### Clean Layer
-
-Processed datasets with:
-
-* Missing value treatment
-* Duplicate removal
-* Type corrections
-* Outlier handling
-
-Stored in optimized formats:
-
-```text
-Parquet
-CSV
-Database Tables
-```
-
-### Curated Layer
-
-Business-ready datasets containing:
-
-* CLV Features
-* Churn Features
-* Product KPIs
-* Sales KPIs
-* Regional KPIs
-
----
-
-# 📊 Interactive Dashboards
-
-The platform includes multiple enterprise dashboards.
-
-## Executive Dashboard
-
-Executive Command Center providing:
-
-* Revenue KPIs
-* Profit KPIs
-* Order KPIs
-* Customer KPIs
-* Business Health Score
-* Forecast Summary
-* Strategic Recommendations
-
-## Sales Dashboard
-
-* Revenue Trends
-* Sales Growth Analysis
-* Product Revenue Breakdown
-* Sales Funnel Analysis
-* Monthly & Quarterly Trends
-
-## Customer Dashboard
-
-* Customer Segmentation
-* Retention Analytics
-* Churn Analysis
-* Customer Lifetime Value
-* Cohort Analysis
-
-## Product Dashboard
-
-* Top Products
-* Bottom Products
-* Profitability Matrix
-* Pareto Analysis
-* Product Growth Trends
-
-## Geographic Dashboard
-
-* Interactive Maps
-* Regional Rankings
-* Geographic Heatmaps
-* Market Penetration Analysis
-* Regional Growth Opportunities
-
-## Forecast Dashboard
-
-* Revenue Forecasts
-* Demand Forecasts
-* Churn Forecasts
-* Trend Projections
-* Scenario Analysis
-
----
-
-# 📈 Advanced Visual Analytics
-
-The platform supports advanced business visualizations.
-
-### Standard Visuals
-
-* KPI Cards
-* Bar Charts
-* Line Charts
-* Area Charts
-* Scatter Plots
-* Histograms
-* Box Plots
-
-### Advanced Visuals
-
-* Treemap
-* Waterfall Chart
-* Funnel Analysis
-* Radar Chart
-* Heatmap
-* Sunburst Diagram
-* Sankey Diagram
-* Pareto Chart
-* Cohort Analysis
-* Geographic Heatmaps
-
----
-
-# 🤖 Machine Learning Capabilities
-
-### Customer Churn Prediction
-
-Algorithms:
-
-* Random Forest
-* XGBoost
-* Gradient Boosting
-
-Output:
-
-* Churn Probability
-* Risk Classification
-* Retention Recommendations
-
-### Revenue Forecasting
-
-Algorithms:
-
-* Linear Regression
-* Random Forest Regressor
-* XGBoost Regressor
-* ARIMA
-
-Output:
-
-* 3 Month Forecast
-* 6 Month Forecast
-* 12 Month Forecast
-
-### Demand Forecasting
-
-Predict:
-
-* Product Demand
-* Inventory Requirements
-* Seasonal Trends
-
-### Customer Segmentation
-
-Methods:
-
-* K-Means Clustering
-* RFM Analysis
-* Behavioral Segmentation
-
----
-
-# 🧪 A/B Testing Framework
-
-Statistical testing capabilities include:
-
-* Chi-Square Tests
-* T-Tests
-* Conversion Analysis
-* Revenue Impact Analysis
-
-### Use Cases
-
-* Pricing Experiments
-* Discount Campaigns
-* Marketing Campaign Testing
-* Recommendation Engine Testing
-
-Outputs:
-
-* P-Values
-* Confidence Levels
-* Statistical Significance
-* Business Recommendations
-
----
-
-# 🗺 Geographic Intelligence
-
-The platform includes enterprise-grade geographic analytics.
-
-### Features
-
-* State Performance Analysis
-* City Performance Analysis
-* Regional Growth Tracking
-* Geographic Heatmaps
-* Market Penetration Metrics
-* Expansion Opportunity Analysis
-
-Visualizations:
-
-* Choropleth Maps
-* Bubble Maps
-* Regional Heatmaps
-* Interactive Drilldowns
-
----
-
-# 🛡 Data Governance & Security
-
-Enterprise governance capabilities include:
-
-### Access Management
-
-* Role-Based Access Control (RBAC)
-* Row-Level Security (RLS)
-* Permission Management
-
-### Governance
-
-* Data Catalog
-* Data Lineage
-* Audit Logs
-* Compliance Monitoring
-
-### Security
-
-* JWT Authentication
-* OAuth Integration
-* Access Policies
-* Audit Tracking
-
----
-
-# 📄 Automated Reporting
-
-Generate enterprise reports automatically.
-
-### Export Formats
-
-* PDF Reports
-* Excel Reports
-* PowerPoint Reports
-
-### Report Types
-
-* Executive Summary Reports
-* Sales Reports
-* Product Reports
-* Customer Reports
-* Governance Reports
-
-### Scheduling
-
-* Daily Reports
-* Weekly Reports
-* Monthly Reports
-* Quarterly Reports
-
----
-
-# ☁ Cloud & Enterprise Concepts
-
-### AWS Concepts
-
-* AWS S3 Storage
-* Data Lake Concepts
-* Cloud Storage Integration
-
-### Google Cloud Concepts
-
-* BigQuery Integration
-* Cloud Analytics
-
-### Enterprise BI
-
-* Power BI
-* Tableau
-* Power BI Service
-* Tableau Server
-
----
-
-# 🛠 Technology Stack
-
-## Analytics & Data Science
-
-* Python
-* Pandas
-* NumPy
-* SciPy
-* Scikit-Learn
-* XGBoost
-* StatsModels
-
-## Visualization
-
-* Streamlit
-* Plotly
-* Matplotlib
-* Seaborn
-* Power BI
-* Tableau
-
-## Databases
-
-* PostgreSQL
-* MySQL
-* SQLAlchemy
-
-## Cloud
-
-* AWS S3 Concepts
-* Google BigQuery Concepts
-
-## DevOps
-
-* Git
-* GitHub
-* Docker
-* Kubernetes
-* GitHub Actions
-* Terraform
-* NGINX
-
----
-
-# 📂 Repository Structure
+# 📂 Enterprise Repository Structure
 
 ```text
 ReadyNest-Insight-Engine/
 │
 ├── src/
+│   ├── app/
+│   ├── analytics/
+│   ├── preprocessing/
+│   ├── machine_learning/
+│   ├── visualization/
+│   ├── reporting/
+│   ├── governance/
+│   ├── monitoring/
+│   ├── database/
+│   ├── cloud/
+│   └── services/
+│
 ├── data/
 ├── reports/
-├── dashboards/
 ├── models/
+├── dashboards/
 ├── notebooks/
 ├── tests/
-├── docs/
-├── configs/
-├── scripts/
 ├── deployment/
-├── assets/
-├── logs/
-├── .github/
-│
-├── requirements.txt
-├── pyproject.toml
-├── README.md
-└── .env
+├── configs/
+├── docs/
+└── assets/
 ```
 
 ---
 
-# ⚙ Installation
-
-### Clone Repository
+# 🚀 Installation
 
 ```bash
-git clone https://github.com/your-username/ReadyNest-Insight-Engine.git
+git clone https://github.com/yourusername/ReadyNest-Insight-Engine.git
+
 cd ReadyNest-Insight-Engine
-```
 
-### Create Virtual Environment
-
-```bash
 python -m venv .venv
-```
 
-### Activate Environment
-
-Windows
-
-```bash
-.venv\Scripts\activate
-```
-
-Linux / Mac
-
-```bash
 source .venv/bin/activate
-```
+# Windows:
+.venv\Scripts\activate
 
-### Install Dependencies
-
-```bash
 pip install -r requirements.txt
 ```
 
-### Run Application
+---
+
+# ▶ Run Application
 
 ```bash
 streamlit run src/app/main.py
@@ -526,43 +393,54 @@ streamlit run src/app/main.py
 
 ---
 
-# 📈 Business Value
+# 📈 Business Benefits
 
-ReadyNest Insight Engine helps organizations:
+ReadyNest enables organizations to:
 
-* Improve Data Quality
-* Accelerate Decision Making
-* Increase Revenue Visibility
-* Reduce Customer Churn
-* Improve Forecast Accuracy
-* Automate Reporting
-* Strengthen Governance
-* Scale Analytics Operations
-
----
-
-# 🚀 Future Roadmap
-
-* Real-Time Streaming Analytics
-* AI Copilot for Business Insights
-* Automated Root Cause Analysis
-* LLM-Powered Executive Reporting
-* Microsoft Fabric Integration
-* Snowflake Integration
-* Databricks Integration
+✅ Improve Data Quality  
+✅ Increase Revenue  
+✅ Reduce Customer Churn  
+✅ Optimize Product Portfolio  
+✅ Improve Customer Retention  
+✅ Forecast Future Business Performance  
+✅ Automate Executive Reporting  
+✅ Implement Enterprise Governance  
+✅ Monitor Business KPIs  
+✅ Build Cloud Analytics Infrastructure  
+✅ Enable AI-Driven Decision Making  
+✅ Deploy Production-Grade Analytics Systems
 
 ---
 
-# 📄 License
+# 📊 Platform Statistics
 
-This project is licensed under the MIT License.
+| Metric | Value |
+|--------|--------|
+| Enterprise Modules | 26+ |
+| Dashboard Pages | 15+ |
+| Machine Learning Models | 8+ |
+| Advanced Visualizations | 30+ |
+| Automated Reports | 5+ |
+| Export Formats | 4 |
+| Database Connectors | 6+ |
+| Cloud Integrations | 4+ |
+| Governance Modules | 5+ |
+| DevOps Components | 7+ |
 
 ---
 
-# 👨‍💻 Author
+# 📜 License
 
-**Ganesh Zambare**
+Licensed under the MIT License.
 
-Enterprise Data Analytics | Business Intelligence | Machine Learning | Data Engineering
+---
 
-Built as a production-style analytics platform demonstrating enterprise architecture, advanced analytics, business intelligence, machine learning, governance, cloud integration, and automated reporting.
+<div align="center">
+
+## ReadyNest Enterprise Data Analytics Platform
+
+### Learn • Analyze • Predict • Optimize • Govern
+
+**Enterprise Data Analytics • Business Intelligence • AI • Cloud Analytics**
+
+</div>
