@@ -2,7 +2,8 @@ import streamlit as st
 import time
 from src.app.authentication import register_user, verify_login
 
-
+if st.session_state.get("logged_in", False):
+    st.switch_page("views/00_Executive_Home.py")
 
 # Custom CSS removed to allow global Streamlit config.toml theme to propagate.
 
