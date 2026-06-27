@@ -136,44 +136,6 @@ st.markdown("""
         border-color: #00ffc8 !important;
     }
 
-    /* Tech Stack Tags */
-    .tech-tag {
-        display: inline-block;
-        background: rgba(0, 217, 255, 0.1);
-        border: 1px solid rgba(0, 217, 255, 0.3);
-        color: #00d9ff;
-        padding: 5px 12px;
-        border-radius: 20px;
-        margin: 5px;
-        font-size: 0.9rem;
-        transition: all 0.3s ease;
-    }
-    .tech-tag:hover {
-        background: rgba(0, 217, 255, 0.2);
-        border-color: #00d9ff;
-        color: #FFFFFF;
-    }
-
-    /* Architecture Diagram */
-    .arch-box {
-        background: rgba(4, 22, 51, 0.9);
-        border: 1px solid #00ffb3;
-        border-radius: 8px;
-        padding: 15px;
-        text-align: center;
-        color: #00ffb3;
-        font-weight: bold;
-        margin: 10px auto;
-        width: 250px;
-        box-shadow: 0 0 10px rgba(0,255,179,0.2);
-    }
-    .arch-arrow {
-        text-align: center;
-        color: #00d9ff;
-        font-size: 1.5rem;
-        margin: -5px 0;
-    }
-
     /* Benefits Grid */
     .benefit-item {
         background: rgba(4, 22, 51, 0.5);
@@ -389,56 +351,6 @@ with c23: render_service_card("🛡️", "Governance & Security", "Data Protecti
 with c24: render_service_card("🔍", "Monitoring", "System Health", ["Performance", "Health Checks", "Error Tracking", "Usage Analytics", "Metrics"], "views/24_Monitoring_Observability.py")
 with c25: render_service_card("☁️", "Cloud Integration", "Data Lake Sync", ["AWS S3", "BigQuery", "PostgreSQL", "MySQL", "Data Lake"], "views/25_Cloud_Enterprise_Integration.py")
 
-
-# ── 5. ENTERPRISE ARCHITECTURE SECTION ────────────────────────────────────────
-
-st.markdown('<div class="section-header">Enterprise Architecture</div>', unsafe_allow_html=True)
-
-st.markdown("""
-<div style="display: flex; flex-direction: column; align-items: center;">
-    <div class="arch-box">Data Sources</div>
-    <div class="arch-arrow">↓</div>
-    <div class="arch-box">Data Ingestion</div>
-    <div class="arch-arrow">↓</div>
-    <div class="arch-box">Data Cleaning</div>
-    <div class="arch-arrow">↓</div>
-    <div class="arch-box">Analytics Engine</div>
-    <div class="arch-arrow">↓</div>
-    <div class="arch-box">Feature Engineering</div>
-    <div class="arch-arrow">↓</div>
-    <div class="arch-box">Machine Learning</div>
-    <div class="arch-arrow">↓</div>
-    <div class="arch-box">Visualization</div>
-    <div class="arch-arrow">↓</div>
-    <div class="arch-box">Reporting</div>
-    <div class="arch-arrow">↓</div>
-    <div class="arch-box">Governance</div>
-    <div class="arch-arrow">↓</div>
-    <div class="arch-box">Cloud Layer</div>
-</div>
-""", unsafe_allow_html=True)
-
-
-# ── 6. TECHNOLOGY STACK SECTION ───────────────────────────────────────────────
-
-st.markdown('<div class="section-header">Technology Stack</div>', unsafe_allow_html=True)
-
-tech_data = {
-    "Programming": ["Python", "Pandas", "NumPy", "SciPy", "StatsModels"],
-    "Machine Learning": ["Scikit-Learn", "XGBoost"],
-    "Visualization": ["Streamlit", "Plotly", "Matplotlib", "Seaborn", "Power BI", "Tableau"],
-    "Database": ["PostgreSQL", "MySQL", "SQLAlchemy"],
-    "Cloud": ["AWS S3", "Google BigQuery", "Data Lake", "Parquet"],
-    "Reporting": ["ReportLab", "OpenPyXL", "Python PPTX", "FPDF2"],
-    "APIs": ["PostgreSQL API", "MySQL API", "AWS API", "BigQuery API", "Kaleido API", "FPDF2 API"],
-    "DevOps": ["Git", "GitHub", "GitHub Actions", "Docker", "Kubernetes", "Terraform", "Nginx"],
-    "Security": ["RBAC", "RLS", "Audit Logging", "Compliance"]
-}
-
-for category, tags in tech_data.items():
-    st.markdown(f"<h4 style='color: #00ffb3; margin-top: 1rem;'>{category}</h4>", unsafe_allow_html=True)
-    tags_html = "".join([f"<span class='tech-tag'>{t}</span>" for t in tags])
-    st.markdown(f"<div>{tags_html}</div>", unsafe_allow_html=True)
 
 
 # ── 7. BUSINESS BENEFITS SECTION ──────────────────────────────────────────────
