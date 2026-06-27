@@ -238,7 +238,7 @@ class DataLoader:
         """
         try:
             xl = pd.ExcelFile(path)
-            return xl.sheet_names
+            return [str(name) for name in xl.sheet_names]
         except Exception as exc:
             logger.error(f"Cannot read sheets from '{path}': {exc}")
             return []
