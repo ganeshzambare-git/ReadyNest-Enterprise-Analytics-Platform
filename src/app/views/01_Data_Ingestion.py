@@ -117,7 +117,8 @@ with load_col:
             if uploaded and st.button("▶ Load CSV", type="primary"):
                 with st.spinner("Loading…"):
                     tmp = Path("_tmp_upload.csv")
-                    tmp.write_bytes(uploaded.read())
+                    with open(tmp, "wb") as f:
+                        f.write(uploaded.getbuffer())
                     result = loader.load_csv(tmp, encoding=enc, separator=sep)
                     
                     if result.success:
@@ -150,7 +151,8 @@ with load_col:
         )
         if uploaded:
             tmp = Path("_tmp_upload.xlsx")
-            tmp.write_bytes(uploaded.getvalue())
+            with open(tmp, "wb") as f:
+                f.write(uploaded.getbuffer())
             sheets = loader.list_excel_sheets(tmp)
             sheet = st.selectbox("Select Sheet", sheets) if sheets else None
 
@@ -183,7 +185,8 @@ with load_col:
             tmp_dir = Path("_tmp_folder")
             tmp_dir.mkdir(exist_ok=True)
             for f in files:
-                (tmp_dir / f.name).write_bytes(f.read())
+                with open(tmp_dir / f.name, "wb") as file_out:
+                    file_out.write(f.getbuffer())
 
             with st.spinner(f"Loading {len(files)} file(s)…"):
                 batch = loader.load_folder(tmp_dir)

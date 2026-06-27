@@ -22,11 +22,11 @@ from src.core.logging_manager import detect_file_type, get_logger, sanitize_colu
 from src.ingestion.schema_validator import FileValidator, ValidationResult
 import streamlit as st
 
-@st.cache_data(show_spinner=False)
+# Removed st.cache_data to save memory during large file uploads
 def _cached_read_csv(path: str, encoding: str, sep: str, **kwargs) -> pd.DataFrame:
-    return pd.read_csv(path, encoding=encoding, sep=sep, **kwargs)
+    return pd.read_csv(path, encoding=encoding, sep=sep, low_memory=True, **kwargs)
 
-@st.cache_data(show_spinner=False)
+# Removed st.cache_data to save memory during large file uploads
 def _cached_read_excel(path: str, sheet_name, **kwargs) -> pd.DataFrame:
     return pd.read_excel(path, sheet_name=sheet_name, **kwargs)
 
