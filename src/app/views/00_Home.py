@@ -292,7 +292,13 @@ def render_service_card(icon, title, desc, features, target_page):
         </div>
         """, unsafe_allow_html=True)
         if st.button("View Service", key=f"btn_{title.replace(' ', '_')}", use_container_width=True):
-            st.switch_page(target_page)
+            if not st.session_state.get("logged_in", False):
+                st.warning("⚠️ Please Sign In first from the sidebar to access Enterprise Services.")
+            else:
+                try:
+                    st.switch_page(target_page)
+                except Exception:
+                    st.error("Service not available.")
 
 st.markdown("### 🗄️ DATA FOUNDATION")
 c1, c2, c3 = st.columns(3)
