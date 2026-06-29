@@ -2,7 +2,9 @@ import { useState, useEffect } from 'react';
 import apiClient from '../api/client';
 import Plot from 'react-plotly.js';
 import { AlertCircle, TrendingUp } from 'lucide-react';
-import './Pages.css';
+import { Card, CardHeader, CardTitle, CardContent } from '../components/Card';
+import KpiCard from '../components/KpiCard';
+import { Button } from '../components/Button';
 
 const ExecutiveHome = () => {
   const [kpis, setKpis] = useState<any>(null);
@@ -25,77 +27,97 @@ const ExecutiveHome = () => {
   }, []);
 
   return (
-    <div className="page-container">
-      <h1 className="font-orbitron text-3xl mb-8 border-b border-gray-800 pb-4">Executive Command Center</h1>
+    <div className="p-8 max-w-7xl mx-auto space-y-8">
+      <div className="flex items-center justify-between pb-6 border-b border-border">
+        <h1 className="text-4xl font-bold font-orbitron">Executive Command Center</h1>
+        <Button>
+          <TrendingUp className="mr-2 h-4 w-4" />
+          Generate Report
+        </Button>
+      </div>
 
       {kpis && (
-        <div className="kpi-grid mb-8">
-          <div className="kpi-card">
-            <div className="kpi-label">Total Revenue</div>
-            <div className="kpi-value text-cyan glow-cyan-text">{kpis.revenue.formatted}</div>
-            <div className="kpi-trend text-green">{kpis.revenue.trend}</div>
-          </div>
-          <div className="kpi-card">
-            <div className="kpi-label">Avg Order Value</div>
-            <div className="kpi-value text-cyan glow-cyan-text">{kpis.aov.formatted}</div>
-            <div className="kpi-trend text-green">{kpis.aov.trend}</div>
-          </div>
-          <div className="kpi-card">
-            <div className="kpi-label">Gross Margin</div>
-            <div className="kpi-value text-cyan glow-cyan-text">{kpis.margin.formatted}</div>
-            <div className="kpi-trend text-green">{kpis.margin.trend}</div>
-          </div>
-          <div className="kpi-card">
-            <div className="kpi-label">On-Time Delivery</div>
-            <div className="kpi-value text-cyan glow-cyan-text">{kpis.delivery.formatted}</div>
-            <div className="kpi-trend text-green">{kpis.delivery.trend}</div>
-          </div>
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+          <KpiCard 
+            title="Total Revenue" 
+            value={kpis.revenue.formatted} 
+            trend="up" 
+            changePercent={12.5} 
+            comparisonPeriod="Last Quarter" 
+          />
+          <KpiCard 
+            title="Avg Order Value" 
+            value={kpis.aov.formatted} 
+            trend="up" 
+            changePercent={5.2} 
+            comparisonPeriod="Last Month" 
+          />
+          <KpiCard 
+            title="Gross Margin" 
+            value={kpis.margin.formatted} 
+            trend="neutral" 
+            changePercent={0.0} 
+            comparisonPeriod="Last Year" 
+          />
+          <KpiCard 
+            title="On-Time Delivery" 
+            value={kpis.delivery.formatted} 
+            trend="down" 
+            changePercent={-2.1} 
+            comparisonPeriod="Last Month" 
+          />
         </div>
       )}
 
-      <div className="grid-2-col mb-8">
-        <div className="panel chart-panel">
-          <h3 className="panel-title">Monthly Revenue Trend</h3>
-          <Plot
-            data={[
-              {
-                x: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-                y: [2.5, 3.8, 5.2, 4.8, 6.1, 8.4],
-                type: 'scatter',
-                mode: 'lines+markers',
-                marker: { color: '#00EEFF' },
-                line: { shape: 'spline', smoothing: 1.3 }
-              }
-            ]}
-            layout={{ 
-              paper_bgcolor: 'transparent',
-              plot_bgcolor: 'transparent',
-              font: { color: '#94A3B8' },
-              margin: { t: 20, r: 20, b: 40, l: 40 },
-              xaxis: { gridcolor: 'rgba(255,255,255,0.05)' },
-              yaxis: { gridcolor: 'rgba(255,255,255,0.05)' }
-            }}
-            useResizeHandler={true}
-            style={{ width: "100%", height: "300px" }}
-          />
-        </div>
+      <div className="grid gap-6 md:grid-cols-7">
+        <Card className="col-span-4">
+          <CardHeader>
+            <CardTitle>Monthly Revenue Trend</CardTitle>
+          </CardHeader>
+          <CardContent className="pl-2">
+            <Plot
+              data={[
+                {
+                  x: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                  y: [2.5, 3.8, 5.2, 4.8, 6.1, 8.4],
+                  type: 'scatter',
+                  mode: 'lines+markers',
+                  marker: { color: 'hsl(181, 100%, 50%)' }, // cyan
+                  line: { shape: 'spline', smoothing: 1.3, color: 'hsl(181, 100%, 50%)' }
+                }
+              ]}
+              layout={{ 
+                paper_bgcolor: 'transparent',
+                plot_bgcolor: 'transparent',
+                font: { color: 'hsl(215, 20%, 65%)' }, // muted-foreground
+                margin: { t: 10, r: 10, b: 30, l: 40 },
+                xaxis: { gridcolor: 'hsl(215, 28%, 17%)' },
+                yaxis: { gridcolor: 'hsl(215, 28%, 17%)' }
+              }}
+              useResizeHandler={true}
+              style={{ width: "100%", height: "350px" }}
+            />
+          </CardContent>
+        </Card>
 
-        <div className="panel">
-          <h3 className="panel-title mb-4">AI Business Insights</h3>
-          <div className="insights-list">
+        <Card className="col-span-3">
+          <CardHeader>
+            <CardTitle>AI Business Insights</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
             {insights.map((insight, idx) => (
-              <div key={idx} className={`insight-card ${insight.type}`}>
-                <div className="insight-icon">
-                  {insight.type === 'negative' ? <AlertCircle size={20} /> : <TrendingUp size={20} />}
+              <div key={idx} className="flex items-start gap-4 p-4 rounded-lg bg-muted/50">
+                <div className={insight.type === 'negative' ? 'text-destructive' : 'text-accent'}>
+                  {insight.type === 'negative' ? <AlertCircle className="h-5 w-5" /> : <TrendingUp className="h-5 w-5" />}
                 </div>
-                <div>
-                  <h4 className="font-bold text-white">{insight.title}</h4>
-                  <p className="text-sm text-gray-400 mt-1">{insight.description}</p>
+                <div className="space-y-1">
+                  <h4 className="text-sm font-medium leading-none">{insight.title}</h4>
+                  <p className="text-sm text-muted-foreground">{insight.description}</p>
                 </div>
               </div>
             ))}
-          </div>
-        </div>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );

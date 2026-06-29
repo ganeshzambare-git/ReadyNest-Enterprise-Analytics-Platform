@@ -1,0 +1,24 @@
+.ready-card {
+  border-radius: var(--space-3);
+  padding: var(--space-6);
+  color: var(--color-gray-100);
+}
+
+.ready-card--default {
+  background-color: var(--color-gray-800);
+  border: 1px solid var(--color-gray-700);
+}
+
+.ready-card--elevated {
+  background-color: var(--color-secondary-navy);
+  box-shadow: var(--elevation-2);
+  border: 1px solid var(--color-gray-600);
+}
+
+.ready-card--glass {
+  background: rgba(6, 27, 74, 0.6); /* Semi-transparent secondary navy */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: var(--elevation-1);
+}
